@@ -1,5 +1,8 @@
 package com.example.steedsnsteelfx;
 
+import Controllers.Start;
+import Models.Credits;
+import Models.Instructions;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -37,14 +40,14 @@ public class HelloApplication extends Application {
         newRoot.add(imageView1,0,0);//adds image to gridpane
 
 
-        Button startButton = new Button("Accept");//creating button
+        Button startButton = new Button("Start");//creating button
         startButton.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()/13);//higher number, smaller button
         startButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
         startButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/3.45);//higher number, more left
         startButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/-25);//negative to go down, higher number more lower
         startButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                System.out.println("hello");
+                new Start().run();
                 primaryStage.close();
             }
         });
@@ -57,12 +60,44 @@ public class HelloApplication extends Application {
         creditsButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
         creditsButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/3.45);//higher number, more left
         creditsButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/5);
+        creditsButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
+            @Override public void handle(ActionEvent e) {
+                new Credits().run();
+                primaryStage.close();
+            }
+        });
         newRoot.add(creditsButton,0,0);
 
+
+        Button instructButton = new Button("How To Play");
+        instructButton.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()/13);//higher number, smaller button
+        instructButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
+        instructButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/3.45);//higher number, more left
+        instructButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/13);
+        instructButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
+            @Override public void handle(ActionEvent e) {
+                new Instructions().run();
+                primaryStage.close();
+            }
+        });
+        newRoot.add(instructButton,0,0);
+
+        Button quitButton = new Button("Quit");
+        quitButton.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()/13);//higher number, smaller button
+        quitButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
+        quitButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/3.45);//higher number, more left
+        quitButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/3.2);
+        quitButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
+            @Override public void handle(ActionEvent e) {
+                System.out.println("Quiting");
+                primaryStage.close();
+                System.exit(0);
+            }
+        });
+        newRoot.add(quitButton,0,0);
+
+
         Scene scene = new Scene(newRoot, 600, 400, Color.BLACK);
-
-
-
 
 
         //primaryStage.setScene(new Scene(newRoot, 300, 275));//create and set scene
