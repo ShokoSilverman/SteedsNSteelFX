@@ -50,12 +50,12 @@ public class HelloApplication extends Application {
         });
         newRoot.add(startButton,0,0);
 
-        Button instructButton = new Button("Instructions");
-        instructButton.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()/13);//higher number, smaller button
-        instructButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
-        instructButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/3.45);//higher number, more left
-        instructButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/-50);//negative to go down, higher number more lower
-        newRoot.add(instructButton,0,0);
+        Button creditsButton = new Button("Credits");
+        creditsButton.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()/13);//higher number, smaller button
+        creditsButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
+        creditsButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/3.45);//higher number, more left
+        creditsButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/5);
+        newRoot.add(creditsButton,0,0);
 
         Scene scene = new Scene(newRoot, 600, 400, Color.BLACK);
 
