@@ -50,6 +50,8 @@ public class HelloApplication extends Application {
         });
         newRoot.add(startButton,0,0);
 
+        //this is an obvious change
+
         Button creditsButton = new Button("Credits");
         creditsButton.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()/13);//higher number, smaller button
         creditsButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
