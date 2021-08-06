@@ -76,7 +76,11 @@ public class HelloApplication extends Application {
         instructButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/13);
         instructButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                new Instructions().run();
+                try {
+                    new Instructions().run();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 primaryStage.close();
             }
         });
