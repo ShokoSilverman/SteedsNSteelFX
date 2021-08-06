@@ -22,7 +22,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Image image = new Image(new FileInputStream("C:\\Users\\ssilverman\\IdeaProjects\\SteedsNSteelFX\\Data\\SteedsNSteelmainMenu.png"));
+        Image image = new Image(new FileInputStream("C:\\Users\\jwilliams\\OneDrive\\Documents\\Y1 Neumont\\Quarter 4 Summer\\3 - Projects\\SteedsNSteelFX\\Data\\SteedsNSteelmainMenu.png"));
         //GridPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));//set root
 
         GridPane newRoot = new GridPane();
