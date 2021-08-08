@@ -1,8 +1,9 @@
 package com.example.steedsnsteelfx;
 
-import Controllers.Start;
-import Models.Credits;
-import Models.Instructions;
+
+//import Controllers.Start;
+//import Models.Credits;
+//import Models.Instructions;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,7 +23,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Image image = new Image(new FileInputStream("C:\\Users\\ssilverman\\IdeaProjects\\SteedsNSteelFX\\Data\\SteedsNSteelmainMenu.png"));
+        Image image = new Image(new FileInputStream("Data/SteedsNSteelbasicmm.png"));
         //GridPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));//set root
 
         GridPane newRoot = new GridPane();
@@ -40,14 +41,17 @@ public class HelloApplication extends Application {
         newRoot.add(imageView1,0,0);//adds image to gridpane
 
 
-        Button startButton = new Button("Start");//creating button
-        startButton.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()/13);//higher number, smaller button
-        startButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
-        startButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/3.45);//higher number, more left
+        Image startButtonImage = new Image(new FileInputStream("Data/StartBoard.png"));
+        ImageView startButtonImageView = new ImageView(startButtonImage);
+        Button startButton = new Button("", startButtonImageView);//creating button
+        startButton.setStyle("-fx-background-color: transparent;");
+        startButton.setMinHeight(startButtonImage.getHeight());
+        startButton.setMinWidth(startButtonImage.getWidth());
+        startButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/2.77);//higher number, more left
         startButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/-25);//negative to go down, higher number more lower
         startButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                new Start().run();
+                //new Start().run();
                 primaryStage.close();
             }
         });
@@ -55,41 +59,50 @@ public class HelloApplication extends Application {
 
         //this is an obvious change
 
-        Button creditsButton = new Button("Credits");
-        creditsButton.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()/13);//higher number, smaller button
-        creditsButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
-        creditsButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/3.45);//higher number, more left
+        Image creditsButtonImage = new Image(new FileInputStream("Data/CreditsBoard.png"));
+        ImageView creditsButtonImageView = new ImageView(creditsButtonImage);
+        Button creditsButton = new Button("",creditsButtonImageView);
+        creditsButton.setStyle("-fx-background-color: transparent;");
+        creditsButton.setMinHeight(creditsButtonImage.getHeight());
+        creditsButton.setMinWidth(creditsButtonImage.getWidth());
+        creditsButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/2.77);//higher number, more left
         creditsButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/5);
         creditsButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                new Credits().run();
+                //new Credits().run();
                 primaryStage.close();
             }
         });
         newRoot.add(creditsButton,0,0);
 
 
-        Button instructButton = new Button("How To Play");
-        instructButton.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()/13);//higher number, smaller button
-        instructButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
-        instructButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/3.45);//higher number, more left
+        Image howToPlayButtonImage = new Image(new FileInputStream("Data/HowToPlayBoard.png"));
+        ImageView howToPlayButtonImageView = new ImageView(howToPlayButtonImage);
+        Button instructButton = new Button("", howToPlayButtonImageView);
+        instructButton.setStyle("-fx-background-color: transparent;");
+        instructButton.setMinHeight(howToPlayButtonImage.getHeight());
+        instructButton.setMinWidth(howToPlayButtonImage.getWidth());
+        instructButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/2.77);//higher number, more left
         instructButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/13);
         instructButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                new Instructions().run();
+                //new Instructions().run();
                 primaryStage.close();
             }
         });
         newRoot.add(instructButton,0,0);
 
-        Button quitButton = new Button("Quit");
-        quitButton.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()/13);//higher number, smaller button
-        quitButton.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()/2.4);//higher number, smaller button
-        quitButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/3.45);//higher number, more left
+        Image quitButtonImage = new Image(new FileInputStream("Data/ExitBoard.png"));
+        ImageView quitButtonImageView = new ImageView(quitButtonImage);
+        Button quitButton = new Button("",quitButtonImageView);
+        quitButton.setStyle("-fx-background-color: transparent;");
+        quitButton.setMinHeight(quitButtonImage.getHeight());
+        quitButton.setMinWidth(quitButtonImage.getWidth());
+        quitButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/2.77);//higher number, more left
         quitButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/3.2);
         quitButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                System.out.println("Quiting");
+                System.out.println("Hello");
                 primaryStage.close();
                 System.exit(0);
             }
