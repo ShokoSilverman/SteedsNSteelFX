@@ -18,7 +18,7 @@ public class Instructions {
 
         Stage htpStage = new Stage();
 
-        Image image = new Image(new FileInputStream("C:\\Users\\jwilliams\\OneDrive\\Documents\\Y1 Neumont\\Quarter 4 Summer\\3 - Projects\\SteedsNSteelFX\\Data\\SnS-HTP.png"));
+        Image image = new Image(new FileInputStream("Data/SnS-HTP.png"));
         //GridPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));//set root
 
         GridPane newRoot = new GridPane();
