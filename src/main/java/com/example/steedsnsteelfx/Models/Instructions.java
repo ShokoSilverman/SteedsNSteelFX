@@ -1,4 +1,4 @@
-package Models;
+package com.example.steedsnsteelfx.Models;
 
 public class Instructions {
 

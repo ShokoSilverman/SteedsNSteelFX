@@ -1,13 +1,13 @@
 package com.example.steedsnsteelfx;
 
 
-//import Controllers.Start;
-//import Models.Credits;
-//import Models.Instructions;
+
+import com.example.steedsnsteelfx.Models.Credits;
+import com.example.steedsnsteelfx.Models.Instructions;
+import com.example.steedsnsteelfx.Controllers.Start;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -48,10 +48,10 @@ public class HelloApplication extends Application {
         startButton.setMinHeight(startButtonImage.getHeight());
         startButton.setMinWidth(startButtonImage.getWidth());
         startButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/2.77);//higher number, more left
-        startButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/-25);//negative to go down, higher number more lower
+        startButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/-23);//negative to go down, higher number more lower
         startButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                //new Start().run();
+                new Start().run();
                 primaryStage.close();
             }
         });
@@ -69,7 +69,7 @@ public class HelloApplication extends Application {
         creditsButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/5);
         creditsButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                //new Credits().run();
+                new Credits().run();
                 primaryStage.close();
             }
         });
@@ -86,7 +86,7 @@ public class HelloApplication extends Application {
         instructButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/13);
         instructButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                //new Instructions().run();
+                new Instructions().run();
                 primaryStage.close();
             }
         });
@@ -99,7 +99,7 @@ public class HelloApplication extends Application {
         quitButton.setMinHeight(quitButtonImage.getHeight());
         quitButton.setMinWidth(quitButtonImage.getWidth());
         quitButton.setTranslateX(Screen.getPrimary().getVisualBounds().getWidth()/2.77);//higher number, more left
-        quitButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/3.2);
+        quitButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/3);
         quitButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
                 System.out.println("Hello");
