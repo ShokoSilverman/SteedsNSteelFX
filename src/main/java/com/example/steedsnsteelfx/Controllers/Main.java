@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         Image image = new Image(new FileInputStream("Data/SteedsNSteelbasicmm.png"));
@@ -86,7 +86,11 @@ public class HelloApplication extends Application {
         instructButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/13);
         instructButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                new Instructions().run();
+                try {
+                    new Instructions().run();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 primaryStage.close();
             }
         });
