@@ -1,4 +1,4 @@
-package com.example.steedsnsteelfx;
+package com.example.steedsnsteelfx.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
