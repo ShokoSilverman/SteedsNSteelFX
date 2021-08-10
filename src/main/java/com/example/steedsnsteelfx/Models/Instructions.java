@@ -1,6 +1,10 @@
 package com.example.steedsnsteelfx.Models;
 
+import com.example.steedsnsteelfx.Controllers.Main;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -34,6 +38,27 @@ public class Instructions {
         imageView1.setPreserveRatio(true);
         //Group newRoot = new Group(imageView1);
         newRoot.add(imageView1,0,0);//adds image to gridpane
+
+        Image quitButtonImage = new Image(new FileInputStream("Data/BackButton.png"));
+        ImageView quitButtonImageView = new ImageView(quitButtonImage);
+        Button quitButton = new Button("", quitButtonImageView);
+        quitButton.setStyle("-fx-background-color: transparent;");
+        quitButton.setLayoutX(0);
+        quitButton.setTranslateY(-(Screen.getPrimary().getVisualBounds().getHeight())/2.5);
+        quitButton.setMinWidth(quitButtonImage.getWidth()/2);
+
+        quitButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
+            @Override public void handle(ActionEvent e) {
+                Stage primStage = new Stage();
+                try {
+                    new Main().start(primStage);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                htpStage.close();
+            }
+        });
+        newRoot.add(quitButton,0,0);
 
         Scene scene = new Scene(newRoot, 600, 400, Color.BLACK);
 
