@@ -43,9 +43,9 @@ public class Instructions {
         ImageView quitButtonImageView = new ImageView(quitButtonImage);
         Button quitButton = new Button("", quitButtonImageView);
         quitButton.setStyle("-fx-background-color: transparent;");
-        quitButton.setLayoutX(0);
+        //quitButton.setMaxWidth(100);
         quitButton.setTranslateY(-(Screen.getPrimary().getVisualBounds().getHeight())/2.5);
-        quitButton.setMinWidth(quitButtonImage.getWidth()/2);
+        quitButton.setMinWidth(quitButtonImage.getWidth()/2.5);
 
         quitButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
