@@ -1,4 +1,4 @@
-package Models;
+package com.example.steedsnsteelfx.Models;
 
 public class Unit_Normal {
     private int _HP;
