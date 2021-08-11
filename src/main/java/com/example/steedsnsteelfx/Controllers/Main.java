@@ -16,7 +16,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 
