@@ -118,10 +118,10 @@ public class Main extends Application {
 
 
         Scene scene = new Scene(newRoot, 600, 400, Color.BLACK);
-
-//        Image img = new Image(getClass().getResourceAsStream("Data/pixelGauntletCursor.png"));
+//
+//        Image img = new Image(getClass().getResourceAsStream("C:\\Users\\jwilliams\\OneDrive\\Documents\\Y1 Neumont\\Quarter 4 Summer\\3 - Projects\\SteedsNSteelFX\\Data\\pixelGauntletCursor.png"));
 ////        Image imageCursor = new Image("Data/pixelGauntletCursor.png");  //pass in the image path
-//        ImageCursor imgCurs = new ImageCursor(img, 64, 64);
+//        ImageCursor imgCurs = new ImageCursor(img, 46, 46);
 //        scene.setCursor(imgCurs);
 
 
