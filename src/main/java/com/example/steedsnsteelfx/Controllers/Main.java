@@ -8,6 +8,7 @@ import com.example.steedsnsteelfx.Controllers.Start;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -22,6 +23,9 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
+
+
+
         Image image = new Image(new FileInputStream("Data/SteedsNSteelbasicmm.png"));
         //GridPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));//set root
 
@@ -114,6 +118,12 @@ public class Main extends Application {
 
 
         Scene scene = new Scene(newRoot, 600, 400, Color.BLACK);
+//
+//        Image img = new Image(getClass().getResourceAsStream("C:\\Users\\jwilliams\\OneDrive\\Documents\\Y1 Neumont\\Quarter 4 Summer\\3 - Projects\\SteedsNSteelFX\\Data\\pixelGauntletCursor.png"));
+////        Image imageCursor = new Image("Data/pixelGauntletCursor.png");  //pass in the image path
+//        ImageCursor imgCurs = new ImageCursor(img, 46, 46);
+//        scene.setCursor(imgCurs);
+
 
 
         //primaryStage.setScene(new Scene(newRoot, 300, 275));//create and set scene
