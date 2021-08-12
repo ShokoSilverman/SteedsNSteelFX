@@ -1,15 +1,25 @@
 package com.example.steedsnsteelfx.Models;
 
+import java.util.HashMap;
+
 public class Unit_Normal {
     private int _HP;
     private int _Atk;
     private int _Def;
     private String _Name; //Made for debug and tracking units, but we could keep it for a stretch goal.
+    private int[] _CurrentLocation;
 
     public Unit_Normal(int _HP, int _Atk, int _Def) {
         this._HP = _HP;
         this._Atk = _Atk;
         this._Def = _Def;
+    }
+
+    public Unit_Normal(int _HP, int _Atk, int _Def, int[] _CurrentLocation){
+        this._HP = _HP;
+        this._Atk = _Atk;
+        this._Def = _Def;
+        this._CurrentLocation = _CurrentLocation;
     }
 
     public Unit_Normal(int _HP, int _Atk, int _Def, String _Name) {
@@ -55,11 +65,28 @@ public class Unit_Normal {
         this._Def = _Def;
     }
 
+    public int[] get_CurrentLocation() {
+        return _CurrentLocation;
+    }
+
+    public void set_CurrentLocation(int[] _CurrentLocation) {
+        this._CurrentLocation = _CurrentLocation;
+    }
+
     public String get_Name() {
         return _Name;
     }
 
     public void set_Name(String _Name) {
         this._Name = _Name;
+    }
+
+    public HashMap<String, eTileType> getAdjacTiles(){
+        HashMap<String, eTileType> adjacentTiles = new HashMap<>();
+        //North: Pull from tile above going First Array(_CurrentLocation[0]) and Second Array(_CurrentLocation[1]-1)
+        //East: Pull from tile above going First Array(_CurrentLocation[0]+1) and Second Array(_CurrentLocation[1])
+        //South: Pull from tile above going First Array(_CurrentLocation[0]) and Second Array(_CurrentLocation[1]+1)
+        //West: Pull from tile above going First Array(_CurrentLocation[0]-1) and Second Array(_CurrentLocation[1])
+        return adjacentTiles;
     }
 }
