@@ -8,6 +8,7 @@ import com.example.steedsnsteelfx.Controllers.Start;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,6 +24,7 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
+
 
 
 
@@ -54,7 +56,12 @@ public class Main extends Application {
         startButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/-23);//negative to go down, higher number more lower
         startButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                new Start().run();
+//                Stage stage = new Stage();
+                try {
+                    new Start().run(primaryStage);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 primaryStage.close();
             }
         });

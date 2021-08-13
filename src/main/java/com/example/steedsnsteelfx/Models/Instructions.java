@@ -25,6 +25,7 @@ public class Instructions {
         Image image = new Image(new FileInputStream("Data/Pre-HTP.png"));
         //GridPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));//set root
 
+
         GridPane newRoot = new GridPane();
         htpStage.setTitle("Steeds N' Steel How To Play");//title
         //root.add(button2,1,1);//adding button
