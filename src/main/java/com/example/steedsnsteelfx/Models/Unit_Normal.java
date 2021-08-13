@@ -85,35 +85,4 @@ public class Unit_Normal {
     public void set_Name(String _Name) {
         this._Name = _Name;
     }
-
-    public eTileType checkTile(int dir, int[] cords){
-        switch (dir){
-            case 0: // North
-                cords[1] -= 1;
-                break;
-            case 1: // East
-                cords[0] += 1;
-                break;
-            case 2: // South
-                cords[1] += 1;
-                break;
-            case 3: // West
-                cords[0] -= 1;
-                break;
-            default:
-                System.out.println("You Shouldn't be here... dir="+dir+" | Unit_Normal.checkTile.switch(dir)");
-                break;
-        }
-
-        eTileType type = null;
-        if (false/*check if both cords are within the boundaries*/){
-            //Use cords to get info from corresponding tile
-            if (false/*nothing from tile*/){
-                //default to eTileType.AVAILABLE
-            }
-        } else {
-
-        }
-        return null;
-    }
 }

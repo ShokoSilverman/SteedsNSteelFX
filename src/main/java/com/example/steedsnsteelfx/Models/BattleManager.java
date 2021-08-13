@@ -1,8 +1,18 @@
 package com.example.steedsnsteelfx.Models;
 
+import javafx.scene.layout.GridPane;
+
 import java.util.HashMap;
 
 public class BattleManager {
+
+    private final int gridWidth;
+    private final int gridHeight;
+    public BattleManager(GridPane gridPane) {
+        this.gridWidth = gridPane.getColumnCount();
+        this.gridHeight = gridPane.getRowCount();
+    }
+
     public void checkAdjacentTiles(Unit_Normal unit){
         HashMap<Integer, eTileType> _AdjacentTiles = new HashMap<>();
         int[] adjacentCord = unit.get_CurrentLocation();
@@ -11,22 +21,37 @@ public class BattleManager {
             //_AdjacentTiles.put(dir, checkTile(dir, adjacentCord)); //Check tile to be declared in another method
         }
 
-
-
-        //_AdjacentTiles.put(0, checkTile(adjacentCord[1] - 1)); //Check Tile Doesn't Exist yet.
-        //_AdjacentTiles.put(1, checkTile(adjacentCord[0] + 1));
-        //_AdjacentTiles.put(2, checkTile(adjacentCord[1] + 1)); //Not viable option
-        //_AdjacentTiles.put(3, checkTile(adjacentCord[0] + 1));
-
-
-
-        /*North: Pull from tile above going First Array(_CurrentLocation[0]) and Second Array(_CurrentLocation[1]-1)
-        //Get Type
-        //East: Pull from tile above going First Array(_CurrentLocation[0]+1) and Second Array(_CurrentLocation[1])
-        //Get Type
-        //South: Pull from tile above going First Array(_CurrentLocation[0]) and Second Array(_CurrentLocation[1]+1)
-        //West: Pull from tile above going First Array(_CurrentLocation[0]-1) and Second Array(_CurrentLocation[1])*/
-
 //        this._AdjacentTiles = _AdjacentTiles;
+    }
+
+    public eTileType checkTile(int dir, int[] cords, GridPane gridPane){
+        eTileType type = eTileType.UNAVAILABLE;
+
+        switch (dir){
+            case 0: // North
+                cords[1] -= 1;
+                break;
+            case 1: // East
+                cords[0] += 1;
+                break;
+            case 2: // South
+                cords[1] += 1;
+                break;
+            case 3: // West
+                cords[0] -= 1;
+                break;
+            default:
+                System.out.println("You Shouldn't be here... dir="+dir+" | Unit_Normal.checkTile.switch(dir)");
+                break;
+        }
+
+        if (((cords[0] >= 0) && (cords[0] <= gridWidth) && ((cords[1] >= 0) && (cords[1] <= gridHeight)))){
+            //Use cords to get info from corresponding tile
+            if (false/*nothing from tile*/){
+                //default to eTileType.AVAILABLE
+            }
+        }
+
+        return type;
     }
 }
