@@ -3,26 +3,31 @@ package com.example.steedsnsteelfx.Models;
 import java.util.HashMap;
 
 public class Unit_Normal {
+    private eTileType _Type;
     private int _HP;
     private int _Atk;
     private int _Def;
     private String _Name; //Made for debug and tracking units, but we could keep it for a stretch goal.
     private int[] _CurrentLocation;
+    private HashMap<Integer, eTileType> _AdjacentTiles;
 
-    public Unit_Normal(int _HP, int _Atk, int _Def) {
+    public Unit_Normal(eTileType _Type, int _HP, int _Atk, int _Def) {
+        this._Type = _Type;
         this._HP = _HP;
         this._Atk = _Atk;
         this._Def = _Def;
     }
 
-    public Unit_Normal(int _HP, int _Atk, int _Def, int[] _CurrentLocation){
+    public Unit_Normal(eTileType _Type, int _HP, int _Atk, int _Def, int[] _CurrentLocation){
+        this._Type = _Type;
         this._HP = _HP;
         this._Atk = _Atk;
         this._Def = _Def;
         this._CurrentLocation = _CurrentLocation;
     }
 
-    public Unit_Normal(int _HP, int _Atk, int _Def, String _Name) {
+    public Unit_Normal(eTileType _Type, int _HP, int _Atk, int _Def, String _Name) {
+        this._Type = _Type;
         this._HP = _HP;
         this._Atk = _Atk;
         this._Def = _Def;
@@ -81,12 +86,34 @@ public class Unit_Normal {
         this._Name = _Name;
     }
 
-    public HashMap<String, eTileType> getAdjacTiles(){
-        HashMap<String, eTileType> adjacentTiles = new HashMap<>();
-        //North: Pull from tile above going First Array(_CurrentLocation[0]) and Second Array(_CurrentLocation[1]-1)
-        //East: Pull from tile above going First Array(_CurrentLocation[0]+1) and Second Array(_CurrentLocation[1])
-        //South: Pull from tile above going First Array(_CurrentLocation[0]) and Second Array(_CurrentLocation[1]+1)
-        //West: Pull from tile above going First Array(_CurrentLocation[0]-1) and Second Array(_CurrentLocation[1])
-        return adjacentTiles;
+    public eTileType checkTile(int dir, int[] cords){
+        switch (dir){
+            case 0: // North
+                cords[1] -= 1;
+                break;
+            case 1: // East
+                cords[0] += 1;
+                break;
+            case 2: // South
+                cords[1] += 1;
+                break;
+            case 3: // West
+                cords[0] -= 1;
+                break;
+            default:
+                System.out.println("You Shouldn't be here... dir="+dir+" | Unit_Normal.checkTile.switch(dir)");
+                break;
+        }
+
+        eTileType type = null;
+        if (false/*check if both cords are within the boundaries*/){
+            //Use cords to get info from corresponding tile
+            if (false/*nothing from tile*/){
+                //default to eTileType.AVAILABLE
+            }
+        } else {
+
+        }
+        return null;
     }
 }
