@@ -18,9 +18,9 @@ import java.io.IOException;
 
 public class Instructions {
 
-    public void run() throws IOException {
+    public void run(Stage htpStage) throws IOException {
 
-        Stage htpStage = new Stage();
+        //Stage htpStage = new Stage();
 
         Image image = new Image(new FileInputStream("Data/Pre-HTP.png"));
         //GridPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));//set root
@@ -50,20 +50,21 @@ public class Instructions {
 
         quitButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                Stage primStage = new Stage();
+                //Stage primStage = new Stage();
                 try {
-                    new Main().start(primStage);
+                    new Main().start(htpStage);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                htpStage.close();
+                //htpStage.close();
             }
         });
         newRoot.add(quitButton,0,0);
 
-        Scene scene = new Scene(newRoot, 600, 400, Color.BLACK);
+        Scene scene = new Scene(newRoot, Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight(), Color.BLACK);
 
         htpStage.setScene(scene);//sets scene
+
         htpStage.setMaximized(true);//fullscreen
         htpStage.show();//make screen visible
 

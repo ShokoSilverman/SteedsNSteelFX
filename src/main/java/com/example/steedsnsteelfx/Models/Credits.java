@@ -18,8 +18,8 @@ import java.io.IOException;
 
 public class Credits {
 
-    public void run(){
-        Stage htpStage = new Stage();
+    public void run(Stage htpStage){
+        //Stage htpStage = new Stage();
 
         Image image = null;
         try {
@@ -43,7 +43,7 @@ public class Credits {
         //Group newRoot = new Group(imageView1);
         newRoot.add(imageView1,0,0);//adds image to gridpane
 
-        Scene scene = new Scene(newRoot, 600, 400, Color.BLACK);
+        Scene scene = new Scene(newRoot,Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight(), Color.BLACK);
 
         htpStage.setScene(scene);//sets scene
         htpStage.setMaximized(true);//fullscreen
@@ -64,13 +64,13 @@ public class Credits {
 
         quitButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                Stage primStage = new Stage();
+                //Stage primStage = new Stage();
                 try {
-                    new Main().start(primStage);
+                    new Main().start(htpStage);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                htpStage.close();
+                //htpStage.close();
             }
         });
         newRoot.add(quitButton,0,0);

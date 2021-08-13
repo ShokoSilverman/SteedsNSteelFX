@@ -79,8 +79,8 @@ public class Main extends Application {
         creditsButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/5);
         creditsButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                new Credits().run();
-                primaryStage.close();
+                new Credits().run(primaryStage);
+                //primaryStage.close();
             }
         });
         newRoot.add(creditsButton,0,0);
@@ -97,11 +97,11 @@ public class Main extends Application {
         instructButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
                 try {
-                    new Instructions().run();
+                    new Instructions().run(primaryStage);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                primaryStage.close();
+                //primaryStage.close();
             }
         });
         newRoot.add(instructButton,0,0);
@@ -124,7 +124,7 @@ public class Main extends Application {
         newRoot.add(quitButton,0,0);
 
 
-        Scene scene = new Scene(newRoot, 600, 400, Color.BLACK);
+        Scene scene = new Scene(newRoot, Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight(), Color.BLACK);
 //
 //        Image img = new Image(getClass().getResourceAsStream("C:\\Users\\jwilliams\\OneDrive\\Documents\\Y1 Neumont\\Quarter 4 Summer\\3 - Projects\\SteedsNSteelFX\\Data\\pixelGauntletCursor.png"));
 ////        Image imageCursor = new Image("Data/pixelGauntletCursor.png");  //pass in the image path
