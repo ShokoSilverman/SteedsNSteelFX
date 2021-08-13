@@ -62,7 +62,7 @@ public class Main extends Application {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                primaryStage.close();
+                //primaryStage.close();
             }
         });
         newRoot.add(startButton,0,0);
