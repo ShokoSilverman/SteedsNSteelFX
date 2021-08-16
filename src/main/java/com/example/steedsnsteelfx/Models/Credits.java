@@ -30,7 +30,7 @@ public class Credits {
         //GridPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));//set root
 
         GridPane newRoot = new GridPane();
-        htpStage.setTitle("Steeds N' Steel How To Play");//title
+        htpStage.setTitle("Steeds N' Steel Credits");//title
         //root.add(button2,1,1);//adding button
         ImageView imageView1 = new ImageView(image);//creates image
         imageView1.setX(0);//set image in top left corner
