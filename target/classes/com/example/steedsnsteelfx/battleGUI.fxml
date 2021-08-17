@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="rootpane" prefHeight="1601.0" prefWidth="3102.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BattleGUIController">
+   <children>
+      <ImageView fx:id="woodBackground" fitHeight="1600.0" fitWidth="3100.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@wood6.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="battleMap" fitHeight="1600.0" fitWidth="1897.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@9x9Grid.png" />
+         </image>
+      </ImageView>
+      <GridPane fx:id="gridBattleMap" gridLinesVisible="true" layoutX="-6.0" layoutY="-12.0" prefHeight="1624.0" prefWidth="1633.0" style="-fx-opaque-insets: 10;">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fx:id="enemyOnGrid" fitHeight="176.0" fitWidth="168.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Gordon.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="horseOnGrid" fitHeight="198.0" fitWidth="187.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@HorsePaladin.png" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
+      <ImageView fx:id="profilePicture" fitHeight="387.0" fitWidth="531.0" layoutX="1606.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@horseProfile.jpg" />
+         </image>
+      </ImageView>
+      <Line endX="1064.000244140625" endY="6.103515625E-5" layoutX="2025.0" layoutY="800.0" startX="-430.6666259765625" startY="6.103515625E-5" strokeWidth="20.0" />
+      <Label fx:id="horseName" layoutX="1605.0" layoutY="326.0" prefHeight="34.0" prefWidth="533.0" style="-fx-border-color: black; -fx-wrap-text: true; -fx-alignment: center; -fx-border-width: 10; -fx-background-color: black;" text="Horse Name " textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Old English Text MT" size="60.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnUp" layoutX="2500.0" layoutY="541.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="225.0" text="UP">
+         <font>
+            <Font name="OCR A Extended" size="50.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnRight" layoutX="2731.0" layoutY="594.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="210.0" text="RIGHT">
+         <font>
+            <Font name="OCR A Extended" size="48.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnLeft" layoutX="2282.0" layoutY="594.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="210.0" text="LEFT">
+         <font>
+            <Font name="OCR A Extended" size="50.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnDown" layoutX="2500.0" layoutY="657.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="225.0" text="DOWN">
+         <font>
+            <Font name="OCR A Extended" size="50.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnAttack" layoutX="2428.0" layoutY="367.0" mnemonicParsing="false" prefHeight="136.0" prefWidth="361.0" text="Attack">
+         <font>
+            <Font name="OCR A Extended" size="72.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="healthHeart" fitHeight="345.0" fitWidth="401.0" layoutX="1652.0" layoutY="446.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@heart3.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lblHealth" layoutX="1684.0" layoutY="490.0" prefHeight="123.0" prefWidth="143.0" text="100" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="70.0" />
+         </font>
+      </Label>
+      <Line endX="-285.7999267578125" endY="-67.79998779296875" layoutX="2165.0" layoutY="619.0" startX="-409.0001220703125" startY="12.20001220703125" strokeWidth="15.0" />
+      <Label fx:id="lblMaxHealth" layoutX="1811.0" layoutY="573.0" prefHeight="123.0" prefWidth="143.0" text="100" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="70.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="VSprofilePicture" fitHeight="387.0" fitWidth="531.0" layoutX="1606.0" layoutY="810.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@horseProfile.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="VShorseName" layoutX="1605.0" layoutY="1136.0" prefHeight="34.0" prefWidth="533.0" style="-fx-border-color: black; -fx-alignment: center; -fx-border-width: 10; -fx-background-color: black;" text="Horse Name" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Old English Text MT" size="60.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="VShorseHealthHeart" fitHeight="265.0" fitWidth="241.0" layoutX="1650.0" layoutY="1237.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@heart3.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="VShorseHealth" layoutX="1684.0" layoutY="1291.0" prefHeight="59.0" prefWidth="77.0" text="100" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="VShorseHealthMax" layoutX="1762.0" layoutY="1338.0" prefHeight="59.0" prefWidth="77.0" text="100" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+      <Line endX="232.099853515625" endY="746.9000244140625" layoutX="1560.0" layoutY="572.0" startX="166.5" startY="794.9000244140625" strokeWidth="10.0" />
+      <ImageView fx:id="VSenemyProfilePicture" fitHeight="387.0" fitWidth="531.0" layoutX="2636.0" layoutY="811.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Gordon.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="VSenemyName" layoutX="2567.0" layoutY="1136.0" prefHeight="34.0" prefWidth="533.0" style="-fx-border-color: black; -fx-alignment: center; -fx-border-width: 10; -fx-background-color: black;" text="Enemy" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Old English Text MT" size="60.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblVS" layoutX="2260.0" layoutY="1093.0" prefHeight="172.0" prefWidth="169.0" style="-fx-alignment: center; -fx-border-color: black; -fx-border-width: 10;" text="VS" textAlignment="CENTER">
+         <font>
+            <Font name="OCR A Extended" size="96.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="VSenemyHealthHeart" fitHeight="265.0" fitWidth="241.0" layoutX="2825.0" layoutY="1247.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@heart3.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="VSenemyHealth" layoutX="2856.0" layoutY="1300.0" prefHeight="59.0" prefWidth="77.0" text="100" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="VSenemyHealthMax" layoutX="2931.0" layoutY="1348.0" prefHeight="59.0" prefWidth="77.0" text="100" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+      <Line endX="232.099853515625" endY="746.9000244140625" layoutX="2733.0" layoutY="582.0" startX="166.5" startY="794.9000244140625" strokeWidth="10.0" />
+      <Label fx:id="lblAttackStat" layoutX="2210.0" layoutY="110.0" prefHeight="119.0" prefWidth="358.0" style="-fx-background-color: white; -fx-alignment: center;" text="Attack">
+         <font>
+            <Font name="OCR A Extended" size="72.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDefendStat" layoutX="2609.0" layoutY="111.0" prefHeight="119.0" prefWidth="358.0" style="-fx-background-color: white; -fx-alignment: center;" text="Defend">
+         <font>
+            <Font name="OCR A Extended" size="72.0" />
+         </font>
+      </Label>
+      <Label fx:id="VSenemyAttackStat" layoutX="2503.0" layoutY="1268.0" prefHeight="82.0" prefWidth="302.0" style="-fx-background-color: white; -fx-alignment: center;" text="Attack">
+         <font>
+            <Font name="OCR A Extended" size="72.0" />
+         </font>
+      </Label>
+      <Label fx:id="VSenemyDefendStat" layoutX="2506.0" layoutY="1367.0" prefHeight="82.0" prefWidth="302.0" style="-fx-background-color: white; -fx-alignment: center;" text="Defend">
+         <font>
+            <Font name="OCR A Extended" size="72.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
