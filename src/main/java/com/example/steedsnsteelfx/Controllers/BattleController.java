@@ -11,8 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,6 +25,12 @@ import java.util.ResourceBundle;
 public class BattleController implements Initializable {
 
     int unitTurn;
+//
+//    @FXML
+//    private Stage
+
+    @FXML
+    private AnchorPane mainPane;
 
     @FXML
     private GridPane battleGrid;
@@ -44,6 +52,7 @@ public class BattleController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         System.out.println("Battle Initiated!");
         buttonVisibility(false);
         placePieces();

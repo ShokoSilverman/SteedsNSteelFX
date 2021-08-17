@@ -65,7 +65,7 @@ public class Instructions {
 
         htpStage.setScene(scene);//sets scene
 
-        htpStage.setMaximized(true);//fullscreen
+        //htpStage.setMaximized(true);//fullscreen
         htpStage.show();//make screen visible
 
 //        htpStage.setMaximized(true);

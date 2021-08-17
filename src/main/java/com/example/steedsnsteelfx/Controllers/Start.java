@@ -20,7 +20,8 @@ public class Start  {
         URL url = new File("src/main/resources/com/example/steedsnsteelfx/demoBattleGrid.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         newWindow.setScene(new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight()));
-        newWindow.setMaximized(true);
+        newWindow.setFullScreen(true);
+        //newWindow.setMaximized(true);
         newWindow.show();
 
 

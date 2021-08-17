@@ -136,6 +136,7 @@ public class Main extends Application {
         //primaryStage.setScene(new Scene(newRoot, 300, 275));//create and set scene
         primaryStage.setScene(scene);//sets scene
         primaryStage.setMaximized(true);//fullscreen
+
         primaryStage.show();//make screen visible
 
 
