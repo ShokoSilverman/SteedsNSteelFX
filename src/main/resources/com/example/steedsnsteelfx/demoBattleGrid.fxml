@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="834.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steedsnsteelfx.Controllers.BattleController">
+<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="834.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steedsnsteelfx.Controllers.BattleController">
    <children>
       <GridPane fx:id="battleGrid" alignment="CENTER" gridLinesVisible="true" layoutX="10.0" layoutY="10.0" prefHeight="536.0" prefWidth="340.0">
          <columnConstraints>
