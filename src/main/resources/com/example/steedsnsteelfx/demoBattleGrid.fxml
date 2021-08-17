@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="834.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steedsnsteelfx.Controllers.BattleController">
+<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="834.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steedsnsteelfx.Controllers.BattleController">
    <children>
       <GridPane fx:id="battleGrid" alignment="CENTER" gridLinesVisible="true" layoutX="10.0" layoutY="10.0" prefHeight="536.0" prefWidth="340.0">
          <columnConstraints>
@@ -47,6 +42,10 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Button layoutX="1169.0" layoutY="624.0" mnemonicParsing="false" onAction="#moveRight" text="move" />
+      <Button fx:id="upBtn" layoutX="982.0" layoutY="433.0" mnemonicParsing="false" onAction="#unitUp" text="Up" />
+      <Button fx:id="rightBtn" layoutX="1056.0" layoutY="470.0" mnemonicParsing="false" onAction="#unitRight" text="Right" />
+      <Button fx:id="leftBtn" layoutX="891.0" layoutY="470.0" mnemonicParsing="false" onAction="#unitLeft" text="Left" />
+      <Button fx:id="downBtn" layoutX="972.0" layoutY="520.0" mnemonicParsing="false" onAction="#unitDown" text="Down" />
+      <Label fx:id="turnDisplay" layoutX="982.0" layoutY="567.0" />
    </children>
 </AnchorPane>
