@@ -52,11 +52,11 @@ public class BattleController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         System.out.println("Battle Initiated!");
         buttonVisibility(false);
         placePieces();
         placeEnemies();
+        battleGrid.add(trafficConeImageView(), 0,0);
     }
 
     public Node turnTrack(){
@@ -269,5 +269,19 @@ public class BattleController implements Initializable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private ImageView trafficConeImageView(){
+        Image unitOneImage = null;
+        try {
+            unitOneImage = new Image(new FileInputStream("Data/TrafficCone.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ImageView unitImageView = new ImageView(unitOneImage);
+        System.out.println(536/9);
+        unitImageView.setFitHeight(536/6);
+        unitImageView.setPreserveRatio(true);
+        return unitImageView;
     }
 }
