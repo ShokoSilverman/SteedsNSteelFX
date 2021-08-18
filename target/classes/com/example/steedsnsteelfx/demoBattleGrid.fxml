@@ -13,9 +13,9 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="834.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steedsnsteelfx.Controllers.BattleController">
    <children>
-      <ImageView fitHeight="837.0" fitWidth="1536.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="837.0" fitWidth="1536.0" pickOnBounds="true" preserveRatio="false">
          <image>
-            <Image url="@woodBackgroundFinal.jpg" />
+            <Image url="@BackGround.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="836.0" fitWidth="836.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
