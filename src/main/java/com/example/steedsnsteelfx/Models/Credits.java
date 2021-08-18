@@ -23,7 +23,7 @@ public class Credits {
 
         Image image = null;
         try {
-            image = new Image(new FileInputStream("Data/Credits.jpg"));
+            image = new Image(new FileInputStream("Data/Credits.png"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
