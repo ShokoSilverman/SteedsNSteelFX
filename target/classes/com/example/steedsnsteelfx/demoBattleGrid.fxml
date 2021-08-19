@@ -102,7 +102,7 @@
             <Font name="OCR A Extended" size="40.0" />
          </font>
       </Label>
-      <Button fx:id="attackBtn" layoutX="1079.0" layoutY="383.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="190.0" text="Attack">
+      <Button fx:id="attackBtn" layoutX="1079.0" layoutY="383.0" mnemonicParsing="false" onAction="#attack" prefHeight="67.0" prefWidth="190.0" text="Attack">
          <font>
             <Font name="OCR A Extended" size="35.0" />
          </font>
@@ -112,5 +112,10 @@
             <Font name="Old English Text MT" size="48.0" />
          </font>
       </Label>
+      <Button fx:id="waitbutton" layoutX="1297.0" layoutY="405.0" mnemonicParsing="false" onAction="#disable" text="Wait">
+         <font>
+            <Font name="OCR A Extended" size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

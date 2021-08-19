@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 public class Unit_Normal {
     private eTileType _Type;
+    private String _UnitID;
+    private int actionCount;
     private int _HP;
     private int _Atk;
     private int _Def;
@@ -12,28 +14,51 @@ public class Unit_Normal {
     private int[] _CurrentLocation;
     private HashMap<Integer, eTileType> _AdjacentTiles;
 
-    public Unit_Normal(eTileType _Type, int _HP, int _Atk, int _Def) {
+    public Unit_Normal(eTileType _Type, String _UnitID, int _HP, int _Atk, int _Def) {
         this._Type = _Type;
+        this._UnitID = _UnitID;
         this._HP = _HP;
         this._Atk = _Atk;
         this._Def = _Def;
     }
 
-    public Unit_Normal(eTileType _Type, int _HP, int _Atk, int _Def, int[] _CurrentLocation){
+    public Unit_Normal(eTileType _Type, String _UnitID, int _HP, int _Atk, int _Def, int[] _CurrentLocation){
         this._Type = _Type;
+        this._UnitID = _UnitID;
         this._HP = _HP;
         this._Atk = _Atk;
         this._Def = _Def;
         this._CurrentLocation = _CurrentLocation;
     }
 
-    public Unit_Normal(eTileType _Type, int _HP, int _MaxHealth, int _Atk, int _Def, String _Name) {
+    public Unit_Normal(eTileType _Type, String _UnitID, int _HP, int _MaxHealth, int _Atk, int _Def, String _Name) {
         this._Type = _Type;
+        this._UnitID = _UnitID;
         this._HP = _HP;
         this._MaxHealth = _MaxHealth;
         this._Atk = _Atk;
         this._Def = _Def;
         this._Name = _Name;
+    }
+
+    public eTileType get_Type() {
+        return _Type;
+    }
+
+    public String get_UnitID() {
+        return _UnitID;
+    }
+
+    public void set_UnitID(String _UnitID) {
+        this._UnitID = _UnitID;
+    }
+
+    public int getActionCount() {
+        return actionCount;
+    }
+
+    public void setActionCount(int actionCount) {
+        this.actionCount = Math.max(actionCount, 0);
     }
 
     public int get_HP() {
