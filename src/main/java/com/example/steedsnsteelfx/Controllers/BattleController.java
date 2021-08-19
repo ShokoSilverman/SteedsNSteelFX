@@ -1,6 +1,9 @@
 package com.example.steedsnsteelfx.Controllers;
 
 import com.example.steedsnsteelfx.Models.Credits;
+import com.example.steedsnsteelfx.Models.RandNameGen;
+import com.example.steedsnsteelfx.Models.Unit_Normal;
+import com.example.steedsnsteelfx.Models.eTileType;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
@@ -50,10 +54,23 @@ public class BattleController implements Initializable {
     @FXML
     private Label turnDisplay;
 
+    @FXML
+    private ImageView heartImgView;
+
+    @FXML
+    private Line healthSlashLine;
+
+    @FXML
+    private Label horseHealthLbl;
+
+    @FXML
+    private Label maxHorseHealthLbl;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Battle Initiated!");
         buttonVisibility(false);
+        healthVisibility(false);
         placePieces();
         placeEnemies();
         battleGrid.add(trafficConeImageView(), 0,0);
@@ -150,6 +167,11 @@ public class BattleController implements Initializable {
         leftBtn.setVisible(visibility);
     }
 
+
+    Unit_Normal unitOneObject = new Unit_Normal(eTileType.UNIT_P, 20, 20,3, 4, RandNameGen.generateName());
+    Unit_Normal unitTwoObject = new Unit_Normal(eTileType.UNIT_P, 15, 20,3, 4, RandNameGen.generateName());
+    Unit_Normal unitThreeObject = new Unit_Normal(eTileType.UNIT_P, 10, 20,3, 4, RandNameGen.generateName());
+
     Button unitOne;
     Button unitTwo;
     Button unitThree;
@@ -162,7 +184,10 @@ public class BattleController implements Initializable {
         unitOne.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
                 buttonVisibility(true);
-                turnDisplay.setText("Unit 1's Turn");
+                healthVisibility(true);
+                horseHealthLbl.setText(unitOneObject.get_HP()+"");
+                maxHorseHealthLbl.setText(unitOneObject.get_MaxHealth()+"");
+                turnDisplay.setText(unitOneObject.get_Name() + "'s Turn");
                 unitTurn = 1;
                 unitOne.setGraphic(blueNightImageView());
                 unitTwo.setGraphic(horseNightImageView());
@@ -178,7 +203,10 @@ public class BattleController implements Initializable {
         unitTwo.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
                 buttonVisibility(true);
-                turnDisplay.setText("Unit 2's Turn");
+                healthVisibility(true);
+                horseHealthLbl.setText(unitTwoObject.get_HP()+"");
+                maxHorseHealthLbl.setText(unitTwoObject.get_MaxHealth()+"");
+                turnDisplay.setText(unitTwoObject.get_Name() + "'s Turn");
                 unitTurn = 2;
                 unitTwo.setGraphic(blueNightImageView());
                 unitOne.setGraphic(horseNightImageView());
@@ -192,7 +220,10 @@ public class BattleController implements Initializable {
         unitThree.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
                 buttonVisibility(true);
-                turnDisplay.setText("Unit 3's Turn");
+                healthVisibility(true);
+                horseHealthLbl.setText(unitThreeObject.get_HP()+"");
+                maxHorseHealthLbl.setText(unitThreeObject.get_MaxHealth()+"");
+                turnDisplay.setText(unitThreeObject.get_Name() + "'s Turn");
                 unitTurn = 3;
                 unitThree.setGraphic(blueNightImageView());
                 unitTwo.setGraphic(horseNightImageView());
@@ -283,5 +314,12 @@ public class BattleController implements Initializable {
         unitImageView.setFitHeight(536/6);
         unitImageView.setPreserveRatio(true);
         return unitImageView;
+    }
+
+    private void healthVisibility(boolean visibility){
+        heartImgView.setVisible(visibility);
+        healthSlashLine.setVisible(visibility);
+        horseHealthLbl.setVisible(visibility);
+        maxHorseHealthLbl.setVisible(visibility);
     }
 }

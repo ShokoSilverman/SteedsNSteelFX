@@ -7,6 +7,7 @@ public class Unit_Normal {
     private int _HP;
     private int _Atk;
     private int _Def;
+    private int _MaxHealth;
     private String _Name; //Made for debug and tracking units, but we could keep it for a stretch goal.
     private int[] _CurrentLocation;
     private HashMap<Integer, eTileType> _AdjacentTiles;
@@ -26,9 +27,10 @@ public class Unit_Normal {
         this._CurrentLocation = _CurrentLocation;
     }
 
-    public Unit_Normal(eTileType _Type, int _HP, int _Atk, int _Def, String _Name) {
+    public Unit_Normal(eTileType _Type, int _HP, int _MaxHealth, int _Atk, int _Def, String _Name) {
         this._Type = _Type;
         this._HP = _HP;
+        this._MaxHealth = _MaxHealth;
         this._Atk = _Atk;
         this._Def = _Def;
         this._Name = _Name;
@@ -84,5 +86,13 @@ public class Unit_Normal {
 
     public void set_Name(String _Name) {
         this._Name = _Name;
+    }
+
+    public int get_MaxHealth() {
+        return _MaxHealth;
+    }
+
+    public void set_MaxHealth(int _MaxHealth) {
+        this._MaxHealth = _MaxHealth;
     }
 }
