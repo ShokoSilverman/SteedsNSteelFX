@@ -85,59 +85,60 @@ public class BattleController implements Initializable {
 
     @FXML
     private void unitUp(ActionEvent event) {
-        int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-        int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-        if(getNodeFromGridPane(battleGrid, column, row-1) == null){
-            battleGrid.add(focusedUnitBTN[0], column, row-1);
-        }else{
-
+        if (!attacking) {
+            int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+            int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
+            if(getNodeFromGridPane(battleGrid, column, row-1) == null){
+                battleGrid.add(focusedUnitBTN[0], column, row-1);
+            }else{}
+        } else {
+            Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0],1)));
         }
     }
 
     @FXML
     private void unitDown(ActionEvent event) {
-        int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-        int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-        if (row >= 8){
-            return;
+        if (!attacking) {
+            int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+            int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
+            if (row >= 8){
+                return;
+            }
+            if(getNodeFromGridPane(battleGrid, column, row+1) == null){
+                battleGrid.add(focusedUnitBTN[0], column, row+1);
+            }else{}
+        } else {
+            Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0],3)));
         }
-        if(getNodeFromGridPane(battleGrid, column, row+1) == null){
-            battleGrid.add(focusedUnitBTN[0], column, row+1);
-        }else{
-
-        }
-
-
     }
 
     @FXML
     private void unitRight(ActionEvent event) {
-        System.out.println(focusedUnitBTN[0].toString());
-        int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-        int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-        if (column >= 8){
-            return;
+        if (!attacking){
+            int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+            int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
+            if (column >= 8){
+                return;
+            }
+            if(getNodeFromGridPane(battleGrid, column+1, row) == null){
+                battleGrid.add(focusedUnitBTN[0], column+1, row);
+            }else{}
+        } else {
+            Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0],2)));
         }
-        if(getNodeFromGridPane(battleGrid, column+1, row) == null){
-            battleGrid.add(focusedUnitBTN[0], column+1, row);
-        }else{
-
-        }
-
     }
 
     @FXML
     private void unitLeft(ActionEvent event) {
-        int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-        int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-        if(getNodeFromGridPane(battleGrid, column-1, row) == null){
-            battleGrid.add(focusedUnitBTN[0], column-1, row);
-        }else{
-
+        if (!attacking) {
+            int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+            int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
+            if(getNodeFromGridPane(battleGrid, column-1, row) == null){
+                battleGrid.add(focusedUnitBTN[0], column-1, row);
+            }else{}
+        } else {
+            Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0],4)));
         }
-
-
-
     }
 
     /**
@@ -146,7 +147,7 @@ public class BattleController implements Initializable {
      * @param direction Direction to look in - 1:North 2:East 3:South 4:West
      * @return Whether something is there.
      */
-    private boolean isEnemyAdjacent(Node unitBTN, int direction){
+    private Button getAdjacent(Node unitBTN, int direction){
         Integer col = GridPane.getColumnIndex(unitBTN);
         Integer row = GridPane.getRowIndex(unitBTN);
         switch (direction){
@@ -163,13 +164,12 @@ public class BattleController implements Initializable {
                 col--;
                 break;
         }
-        Unit_Normal originUnit = getUnitFromNode(unitBTN);
-        Unit_Normal adjacentUnit = getUnitFromNode(getNodeFromGridPane(battleGrid, col, row));
-
-        if (originUnit.get_Type() != adjacentUnit.get_Type()) {
-            return true;
+        try {
+            return (Button)getNodeFromGridPane(battleGrid, col, row);
+        } catch (Exception e){
+            System.out.println("nothing in direction=" + direction);
         }
-        return false;
+        return null;
     }
 
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
@@ -242,23 +242,15 @@ public class BattleController implements Initializable {
         });
     }
 
-    Unit_Normal unitOneObject = new Unit_Normal(eTileType.UNIT_P,"unitOne" , 20, 20,3, 4, RandNameGen.generateName());
-    Unit_Normal unitTwoObject = new Unit_Normal(eTileType.UNIT_P,"unitTwo" , 15, 20,3, 4, RandNameGen.generateName());
-    Unit_Normal unitThreeObject = new Unit_Normal(eTileType.UNIT_P,"unitThree" , 10, 20,3, 4, RandNameGen.generateName());
-
-    Button unitOne;
-    Button unitTwo;
-    Button unitThree;
-
     private void placePieces(){
 
-        Unit_Normal newUnit = new Unit_Normal(eTileType.UNIT_P, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit = new Unit_Normal(eTileType.UNIT_P, 30, 30, 3, 2, RandNameGen.generateName());
         generateUnit(newUnit, "unit" + 1, 1, 1);
-        Unit_Normal newUnit2 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit2 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 7, 2, RandNameGen.generateName());
         generateUnit(newUnit2, "unit" + 2, 1, 3);
-        Unit_Normal newUnit3 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit3 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 12, 2, RandNameGen.generateName());
         generateUnit(newUnit3, "unit" + 3, 1, 5);
-        Unit_Normal newUnit4 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit4 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 22, 2, RandNameGen.generateName());
         generateUnit(newUnit4, "unit" + 4, 1, 7);
 
         Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
@@ -270,53 +262,6 @@ public class BattleController implements Initializable {
         Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
         generateUnit(newUnit8, "unit" + 8, 6, 7);
     }
-
-//    Unit_Normal unitFour = new Unit_Normal(eTileType.UNIT_E, "unitFour", 20, 20, 2, 2, "Burt's Dad");
-//    Unit_Normal unitFive = new Unit_Normal(eTileType.UNIT_E, "unitFive", 20, 20, 2, 2, "Burt 2");
-//    Unit_Normal unitSix = new Unit_Normal(eTileType.UNIT_E, "unitSix", 20, 20, 2, 2, "Burt 17");
-//
-//    Button enemyOne;
-//    Button enemyTwo;
-//    Button enemyThree;
-//
-//    private void placeEnemies(){
-//        enemyOne = new Button("",rockImageView());
-//        enemyOne.setId("unitFour");
-//        enemyOne.setStyle("-fx-background-color: transparent;");
-//        enemyOne.setOnAction(new EventHandler<ActionEvent>() {//set what button does
-//            @Override public void handle(ActionEvent e) {
-//                playerUnitSelect(e);
-//            }
-//        });
-//        battleGrid.add(enemyOne, generateRandomIntIntRange(6,8),generateRandomIntIntRange(0,2));
-//        allButtons.add(enemyOne);
-//        allUnits.add(unitFour);
-//
-//        enemyTwo = new Button("",rockImageView());
-//        enemyTwo.setId("unitFive");
-//        enemyTwo.setStyle("-fx-background-color: transparent;");
-//        enemyTwo.setOnAction(new EventHandler<ActionEvent>() {//set what button does
-//            @Override public void handle(ActionEvent e) {
-//                playerUnitSelect(e);
-//            }
-//        });
-//        battleGrid.add(enemyTwo, generateRandomIntIntRange(6,8),generateRandomIntIntRange(3,5));
-//        allButtons.add(enemyTwo);
-//        allUnits.add(unitFive);
-//
-//        enemyThree = new Button("",rockImageView());
-//        enemyThree.setId("unitSix");
-//        enemyThree.setStyle("-fx-background-color: transparent;");
-//        enemyThree.setOnAction(new EventHandler<ActionEvent>() {//set what button does
-//            @Override public void handle(ActionEvent e) {
-//                playerUnitSelect(e);
-//            }
-//        });
-//        battleGrid.add(enemyThree, generateRandomIntIntRange(6,8),generateRandomIntIntRange(6,8));
-//        allButtons.add(enemyThree);
-//        allUnits.add(unitSix);
-//
-//    }
 
     public int generateRandomIntIntRange(int min, int max) {
         Random r = new Random();
@@ -443,13 +388,10 @@ public class BattleController implements Initializable {
         } else {
             attacking = true;
             attackBtn.setText("Cancel");
-            upBtn.setDisable(true);
-            downBtn.setDisable(true);
-            leftBtn.setDisable(true);
-            rightBtn.setDisable(true);
-
-            //Check around player and see where enemies are
-
+            upBtn.setDisable(!isEnemy(focusedUnitBTN[0], getAdjacent(focusedUnitBTN[0],1)));
+            downBtn.setDisable(!isEnemy(focusedUnitBTN[0], getAdjacent(focusedUnitBTN[0],3)));
+            leftBtn.setDisable(!isEnemy(focusedUnitBTN[0], getAdjacent(focusedUnitBTN[0],4)));
+            rightBtn.setDisable(!isEnemy(focusedUnitBTN[0], getAdjacent(focusedUnitBTN[0],2)));
         }
     }
 
@@ -464,4 +406,34 @@ public class BattleController implements Initializable {
         leftBtn.setDisable(false);
         rightBtn.setDisable(false);
     }
+
+    public void Battle(Unit_Normal attacker, Unit_Normal defender) {
+        int _damage = 0; //The amount of damage to be applied to defender hp
+        int _resultHP = 0; //The amount of health the defender will have left, unless below 0, then 0.
+
+        _damage = attacker.get_Atk() - defender.get_Def(); //Unit1 attack - Unit2 defence
+        if (_damage < 0) _damage = 0; //If the defence is stronger than attack, prevent heal
+        _resultHP = defender.get_HP() - _damage; //Find leftover HP defender will have
+
+        if (_resultHP <= 0) { //Check if dead
+
+            //TODO Killing a unit
+            defender.set_HP(0); //Set health to no less than 0
+            System.out.println("AHHH I'm dead! _resultHP=" + _resultHP + ", _damage=" + _damage); //Debug message
+
+        } else { //Not dead! Deal damage.
+
+            defender.set_HP(_resultHP); //Set new health
+            System.out.println("Ouch I took damage! _resultHP=" + _resultHP + ", _damage=" + _damage); //Debug message
+        }
+
+        attacking = false;
+        cancelAttack();
+    }
+
+    public boolean isEnemy(Button origin, Button target) {
+        return origin != null && target != null
+                && getUnitFromNode(origin).get_Type() != getUnitFromNode(target).get_Type();
+    }
+    public boolean isEnemy(Unit_Normal origin, Unit_Normal target){return origin.get_Type() != target.get_Type();}
 }
