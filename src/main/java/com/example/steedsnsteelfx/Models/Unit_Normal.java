@@ -31,6 +31,15 @@ public class Unit_Normal {
         this._CurrentLocation = _CurrentLocation;
     }
 
+    public Unit_Normal(eTileType _Type, int _HP, int _MaxHealth, int _Atk, int _Def, String _Name) {
+        this._Type = _Type;
+        this._HP = _HP;
+        this._MaxHealth = _MaxHealth;
+        this._Atk = _Atk;
+        this._Def = _Def;
+        this._Name = _Name;
+    }
+
     public Unit_Normal(eTileType _Type, String _UnitID, int _HP, int _MaxHealth, int _Atk, int _Def, String _Name) {
         this._Type = _Type;
         this._UnitID = _UnitID;

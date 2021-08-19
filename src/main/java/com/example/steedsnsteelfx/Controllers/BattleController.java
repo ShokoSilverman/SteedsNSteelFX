@@ -1,6 +1,5 @@
 package com.example.steedsnsteelfx.Controllers;
 
-import com.example.steedsnsteelfx.Models.Credits;
 import com.example.steedsnsteelfx.Models.RandNameGen;
 import com.example.steedsnsteelfx.Models.Unit_Normal;
 import com.example.steedsnsteelfx.Models.eTileType;
@@ -16,13 +15,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,10 +26,10 @@ import java.util.ResourceBundle;
 
 public class BattleController implements Initializable {
 
-    int unitTurn;
     boolean attacking;
     public ArrayList<Button> allButtons = new ArrayList<>();
     public ArrayList<Unit_Normal> allUnits = new ArrayList<>();
+    public Button[] focusedUnitBTN = new Button[1];
 //
 //    @FXML
 //    private Stage
@@ -83,26 +79,16 @@ public class BattleController implements Initializable {
         buttonVisibility(false);
         healthVisibility(false);
         placePieces();
-        placeEnemies();
+//        placeEnemies();
         battleGrid.add(trafficConeImageView(), 0,0);
-    }
-
-    public Node turnTrack(){
-        if (unitTurn == 1){
-            return unitOne;
-        }else if(unitTurn == 2){
-            return unitTwo;
-        }else{
-            return unitThree;
-        }
     }
 
     @FXML
     private void unitUp(ActionEvent event) {
-        int row = battleGrid.getRowIndex(turnTrack());
-        int column = battleGrid.getColumnIndex(turnTrack());
+        int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+        int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
         if(getNodeFromGridPane(battleGrid, column, row-1) == null){
-            battleGrid.add(turnTrack(), column, row-1);
+            battleGrid.add(focusedUnitBTN[0], column, row-1);
         }else{
 
         }
@@ -110,13 +96,13 @@ public class BattleController implements Initializable {
 
     @FXML
     private void unitDown(ActionEvent event) {
-        int row = battleGrid.getRowIndex(turnTrack());
-        int column = battleGrid.getColumnIndex(turnTrack());
+        int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+        int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
         if (row >= 8){
             return;
         }
         if(getNodeFromGridPane(battleGrid, column, row+1) == null){
-            battleGrid.add(turnTrack(), column, row+1);
+            battleGrid.add(focusedUnitBTN[0], column, row+1);
         }else{
 
         }
@@ -126,13 +112,14 @@ public class BattleController implements Initializable {
 
     @FXML
     private void unitRight(ActionEvent event) {
-        int row = battleGrid.getRowIndex(turnTrack());
-        int column = battleGrid.getColumnIndex(turnTrack());
+        System.out.println(focusedUnitBTN[0].toString());
+        int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+        int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
         if (column >= 8){
             return;
         }
         if(getNodeFromGridPane(battleGrid, column+1, row) == null){
-            battleGrid.add(turnTrack(), column+1, row);
+            battleGrid.add(focusedUnitBTN[0], column+1, row);
         }else{
 
         }
@@ -141,10 +128,10 @@ public class BattleController implements Initializable {
 
     @FXML
     private void unitLeft(ActionEvent event) {
-        int row = battleGrid.getRowIndex(turnTrack());
-        int column = battleGrid.getColumnIndex(turnTrack());
+        int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+        int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
         if(getNodeFromGridPane(battleGrid, column-1, row) == null){
-            battleGrid.add(turnTrack(), column-1, row);
+            battleGrid.add(focusedUnitBTN[0], column-1, row);
         }else{
 
         }
@@ -212,6 +199,48 @@ public class BattleController implements Initializable {
         waitbutton.setVisible(visibility);
     }
 
+    private void playerUnitSelect(ActionEvent e) {
+        Button selectedBtn = (Button)e.getSource();
+        Unit_Normal selectedUnit = getUnitFromNode(selectedBtn);
+        System.out.println(selectedBtn.toString()); // dsaf
+        System.out.println(selectedUnit.get_UnitID()); //fds
+        System.out.println(selectedUnit.get_Type()); //fdhsf
+        horseHealthLbl.setText(selectedUnit.get_HP()+"");
+        maxHorseHealthLbl.setText(selectedUnit.get_MaxHealth()+"");
+        turnDisplay.setText(selectedUnit.get_Name() + "'s Turn");
+        if (focusedUnitBTN[0] != null){
+            System.out.println("Uh Oh");
+            focusedUnitBTN[0].setGraphic(getUnselectedView(focusedUnitBTN[0]));
+        }
+        selectedBtn.setGraphic(getSelectedView(selectedBtn));
+        focusedUnitBTN[0] = selectedBtn;
+        if (selectedUnit.get_Type() == eTileType.UNIT_P){
+            buttonVisibility(true);
+            healthVisibility(true);
+        } else if (selectedUnit.get_Type() == eTileType.UNIT_E){
+            buttonVisibility(false);
+            healthVisibility(true);
+        }
+    }
+
+    public void generateUnit(Unit_Normal unit, String ID, int spawnCol, int spawnRow){
+        Button newBTN = new Button("", trafficConeImageView());
+        unit.set_UnitID(ID);
+        newBTN.setId(ID);
+
+        battleGrid.add(newBTN, spawnCol,spawnRow);
+        allButtons.add(newBTN);
+        allUnits.add(unit);
+
+        newBTN.setGraphic(getUnselectedView(newBTN));
+        newBTN.setStyle("-fx-background-color: transparent;");
+        newBTN.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                playerUnitSelect(e);
+            }
+        });
+    }
 
     Unit_Normal unitOneObject = new Unit_Normal(eTileType.UNIT_P,"unitOne" , 20, 20,3, 4, RandNameGen.generateName());
     Unit_Normal unitTwoObject = new Unit_Normal(eTileType.UNIT_P,"unitTwo" , 15, 20,3, 4, RandNameGen.generateName());
@@ -223,145 +252,95 @@ public class BattleController implements Initializable {
 
     private void placePieces(){
 
+        Unit_Normal newUnit = new Unit_Normal(eTileType.UNIT_P, 30, 30, 2, 2, RandNameGen.generateName());
+        generateUnit(newUnit, "unit" + 1, 1, 1);
+        Unit_Normal newUnit2 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 2, 2, RandNameGen.generateName());
+        generateUnit(newUnit2, "unit" + 2, 1, 3);
+        Unit_Normal newUnit3 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 2, 2, RandNameGen.generateName());
+        generateUnit(newUnit3, "unit" + 3, 1, 5);
+        Unit_Normal newUnit4 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 2, 2, RandNameGen.generateName());
+        generateUnit(newUnit4, "unit" + 4, 1, 7);
 
-        unitOne = new Button("",horseNightImageView());
-        unitOne.setId("unitOne");
-        unitOne.setStyle("-fx-background-color: transparent;");
-        unitOne.setOnAction(new EventHandler<ActionEvent>() {//set what button does
-            @Override public void handle(ActionEvent e) {
-                buttonVisibility(true);
-                healthVisibility(true);
-                horseHealthLbl.setText(unitOneObject.get_HP()+"");
-                maxHorseHealthLbl.setText(unitOneObject.get_MaxHealth()+"");
-                turnDisplay.setText(unitOneObject.get_Name() + "'s Turn");
-                unitTurn = 1;
-                unitOne.setGraphic(blueNightImageView());
-                unitTwo.setGraphic(horseNightImageView());
-                unitThree.setGraphic(horseNightImageView());
-
-
-            }
-        });
-        battleGrid.add(unitOne, generateRandomIntIntRange(1,2),generateRandomIntIntRange(1,2));
-        allButtons.add(unitOne);
-        allUnits.add(unitOneObject);
-
-        unitTwo = new Button("",horseNightImageView());
-        unitTwo.setId("unitTwo");
-        unitTwo.setStyle("-fx-background-color: transparent;");
-        unitTwo.setOnAction(new EventHandler<ActionEvent>() {//set what button does
-            @Override public void handle(ActionEvent e) {
-                buttonVisibility(true);
-                healthVisibility(true);
-                horseHealthLbl.setText(unitTwoObject.get_HP()+"");
-                maxHorseHealthLbl.setText(unitTwoObject.get_MaxHealth()+"");
-                turnDisplay.setText(unitTwoObject.get_Name() + "'s Turn");
-                unitTurn = 2;
-                unitTwo.setGraphic(blueNightImageView());
-                unitOne.setGraphic(horseNightImageView());
-                unitThree.setGraphic(horseNightImageView());
-            }
-        });
-        battleGrid.add(unitTwo, generateRandomIntIntRange(0,2),generateRandomIntIntRange(3,5));
-        allButtons.add(unitTwo);
-        allUnits.add(unitTwoObject);
-
-        unitThree = new Button("",horseNightImageView());
-        unitThree.setId("unitThree");
-        unitThree.setStyle("-fx-background-color: transparent;");
-        unitThree.setOnAction(new EventHandler<ActionEvent>() {//set what button does
-            @Override public void handle(ActionEvent e) {
-                buttonVisibility(true);
-                healthVisibility(true);
-                horseHealthLbl.setText(unitThreeObject.get_HP()+"");
-                maxHorseHealthLbl.setText(unitThreeObject.get_MaxHealth()+"");
-                turnDisplay.setText(unitThreeObject.get_Name() + "'s Turn");
-                unitTurn = 3;
-                unitThree.setGraphic(blueNightImageView());
-                unitTwo.setGraphic(horseNightImageView());
-                unitOne.setGraphic(horseNightImageView());
-            }
-        });
-        battleGrid.add(unitThree, generateRandomIntIntRange(0,2),generateRandomIntIntRange(6,8));
-        allButtons.add(unitThree);
-        allUnits.add(unitThreeObject);
+        Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        generateUnit(newUnit5, "unit" + 5, 6, 1);
+        Unit_Normal newUnit6 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        generateUnit(newUnit6, "unit" + 6, 6, 3);
+        Unit_Normal newUnit7 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        generateUnit(newUnit7, "unit" + 7, 6, 5);
+        Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        generateUnit(newUnit8, "unit" + 8, 6, 7);
     }
 
-    Unit_Normal unitFour = new Unit_Normal(eTileType.UNIT_E, "unitFour", 20, 20, 2, 2, "Burt's Dad");
-    Unit_Normal unitFive = new Unit_Normal(eTileType.UNIT_E, "unitFive", 20, 20, 2, 2, "Burt 2");
-    Unit_Normal unitSix = new Unit_Normal(eTileType.UNIT_E, "unitSix", 20, 20, 2, 2, "Burt 17");
-
-    Button enemyOne;
-    Button enemyTwo;
-    Button enemyThree;
-
-    private void placeEnemies(){
-        enemyOne = new Button("",rockImageView());
-        enemyOne.setId("unitFour");
-        enemyOne.setStyle("-fx-background-color: transparent;");
-        enemyOne.setOnAction(new EventHandler<ActionEvent>() {//set what button does
-            @Override public void handle(ActionEvent e) {
-                buttonVisibility(false);
-                healthVisibility(true);
-                horseHealthLbl.setText(unitFour.get_HP()+"");
-                maxHorseHealthLbl.setText(unitFour.get_MaxHealth()+"");
-                turnDisplay.setText(unitFour.get_Name() + "'s Turn");
-                unitTurn = 3;
-                for (Button btn : allButtons) {
-                    btn.setGraphic(getUnselectedView(btn.getId()));
-                }
-                enemyOne.setGraphic(redRockImageView());
-            }
-        });
-        battleGrid.add(enemyOne, generateRandomIntIntRange(6,8),generateRandomIntIntRange(0,2));
-        allButtons.add(enemyOne);
-        allUnits.add(unitFour);
-
-        enemyTwo = new Button("",rockImageView());
-        enemyTwo.setId("unitFive");
-        enemyTwo.setStyle("-fx-background-color: transparent;");
-        enemyTwo.setOnAction(new EventHandler<ActionEvent>() {//set what button does
-            @Override public void handle(ActionEvent e) {
-                System.out.println(this.getClass() + " | " + this); //AJIFDABFJDBAVNJI
-                buttonVisibility(false);
-                healthVisibility(true);
-                horseHealthLbl.setText(unitFive.get_HP()+"");
-                maxHorseHealthLbl.setText(unitFive.get_MaxHealth()+"");
-                turnDisplay.setText(unitFive.get_Name() + "'s Turn");
-                unitTurn = 3;
-                for (Button btn : allButtons) {
-                    btn.setGraphic(getUnselectedView(btn.getId()));
-                }
-                enemyTwo.setGraphic(redRockImageView());
-            }
-        });
-        battleGrid.add(enemyTwo, generateRandomIntIntRange(6,8),generateRandomIntIntRange(3,5));
-        allButtons.add(enemyTwo);
-        allUnits.add(unitFive);
-
-        enemyThree = new Button("",rockImageView());
-        enemyThree.setId("unitSix");
-        enemyThree.setStyle("-fx-background-color: transparent;");
-        battleGrid.add(enemyThree, generateRandomIntIntRange(6,8),generateRandomIntIntRange(6,8));
-        allButtons.add(enemyThree);
-        allUnits.add(unitSix);
-
-    }
+//    Unit_Normal unitFour = new Unit_Normal(eTileType.UNIT_E, "unitFour", 20, 20, 2, 2, "Burt's Dad");
+//    Unit_Normal unitFive = new Unit_Normal(eTileType.UNIT_E, "unitFive", 20, 20, 2, 2, "Burt 2");
+//    Unit_Normal unitSix = new Unit_Normal(eTileType.UNIT_E, "unitSix", 20, 20, 2, 2, "Burt 17");
+//
+//    Button enemyOne;
+//    Button enemyTwo;
+//    Button enemyThree;
+//
+//    private void placeEnemies(){
+//        enemyOne = new Button("",rockImageView());
+//        enemyOne.setId("unitFour");
+//        enemyOne.setStyle("-fx-background-color: transparent;");
+//        enemyOne.setOnAction(new EventHandler<ActionEvent>() {//set what button does
+//            @Override public void handle(ActionEvent e) {
+//                playerUnitSelect(e);
+//            }
+//        });
+//        battleGrid.add(enemyOne, generateRandomIntIntRange(6,8),generateRandomIntIntRange(0,2));
+//        allButtons.add(enemyOne);
+//        allUnits.add(unitFour);
+//
+//        enemyTwo = new Button("",rockImageView());
+//        enemyTwo.setId("unitFive");
+//        enemyTwo.setStyle("-fx-background-color: transparent;");
+//        enemyTwo.setOnAction(new EventHandler<ActionEvent>() {//set what button does
+//            @Override public void handle(ActionEvent e) {
+//                playerUnitSelect(e);
+//            }
+//        });
+//        battleGrid.add(enemyTwo, generateRandomIntIntRange(6,8),generateRandomIntIntRange(3,5));
+//        allButtons.add(enemyTwo);
+//        allUnits.add(unitFive);
+//
+//        enemyThree = new Button("",rockImageView());
+//        enemyThree.setId("unitSix");
+//        enemyThree.setStyle("-fx-background-color: transparent;");
+//        enemyThree.setOnAction(new EventHandler<ActionEvent>() {//set what button does
+//            @Override public void handle(ActionEvent e) {
+//                playerUnitSelect(e);
+//            }
+//        });
+//        battleGrid.add(enemyThree, generateRandomIntIntRange(6,8),generateRandomIntIntRange(6,8));
+//        allButtons.add(enemyThree);
+//        allUnits.add(unitSix);
+//
+//    }
 
     public int generateRandomIntIntRange(int min, int max) {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
     }
 
-    private ImageView getUnselectedView(String btnID) {
-        for (Unit_Normal unit : allUnits) {
-            if (unit.get_UnitID().equals(btnID)){
-                if (unit.get_Type() == eTileType.UNIT_P){
-                    return horseNightImageView();
-                } else if (unit.get_Type() == eTileType.UNIT_E) {
-                    return rockImageView();
-                }
-            }
+    private ImageView getSelectedView(Button btn) {
+        Unit_Normal unit = getUnitFromNode(btn);
+        switch (unit.get_Type()){
+            case UNIT_P:
+                return blueNightImageView();
+            case UNIT_E:
+                return redRockImageView();
+        }
+        return trafficConeImageView();
+    }
+
+    private ImageView getUnselectedView(Button btn) {
+        Unit_Normal unit = getUnitFromNode(btn);
+        switch (unit.get_Type()){
+            case UNIT_P:
+                return horseNightImageView();
+            case UNIT_E:
+                return rockImageView();
         }
         return trafficConeImageView();
     }
@@ -470,6 +449,7 @@ public class BattleController implements Initializable {
             rightBtn.setDisable(true);
 
             //Check around player and see where enemies are
+
         }
     }
 
