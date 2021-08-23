@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 
 import java.io.FileInputStream;
@@ -72,6 +73,27 @@ public class BattleController implements Initializable {
 
     @FXML
     private Label maxHorseHealthLbl;
+
+    @FXML
+    private HBox battlelogbox;
+
+    @FXML
+    private ImageView BRatkimg;
+
+    @FXML
+    private ImageView BRdefimg;
+
+    @FXML
+    private Label BRatklbl;
+
+    @FXML
+    private Label BRdeflbl;
+
+    @FXML
+    private Label BRatkhplbl;
+
+    @FXML
+    private Label BRdefhplbl;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -197,9 +219,11 @@ public class BattleController implements Initializable {
         leftBtn.setVisible(visibility);
         attackBtn.setVisible(visibility);
         waitbutton.setVisible(visibility);
+        battlelogbox.setVisible(visibility);
     }
 
     private void playerUnitSelect(ActionEvent e) {
+        cancelAttack();
         Button selectedBtn = (Button)e.getSource();
         Unit_Normal selectedUnit = getUnitFromNode(selectedBtn);
         System.out.println(selectedBtn.toString()); // dsaf
@@ -253,13 +277,13 @@ public class BattleController implements Initializable {
         Unit_Normal newUnit4 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 22, 2, RandNameGen.generateName());
         generateUnit(newUnit4, "unit" + 4, 1, 7);
 
-        Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 22, 2, RandNameGen.generateName());
         generateUnit(newUnit5, "unit" + 5, 6, 1);
-        Unit_Normal newUnit6 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit6 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 12, 2, RandNameGen.generateName());
         generateUnit(newUnit6, "unit" + 6, 6, 3);
-        Unit_Normal newUnit7 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit7 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 7, 2, RandNameGen.generateName());
         generateUnit(newUnit7, "unit" + 7, 6, 5);
-        Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 3, 2, RandNameGen.generateName());
         generateUnit(newUnit8, "unit" + 8, 6, 7);
     }
 
@@ -371,13 +395,26 @@ public class BattleController implements Initializable {
     }
 
     /**
-     * Returns Unit paired with button by ID
-     * @param button Unit to look for
+     * Returns Unit paired with Node by ID
+     * @param node Node to use for search
      * @return Unit with matching ID
      */
-    public Unit_Normal getUnitFromNode(Node button){
+    public Unit_Normal getUnitFromNode(Node node){
         for (Unit_Normal unit : allUnits) {
-            if (button.getId().equals(unit.get_UnitID())) return unit;
+            if (node.getId().equals(unit.get_UnitID())) return unit;
+        }
+        return null;
+    }
+
+    /**
+     * Returns Node paired with Unit by ID
+     * IF IT'S ERRING, TRY CASTING AS A BUTTON BEFORE TELLING ME IT DOESN'T WORK, PLS.
+     * @param unit Unit to use for search
+     * @return Node with matching ID
+     */
+    public Node getNodeFromUnit(Unit_Normal unit){
+        for (Node node : allButtons){
+            if (unit.get_UnitID().equals(node.getId())) return node;
         }
         return null;
     }
@@ -408,24 +445,59 @@ public class BattleController implements Initializable {
     }
 
     public void Battle(Unit_Normal attacker, Unit_Normal defender) {
-        int _damage = 0; //The amount of damage to be applied to defender hp
-        int _resultHP = 0; //The amount of health the defender will have left, unless below 0, then 0.
+        int _damageATK = 0; //The amount of damage to be applied to defender hp
+        int _resultHPATK = 0; //The amount of health the attacker will have left, unless below 0, then 0.
+        int _damageDEF = 0; //The amount of damage to be applied to attacker hp
+        int _resultHPDEF = 0; //The amount of health the defender will have left, unless below 0, then 0.
 
-        _damage = attacker.get_Atk() - defender.get_Def(); //Unit1 attack - Unit2 defence
-        if (_damage < 0) _damage = 0; //If the defence is stronger than attack, prevent heal
-        _resultHP = defender.get_HP() - _damage; //Find leftover HP defender will have
+        _damageATK = attacker.get_Atk() - defender.get_Def(); //Unit1 attack - Unit2 defence
+        _damageDEF = defender.get_Atk() - attacker.get_Def(); //Unit2 attack - Unit1 defence
+        if (_damageATK < 0) _damageATK = 0; //If the defence is stronger than attack, prevent heal
+        if (_damageDEF < 0) _damageDEF = 0; //If the defence is stronger than attack, prevent heal
+        _resultHPDEF = defender.get_HP() - _damageATK; //Find leftover HP defender will have
+        _resultHPATK = attacker.get_HP() - _damageDEF; //Find leftover HP attacker will have
 
-        if (_resultHP <= 0) { //Check if dead
+        BRatkhplbl.setText(attacker.get_HP() + " -> ");
+        BRdefhplbl.setText(defender.get_HP() + " -> ");
+
+        if (_resultHPDEF <= 0) { //Check if dead
 
             //TODO Killing a unit
             defender.set_HP(0); //Set health to no less than 0
-            System.out.println("AHHH I'm dead! _resultHP=" + _resultHP + ", _damage=" + _damage); //Debug message
+            System.out.println("AHHH I'm dead! _resultHP=" + _resultHPDEF + ", _damageATK=" + _damageATK); //Debug message
 
         } else { //Not dead! Deal damage.
 
-            defender.set_HP(_resultHP); //Set new health
-            System.out.println("Ouch I took damage! _resultHP=" + _resultHP + ", _damage=" + _damage); //Debug message
+            defender.set_HP(_resultHPDEF); //Set new health
+            System.out.println("Ouch I took damage! _resultHP=" + _resultHPDEF + ", _damageATK=" + _damageATK); //Debug message
+
+            if (_resultHPATK <= 0) { //Check if dead
+
+                //Kill
+                attacker.set_HP(0); //Set health to no less than 0
+                System.out.println("AHHH I'm dead! _resultHP=" + _resultHPATK + ", _damageATK=" + _damageDEF); //Debug message
+
+            } else { //Not dead! Deal damage.
+
+                attacker.set_HP(_resultHPATK); //Set new health
+                System.out.println("Ouch I took damage! _resultHP=" + _resultHPATK + ", _damageATK=" + _damageDEF); //Debug message
+
+            }
         }
+
+        Button atkBtn = (Button) getNodeFromUnit(attacker); //Unit to Node (cast to button)
+        ImageView atkImgV = getUnselectedView(atkBtn); //Button to ImageView (s/o to getUnselectedView())
+        BRatkimg.setImage(atkImgV.getImage()); //Image set with ImageView.getImage()
+
+        Button defBtn = (Button) getNodeFromUnit(defender); //Yeah, same here but for defence
+        ImageView defImgV = (ImageView) defBtn.getGraphic();
+        BRdefimg.setImage(defImgV.getImage());
+
+        BRatklbl.setText(attacker.get_Name());
+        BRatkhplbl.setText(BRatkhplbl.getText() + attacker.get_HP());
+
+        BRdeflbl.setText(defender.get_Name());
+        BRdefhplbl.setText(BRdefhplbl.getText() + defender.get_HP());
 
         attacking = false;
         cancelAttack();

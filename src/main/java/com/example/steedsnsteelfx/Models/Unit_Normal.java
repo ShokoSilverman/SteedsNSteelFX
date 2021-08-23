@@ -77,6 +77,7 @@ public class Unit_Normal {
     public void set_HP(int _HP) {
         if (_HP <= 0) { //Unit is dead
             //TODO Delete unit
+            this._HP = 0;
             System.out.println("Unit_Normal dead. _HP=" + _HP);
         } else { //Unit is still alive and _HP > 0
             this._HP = _HP;
