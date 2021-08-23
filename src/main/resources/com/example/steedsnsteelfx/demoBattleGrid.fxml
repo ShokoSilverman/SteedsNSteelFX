@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="834.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steedsnsteelfx.Controllers.BattleController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="834.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steedsnsteelfx.Controllers.BattleController">
    <children>
       <ImageView fitHeight="837.0" fitWidth="1536.0" pickOnBounds="true" preserveRatio="false">
          <image>
@@ -51,22 +46,22 @@
          </children>
       </GridPane>
       <Label fx:id="turnDisplay" layoutX="982.0" layoutY="567.0" />
-      <ImageView fitHeight="156.0" fitWidth="166.0" layoutX="1223.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="heartImgView" fitHeight="156.0" fitWidth="166.0" layoutX="1344.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@heart.png" />
          </image>
       </ImageView>
-      <Label fx:id="VShorseHealth" layoutX="1246.0" layoutY="46.0" prefHeight="59.0" prefWidth="77.0" text="100" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="horseHealthLbl" layoutX="1365.0" layoutY="50.0" prefHeight="59.0" prefWidth="77.0" text="100" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="System Bold" size="27.0" />
          </font>
       </Label>
-      <Label fx:id="VShorseHealthMax" layoutX="1300.0" layoutY="85.0" prefHeight="50.0" prefWidth="80.0" text="100" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="maxHorseHealthLbl" layoutX="1422.0" layoutY="84.0" prefHeight="50.0" prefWidth="80.0" text="100" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="System Bold" size="27.0" />
          </font>
       </Label>
-      <Line endX="232.099853515625" endY="746.9000244140625" layoutX="1104.0" layoutY="-680.0" startX="166.5" startY="794.9000244140625" strokeWidth="9.0" />
+      <Line fx:id="healthSlashLine" endX="232.099853515625" endY="746.9000244140625" layoutX="1224.0" layoutY="-682.0" startX="166.5" startY="794.9000244140625" strokeWidth="9.0" />
       <Label fx:id="unitATK" layoutX="979.0" layoutY="211.0" prefHeight="47.0" prefWidth="212.0" style="-fx-background-color: white; -fx-alignment: center;" text="Attack">
          <font>
             <Font name="OCR A Extended" size="40.0" />
@@ -107,15 +102,28 @@
             <Font name="OCR A Extended" size="40.0" />
          </font>
       </Label>
-      <Button fx:id="attackBtn" layoutX="1079.0" layoutY="383.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="190.0" text="Attack">
+      <Button fx:id="attackBtn" layoutX="1079.0" layoutY="383.0" mnemonicParsing="false" onAction="#attack" prefHeight="67.0" prefWidth="190.0" text="Attack">
          <font>
             <Font name="OCR A Extended" size="35.0" />
          </font>
       </Button>
-      <Label fx:id="turnDisplay" layoutX="849.0" layoutY="13.0" prefHeight="46.0" prefWidth="266.0" style="-fx-alignment: center;" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="turnDisplay" layoutX="849.0" layoutY="13.0" prefHeight="187.0" prefWidth="474.0" style="-fx-alignment: center;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
-            <Font name="Old English Text MT" size="34.0" />
+            <Font name="Old English Text MT" size="48.0" />
          </font>
       </Label>
+      <Button fx:id="waitbutton" layoutX="1297.0" layoutY="405.0" mnemonicParsing="false" onAction="#disable" text="Wait">
+         <font>
+            <Font name="OCR A Extended" size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="movesLbl" layoutX="843.0" layoutY="325.0" style="-fx-background-color: white;" text="Number of Actions">
+         <font>
+            <Font name="OCR A Extended" size="20.0" />
+         </font></Label>
+      <Label fx:id="numberOfActionsLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="929.0" layoutY="353.0" prefHeight="30.0" prefWidth="34.0" style="-fx-background-color: white;" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
    </children>
 </AnchorPane>

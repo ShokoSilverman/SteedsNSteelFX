@@ -13,17 +13,6 @@ public class BattleManager {
         this.gridHeight = gridPane.getRowCount();
     }
 
-    public void checkAdjacentTiles(Unit_Normal unit){
-        HashMap<Integer, eTileType> _AdjacentTiles = new HashMap<>();
-        int[] adjacentCord = unit.get_CurrentLocation();
-
-        for (int dir = 0; dir < 4; dir++){
-            //_AdjacentTiles.put(dir, checkTile(dir, adjacentCord)); //Check tile to be declared in another method
-        }
-
-//        this._AdjacentTiles = _AdjacentTiles;
-    }
-
     public eTileType checkTile(int dir, int[] cords, GridPane gridPane){
         eTileType type = eTileType.UNAVAILABLE;
 
