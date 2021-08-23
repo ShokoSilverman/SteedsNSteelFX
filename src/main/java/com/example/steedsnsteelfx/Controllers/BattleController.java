@@ -73,6 +73,12 @@ public class BattleController implements Initializable {
     @FXML
     private Label maxHorseHealthLbl;
 
+    @FXML
+    private Label movesLbl;
+
+    @FXML
+    private Label numberOfActionsLbl;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Battle Initiated!");
@@ -85,60 +91,163 @@ public class BattleController implements Initializable {
 
     @FXML
     private void unitUp(ActionEvent event) {
-        if (!attacking) {
-            int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-            int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-            if(getNodeFromGridPane(battleGrid, column, row-1) == null){
-                battleGrid.add(focusedUnitBTN[0], column, row-1);
-            }else{}
-        } else {
-            Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0],1)));
+        try {
+            if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
+                buttonVisibility(false);
+                getUnitFromNode(focusedUnitBTN[0]).set_Actions(0);
+                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
+                return;
+            }
+            if (!attacking) {
+                int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+                int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
+                if (row <= 0) {
+                    return;
+                }
+                if (getNodeFromGridPane(battleGrid, column, row - 1) == null) {
+                    setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
+                    battleGrid.add(focusedUnitBTN[0], column, row - 1);
+
+
+                } else {
+                }
+            } else {
+                Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 1)));
+            }
+        }catch(Exception e){
+            System.err.println("fUck");
         }
+        if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
+            try {
+                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
+            }
+            catch(Exception ex){
+                focusedUnitBTN[0].setGraphic(trafficConeImageView());
+            }
+            buttonVisibility(false);
+        }
+        System.out.println(turnOver());
+
+
+
+
     }
 
     @FXML
     private void unitDown(ActionEvent event) {
-        if (!attacking) {
-            int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-            int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-            if (row >= 8){
+        try {
+            if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
+                buttonVisibility(false);
+                getUnitFromNode(focusedUnitBTN[0]).set_Actions(0);
+                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
                 return;
             }
-            if(getNodeFromGridPane(battleGrid, column, row+1) == null){
-                battleGrid.add(focusedUnitBTN[0], column, row+1);
-            }else{}
-        } else {
-            Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0],3)));
+            if (!attacking) {
+                int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+                int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
+                if (row >= 8) {
+                    return;
+                }
+                if (getNodeFromGridPane(battleGrid, column, row + 1) == null) {
+                    setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
+                    battleGrid.add(focusedUnitBTN[0], column, row + 1);
+                } else {
+                }
+            } else {
+                Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 3)));
+            }
+        }catch(Exception e){
+            System.err.println("fUck");
         }
+        if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
+            try {
+                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
+            }
+            catch(Exception ex){
+                focusedUnitBTN[0].setGraphic(trafficConeImageView());
+            }
+            buttonVisibility(false);
+        }
+        System.out.println(turnOver());
+
     }
 
     @FXML
     private void unitRight(ActionEvent event) {
-        if (!attacking){
-            int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-            int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-            if (column >= 8){
+        try {
+            if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
+                buttonVisibility(false);
+                getUnitFromNode(focusedUnitBTN[0]).set_Actions(0);
+                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
                 return;
             }
-            if(getNodeFromGridPane(battleGrid, column+1, row) == null){
-                battleGrid.add(focusedUnitBTN[0], column+1, row);
-            }else{}
-        } else {
-            Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0],2)));
+            if (!attacking) {
+                int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+                int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
+                if (column >= 8) {
+                    return;
+                }
+                if (getNodeFromGridPane(battleGrid, column + 1, row) == null) {
+                    setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
+                    battleGrid.add(focusedUnitBTN[0], column + 1, row);
+                } else {
+                }
+            } else {
+                Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 2)));
+            }
+        }catch(Exception e){
+            System.err.println("fUck");
         }
+        if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
+            try {
+                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
+            }
+            catch(Exception ex){
+                focusedUnitBTN[0].setGraphic(trafficConeImageView());
+            }
+            buttonVisibility(false);
+        }
+        System.out.println(turnOver());
+
     }
 
     @FXML
     private void unitLeft(ActionEvent event) {
-        if (!attacking) {
-            int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-            int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-            if(getNodeFromGridPane(battleGrid, column-1, row) == null){
-                battleGrid.add(focusedUnitBTN[0], column-1, row);
-            }else{}
-        } else {
-            Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0],4)));
+        try {
+            if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
+                buttonVisibility(false);
+                getUnitFromNode(focusedUnitBTN[0]).set_Actions(0);
+                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
+                return;
+            }
+            if (!attacking) {
+                int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
+                int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
+                if (column <= 0) {
+                    return;
+                }
+                if (getNodeFromGridPane(battleGrid, column - 1, row) == null) {
+                    setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
+                    battleGrid.add(focusedUnitBTN[0], column - 1, row);
+                } else {
+                }
+            } else {
+                Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 4)));
+            }
+        }catch(Exception e){
+            System.err.println("fUck");
         }
+        if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
+            try {
+                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
+            }
+            catch(Exception ex){
+                focusedUnitBTN[0].setGraphic(trafficConeImageView());
+            }
+            buttonVisibility(false);
+        }
+        System.out.println(turnOver());
+
     }
 
     /**
@@ -197,6 +306,8 @@ public class BattleController implements Initializable {
         leftBtn.setVisible(visibility);
         attackBtn.setVisible(visibility);
         waitbutton.setVisible(visibility);
+        movesLbl.setVisible(visibility);
+        numberOfActionsLbl.setVisible(visibility);
     }
 
     private void playerUnitSelect(ActionEvent e) {
@@ -208,12 +319,18 @@ public class BattleController implements Initializable {
         horseHealthLbl.setText(selectedUnit.get_HP()+"");
         maxHorseHealthLbl.setText(selectedUnit.get_MaxHealth()+"");
         turnDisplay.setText(selectedUnit.get_Name() + "'s Turn");
+        numberOfActionsLbl.setText(selectedUnit.get_Actions()+"");
+
         if (focusedUnitBTN[0] != null){
             System.out.println("Uh Oh");
             focusedUnitBTN[0].setGraphic(getUnselectedView(focusedUnitBTN[0]));
         }
         selectedBtn.setGraphic(getSelectedView(selectedBtn));
         focusedUnitBTN[0] = selectedBtn;
+        if(getUnitFromNode(focusedUnitBTN[0]).get_Actions()<=0){
+            buttonVisibility(false);
+            return;
+        }
         if (selectedUnit.get_Type() == eTileType.UNIT_P){
             buttonVisibility(true);
             healthVisibility(true);
@@ -244,22 +361,22 @@ public class BattleController implements Initializable {
 
     private void placePieces(){
 
-        Unit_Normal newUnit = new Unit_Normal(eTileType.UNIT_P, 30, 30, 3, 2, RandNameGen.generateName());
+        Unit_Normal newUnit = new Unit_Normal(eTileType.UNIT_P, 30, 30, 3, 2, RandNameGen.generateName(), 5);
         generateUnit(newUnit, "unit" + 1, 1, 1);
-        Unit_Normal newUnit2 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 7, 2, RandNameGen.generateName());
+        Unit_Normal newUnit2 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 7, 2, RandNameGen.generateName(), 5);
         generateUnit(newUnit2, "unit" + 2, 1, 3);
-        Unit_Normal newUnit3 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 12, 2, RandNameGen.generateName());
+        Unit_Normal newUnit3 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 12, 2, RandNameGen.generateName(), 5);
         generateUnit(newUnit3, "unit" + 3, 1, 5);
-        Unit_Normal newUnit4 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 22, 2, RandNameGen.generateName());
+        Unit_Normal newUnit4 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 22, 2, RandNameGen.generateName(), 5);
         generateUnit(newUnit4, "unit" + 4, 1, 7);
 
-        Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName(), 5);
         generateUnit(newUnit5, "unit" + 5, 6, 1);
-        Unit_Normal newUnit6 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit6 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName(), 5);
         generateUnit(newUnit6, "unit" + 6, 6, 3);
-        Unit_Normal newUnit7 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit7 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName(), 5);
         generateUnit(newUnit7, "unit" + 7, 6, 5);
-        Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName());
+        Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 2, 2, RandNameGen.generateName(), 5);
         generateUnit(newUnit8, "unit" + 8, 6, 7);
     }
 
@@ -272,6 +389,9 @@ public class BattleController implements Initializable {
         Unit_Normal unit = getUnitFromNode(btn);
         switch (unit.get_Type()){
             case UNIT_P:
+                if (unit.get_Actions() <= 0) {
+                        return setImageView("ExHorsePaladinOutlined.png");
+                }
                 return blueNightImageView();
             case UNIT_E:
                 return redRockImageView();
@@ -363,6 +483,19 @@ public class BattleController implements Initializable {
         return unitImageView;
     }
 
+    private ImageView setImageView(String fileName){
+        Image unitOneImage = null;
+        try {
+            unitOneImage = new Image(new FileInputStream("Data/" + fileName));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ImageView unitImageView = new ImageView(unitOneImage);
+        unitImageView.setFitHeight(536/6);
+        unitImageView.setPreserveRatio(true);
+        return unitImageView;
+    }
+
     private void healthVisibility(boolean visibility){
         heartImgView.setVisible(visibility);
         healthSlashLine.setVisible(visibility);
@@ -435,5 +568,29 @@ public class BattleController implements Initializable {
         return origin != null && target != null
                 && getUnitFromNode(origin).get_Type() != getUnitFromNode(target).get_Type();
     }
+
     public boolean isEnemy(Unit_Normal origin, Unit_Normal target){return origin.get_Type() != target.get_Type();}
+
+    public void setMovesLeft(Unit_Normal unit_normal){
+        unit_normal.set_Actions(unit_normal.get_Actions()-1);
+        numberOfActionsLbl.setText(unit_normal.get_Actions()+"");
+    }
+
+    public boolean turnOver(){
+        //getUnitFromNode(focusedUnitBTN[0]).get_Actions()
+        for (int i = 0; i < allButtons.size(); i++) {
+            if (getUnitFromNode(allButtons.get(i)).get_Actions() != 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void setMovesToZero(){
+        numberOfActionsLbl.setText("0");
+    }
+
+    /**
+     * Wait() function should just set moves to 0 and hide the buttons
+     */
 }

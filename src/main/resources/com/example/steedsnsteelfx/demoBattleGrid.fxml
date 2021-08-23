@@ -117,5 +117,13 @@
             <Font name="OCR A Extended" size="18.0" />
          </font>
       </Button>
+      <Label fx:id="movesLbl" layoutX="843.0" layoutY="325.0" style="-fx-background-color: white;" text="Number of Actions">
+         <font>
+            <Font name="OCR A Extended" size="20.0" />
+         </font></Label>
+      <Label fx:id="numberOfActionsLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="929.0" layoutY="353.0" prefHeight="30.0" prefWidth="34.0" style="-fx-background-color: white;" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
    </children>
 </AnchorPane>
