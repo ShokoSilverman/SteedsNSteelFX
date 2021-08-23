@@ -136,6 +136,8 @@ public class BattleController implements Initializable {
                 }
             } else {
                 Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 1)));
+                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
+
             }
         }catch(Exception e){
             System.err.println("fUck");
@@ -178,6 +180,7 @@ public class BattleController implements Initializable {
                 }
             } else {
                 Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 3)));
+                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
             }
         }catch(Exception e){
             System.err.println("fUck");
@@ -217,6 +220,7 @@ public class BattleController implements Initializable {
                 }
             } else {
                 Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 2)));
+                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
             }
         }catch(Exception e){
             System.err.println("fUck");
@@ -256,6 +260,7 @@ public class BattleController implements Initializable {
                 }
             } else {
                 Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 4)));
+                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
             }
         }catch(Exception e){
             System.err.println("fUck");
