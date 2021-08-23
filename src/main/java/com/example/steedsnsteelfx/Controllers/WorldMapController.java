@@ -24,29 +24,31 @@ public class WorldMapController {
     private Button lvlFiveBtn;
 
     @FXML
-    private void LevelOne(ActionEvent event){
+    private void LvlOneBtnClick(ActionEvent event){
 
     }
 
     @FXML
-    private void LevelTwo(ActionEvent event){
+    private void LvlTwoBtnClick(ActionEvent event){
 
     }
 
     @FXML
-    private void LevelThree(ActionEvent event){
+    private void LvlThreeBtnClick(ActionEvent event){
 
     }
 
     @FXML
-    private void LevelFour(ActionEvent event){
+    private void LvlFourBtnClick(ActionEvent event){
 
     }
 
     @FXML
-    private void LevelFive(ActionEvent event){
+    private void LvlFiveBtnClick(ActionEvent event){
 
     }
+
+
 
 
 

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1587.0" prefWidth="3074.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steedsnsteelfx.Controllers.WorldMapController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1587.0" prefWidth="3074.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steedsnsteelfx.Controllers.WorldMapController">
    <children>
       <ImageView fitHeight="1608.0" fitWidth="3083.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -39,10 +37,10 @@
             <Font name="Comic Sans MS Bold" size="84.0" />
          </font>
       </Label>
-      <Button fx:id="lvlOneBtn" layoutX="331.0" layoutY="1133.0" mnemonicParsing="false" prefHeight="154.0" prefWidth="161.0" style="-fx-opacity: 0;" />
-      <Button fx:id="lvlTwoBtn" layoutX="609.0" layoutY="438.0" mnemonicParsing="false" prefHeight="133.0" prefWidth="142.0" style="-fx-opacity: 0;" />
-      <Button fx:id="lvlThreeBtn" layoutX="1232.0" layoutY="1117.0" mnemonicParsing="false" prefHeight="138.0" prefWidth="150.0" style="-fx-opacity: 0;" />
-      <Button fx:id="lvlFourBtn" layoutX="1992.0" layoutY="825.0" mnemonicParsing="false" prefHeight="145.0" prefWidth="146.0" style="-fx-opacity: 0;" />
-      <Button fx:id="lvlFiveBtn" layoutX="2853.0" layoutY="831.0" mnemonicParsing="false" prefHeight="145.0" prefWidth="157.0" style="-fx-opacity: 0;" />
+      <Button fx:id="lvlOneBtn" layoutX="331.0" layoutY="1133.0" mnemonicParsing="false" onAction="#LvlOneBtnClick" prefHeight="154.0" prefWidth="161.0" style="-fx-opacity: 0;" />
+      <Button fx:id="lvlTwoBtn" layoutX="609.0" layoutY="438.0" mnemonicParsing="false" onAction="#LvlTwoBtnClick" prefHeight="133.0" prefWidth="142.0" style="-fx-opacity: 0;" />
+      <Button fx:id="lvlThreeBtn" layoutX="1232.0" layoutY="1117.0" mnemonicParsing="false" onAction="#LvlThreeBtnClick" prefHeight="138.0" prefWidth="150.0" style="-fx-opacity: 0;" />
+      <Button fx:id="lvlFourBtn" layoutX="1992.0" layoutY="825.0" mnemonicParsing="false" onAction="#LvlFourBtnClick" prefHeight="145.0" prefWidth="146.0" style="-fx-opacity: 0;" />
+      <Button fx:id="lvlFiveBtn" layoutX="2853.0" layoutY="831.0" mnemonicParsing="false" onAction="#LvlFiveBtnClick" prefHeight="145.0" prefWidth="157.0" style="-fx-opacity: 0;" />
    </children>
 </AnchorPane>
