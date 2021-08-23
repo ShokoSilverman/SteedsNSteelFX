@@ -4,34 +4,72 @@ import java.util.HashMap;
 
 public class Unit_Normal {
     private eTileType _Type;
+    private String _UnitID;
+    private int actionCount;
     private int _HP;
     private int _Atk;
     private int _Def;
+    private int _MaxHealth;
     private String _Name; //Made for debug and tracking units, but we could keep it for a stretch goal.
-    private int[] _CurrentLocation;
+    private int _Actions;
+    private int _MaxActions;
     private HashMap<Integer, eTileType> _AdjacentTiles;
 
-    public Unit_Normal(eTileType _Type, int _HP, int _Atk, int _Def) {
+    public Unit_Normal(eTileType _Type, String _UnitID, int _HP, int _Atk, int _Def) {
         this._Type = _Type;
+        this._UnitID = _UnitID;
         this._HP = _HP;
         this._Atk = _Atk;
         this._Def = _Def;
     }
 
-    public Unit_Normal(eTileType _Type, int _HP, int _Atk, int _Def, int[] _CurrentLocation){
+    public Unit_Normal(eTileType _Type, String _UnitID, int _HP, int _Atk, int _Def, int[] _CurrentLocation){
         this._Type = _Type;
+        this._UnitID = _UnitID;
         this._HP = _HP;
         this._Atk = _Atk;
         this._Def = _Def;
-        this._CurrentLocation = _CurrentLocation;
     }
 
-    public Unit_Normal(eTileType _Type, int _HP, int _Atk, int _Def, String _Name) {
+    public Unit_Normal(eTileType _Type, int _HP, int _MaxHealth, int _Atk, int _Def, String _Name, int _Actions) {
         this._Type = _Type;
         this._HP = _HP;
+        this._MaxHealth = _MaxHealth;
         this._Atk = _Atk;
         this._Def = _Def;
         this._Name = _Name;
+        this._Actions = _Actions;
+        this._MaxActions = _Actions;
+    }
+
+    public Unit_Normal(eTileType _Type, String _UnitID, int _HP, int _MaxHealth, int _Atk, int _Def, String _Name) {
+        this._Type = _Type;
+        this._UnitID = _UnitID;
+        this._HP = _HP;
+        this._MaxHealth = _MaxHealth;
+        this._Atk = _Atk;
+        this._Def = _Def;
+        this._Name = _Name;
+    }
+
+    public eTileType get_Type() {
+        return _Type;
+    }
+
+    public String get_UnitID() {
+        return _UnitID;
+    }
+
+    public void set_UnitID(String _UnitID) {
+        this._UnitID = _UnitID;
+    }
+
+    public int getActionCount() {
+        return actionCount;
+    }
+
+    public void setActionCount(int actionCount) {
+        this.actionCount = Math.max(actionCount, 0);
     }
 
     public int get_HP() {
@@ -41,6 +79,7 @@ public class Unit_Normal {
     public void set_HP(int _HP) {
         if (_HP <= 0) { //Unit is dead
             //TODO Delete unit
+            this._HP = 0;
             System.out.println("Unit_Normal dead. _HP=" + _HP);
         } else { //Unit is still alive and _HP > 0
             this._HP = _HP;
@@ -70,19 +109,35 @@ public class Unit_Normal {
         this._Def = _Def;
     }
 
-    public int[] get_CurrentLocation() {
-        return _CurrentLocation;
-    }
-
-    public void set_CurrentLocation(int[] _CurrentLocation) {
-        this._CurrentLocation = _CurrentLocation;
-    }
-
     public String get_Name() {
         return _Name;
     }
 
     public void set_Name(String _Name) {
         this._Name = _Name;
+    }
+
+    public int get_MaxHealth() {
+        return _MaxHealth;
+    }
+
+    public void set_MaxHealth(int _MaxHealth) {
+        this._MaxHealth = _MaxHealth;
+    }
+
+    public int get_Actions() {
+        return _Actions;
+    }
+
+    public void set_Actions(int _Actions) {
+        this._Actions = _Actions;
+    }
+
+    public int get_MaxActions() {
+        return _MaxActions;
+    }
+
+    public void set_MaxActions(int _MaxActions) {
+        this._MaxActions = _MaxActions;
     }
 }
