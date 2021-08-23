@@ -109,6 +109,7 @@ public class BattleController implements Initializable {
         placePieces();
 //        placeEnemies();
         battleGrid.add(trafficConeImageView(), 0,0);
+        battlelogbox.setVisible(false);
     }
 
     @FXML
@@ -330,7 +331,6 @@ public class BattleController implements Initializable {
         waitbutton.setVisible(visibility);
         movesLbl.setVisible(visibility);
         numberOfActionsLbl.setVisible(visibility);
-        battlelogbox.setVisible(visibility);
     }
 
     private void playerUnitSelect(ActionEvent e) {
@@ -617,6 +617,7 @@ public class BattleController implements Initializable {
 
             }
         }
+        battlelogbox.setVisible(true);
 
         Button atkBtn = (Button) getNodeFromUnit(attacker); //Unit to Node (cast to button)
         ImageView atkImgV = getUnselectedView(atkBtn); //Button to ImageView (s/o to getUnselectedView())
