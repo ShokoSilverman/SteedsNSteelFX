@@ -1,0 +1,4 @@
+Data/RockFarmer.png
+Data/RedRockFarmer.png
+Data/ExHorsePaladin.png
+Data/ExHorsePaladinOutlined.png
