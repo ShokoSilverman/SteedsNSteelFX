@@ -109,6 +109,7 @@ public class BattleController implements Initializable {
         placePieces();
 //        placeEnemies();
         battleGrid.add(trafficConeImageView(), 0,0);
+        battlelogbox.setVisible(false);
     }
 
     @FXML
@@ -135,6 +136,8 @@ public class BattleController implements Initializable {
                 }
             } else {
                 Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 1)));
+                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
+
             }
         }catch(Exception e){
             System.err.println("fUck");
@@ -177,6 +180,7 @@ public class BattleController implements Initializable {
                 }
             } else {
                 Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 3)));
+                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
             }
         }catch(Exception e){
             System.err.println("fUck");
@@ -216,6 +220,7 @@ public class BattleController implements Initializable {
                 }
             } else {
                 Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 2)));
+                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
             }
         }catch(Exception e){
             System.err.println("fUck");
@@ -255,6 +260,7 @@ public class BattleController implements Initializable {
                 }
             } else {
                 Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 4)));
+                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
             }
         }catch(Exception e){
             System.err.println("fUck");
@@ -330,7 +336,6 @@ public class BattleController implements Initializable {
         waitbutton.setVisible(visibility);
         movesLbl.setVisible(visibility);
         numberOfActionsLbl.setVisible(visibility);
-        battlelogbox.setVisible(visibility);
     }
 
     private void playerUnitSelect(ActionEvent e) {
@@ -617,6 +622,7 @@ public class BattleController implements Initializable {
 
             }
         }
+        battlelogbox.setVisible(true);
 
         Button atkBtn = (Button) getNodeFromUnit(attacker); //Unit to Node (cast to button)
         ImageView atkImgV = getUnselectedView(atkBtn); //Button to ImageView (s/o to getUnselectedView())
