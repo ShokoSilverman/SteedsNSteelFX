@@ -28,6 +28,10 @@ public class RandNameGen {
         String randomPrefix = getRandomLine(prefixPath);
         String randomSuffix = getRandomLine(suffixPath);
 
-        return randomPrefix + " " + randomSuffix;
+            if (randomPrefix.isBlank()) {
+                return randomSuffix;
+            } else {
+                return randomPrefix + " " + randomSuffix;
+            }
     }
 }
