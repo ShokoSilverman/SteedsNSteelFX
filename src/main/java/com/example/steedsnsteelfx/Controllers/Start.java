@@ -14,18 +14,12 @@ import java.net.URL;
 import java.util.Objects;
 
 public class Start  {
-
-
     public void run(Stage newWindow) throws IOException {
-        URL url = new File("src/main/resources/com/example/steedsnsteelfx/worldMap.fxml").toURI().toURL();
+        URL url = new File("src/main/resources/com/example/steedsnsteelfx/WorldMapResized.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         newWindow.setScene(new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight()));
         newWindow.setFullScreen(true);
         //newWindow.setMaximized(true);
         newWindow.show();
-
     }
-
-
-
 }
