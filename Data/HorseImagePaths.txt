@@ -1,0 +1,4 @@
+Data/HorsePaladin.png
+Data/HLHorsePaladin.png
+Data/ExHorsePaladin.png
+Data/ExHorsePaladinOutlined.png

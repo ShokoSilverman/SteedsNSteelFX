@@ -108,17 +108,14 @@ public class BattleController implements Initializable {
         healthVisibility(false);
         placePieces();
 //        placeEnemies();
-        battleGrid.add(trafficConeImageView(), 0,0);
+        battleGrid.add(setImageView("Data/TrafficCone.png"), 0,0);
         battlelogbox.setVisible(false);
     }
 
     @FXML
     private void unitUp(ActionEvent event) {
         try {
-            if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
-                buttonVisibility(false);
-                getUnitFromNode(focusedUnitBTN[0]).set_Actions(0);
-                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
+            if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
                 return;
             }
             if (!attacking) {
@@ -142,29 +139,17 @@ public class BattleController implements Initializable {
         }catch(Exception e){
             System.err.println("fUck");
         }
-        if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
-            try {
-                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
-            }
-            catch(Exception ex){
-                focusedUnitBTN[0].setGraphic(trafficConeImageView());
-            }
+        if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
+            focusedUnitBTN[0].setGraphic(setImageView(getUnitFromNode(focusedUnitBTN[0]).getImagePath(true)));
             buttonVisibility(false);
         }
         System.out.println(turnOver());
-
-
-
-
     }
 
     @FXML
     private void unitDown(ActionEvent event) {
         try {
-            if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
-                buttonVisibility(false);
-                getUnitFromNode(focusedUnitBTN[0]).set_Actions(0);
-                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
+            if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
                 return;
             }
             if (!attacking) {
@@ -185,13 +170,8 @@ public class BattleController implements Initializable {
         }catch(Exception e){
             System.err.println("fUck");
         }
-        if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
-            try {
-                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
-            }
-            catch(Exception ex){
-                focusedUnitBTN[0].setGraphic(trafficConeImageView());
-            }
+        if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
+            focusedUnitBTN[0].setGraphic(setImageView(getUnitFromNode(focusedUnitBTN[0]).getImagePath(true)));
             buttonVisibility(false);
         }
         System.out.println(turnOver());
@@ -201,10 +181,7 @@ public class BattleController implements Initializable {
     @FXML
     private void unitRight(ActionEvent event) {
         try {
-            if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
-                buttonVisibility(false);
-                getUnitFromNode(focusedUnitBTN[0]).set_Actions(0);
-                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
+            if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
                 return;
             }
             if (!attacking) {
@@ -225,13 +202,8 @@ public class BattleController implements Initializable {
         }catch(Exception e){
             System.err.println("fUck");
         }
-        if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
-            try {
-                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
-            }
-            catch(Exception ex){
-                focusedUnitBTN[0].setGraphic(trafficConeImageView());
-            }
+        if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
+            focusedUnitBTN[0].setGraphic(setImageView(getUnitFromNode(focusedUnitBTN[0]).getImagePath(true)));
             buttonVisibility(false);
         }
         System.out.println(turnOver());
@@ -241,10 +213,7 @@ public class BattleController implements Initializable {
     @FXML
     private void unitLeft(ActionEvent event) {
         try {
-            if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
-                buttonVisibility(false);
-                getUnitFromNode(focusedUnitBTN[0]).set_Actions(0);
-                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
+            if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
                 return;
             }
             if (!attacking) {
@@ -265,13 +234,8 @@ public class BattleController implements Initializable {
         }catch(Exception e){
             System.err.println("fUck");
         }
-        if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
-            try {
-                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
-            }
-            catch(Exception ex){
-                focusedUnitBTN[0].setGraphic(trafficConeImageView());
-            }
+        if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
+            focusedUnitBTN[0].setGraphic(setImageView(getUnitFromNode(focusedUnitBTN[0]).getImagePath(true)));
             buttonVisibility(false);
         }
         System.out.println(turnOver());
@@ -352,9 +316,10 @@ public class BattleController implements Initializable {
 
         if (focusedUnitBTN[0] != null){
             System.out.println("Uh Oh");
-            focusedUnitBTN[0].setGraphic(getUnselectedView(focusedUnitBTN[0]));
+            Unit_Normal unit = getUnitFromNode(focusedUnitBTN[0]);
+            focusedUnitBTN[0].setGraphic(setImageView(unit.getImagePath(false)));
         }
-        selectedBtn.setGraphic(getSelectedView(selectedBtn));
+        selectedBtn.setGraphic(setImageView(selectedUnit.getImagePath(true)));
         focusedUnitBTN[0] = selectedBtn;
         if(getUnitFromNode(focusedUnitBTN[0]).get_Actions()<=0){
             buttonVisibility(false);
@@ -370,7 +335,7 @@ public class BattleController implements Initializable {
     }
 
     public void generateUnit(Unit_Normal unit, String ID, int spawnCol, int spawnRow){
-        Button newBTN = new Button("", trafficConeImageView());
+        Button newBTN = new Button("", setImageView(unit.getImagePath(false)));
         unit.set_UnitID(ID);
         newBTN.setId(ID);
 
@@ -378,7 +343,7 @@ public class BattleController implements Initializable {
         allButtons.add(newBTN);
         allUnits.add(unit);
 
-        newBTN.setGraphic(getUnselectedView(newBTN));
+        newBTN.setGraphic(setImageView(unit.getImagePath(false)));
         newBTN.setStyle("-fx-background-color: transparent;");
         newBTN.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -390,22 +355,30 @@ public class BattleController implements Initializable {
 
     private void placePieces(){
 
-        Unit_Normal newUnit = new Unit_Normal(eTileType.UNIT_P, 30, 30, 3, 2, RandNameGen.generateName(), 5);
+        Unit_Normal newUnit = new Unit_Normal(eTileType.UNIT_P, 30, 30, 3, 2
+                , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
         generateUnit(newUnit, "unit" + 1, 1, 1);
-        Unit_Normal newUnit2 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 7, 2, RandNameGen.generateName(), 5);
+        Unit_Normal newUnit2 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 7, 2
+                , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
         generateUnit(newUnit2, "unit" + 2, 1, 3);
-        Unit_Normal newUnit3 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 12, 2, RandNameGen.generateName(), 5);
+        Unit_Normal newUnit3 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 12, 2
+                , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
         generateUnit(newUnit3, "unit" + 3, 1, 5);
-        Unit_Normal newUnit4 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 22, 2, RandNameGen.generateName(), 5);
+        Unit_Normal newUnit4 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 22, 2
+                , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
         generateUnit(newUnit4, "unit" + 4, 1, 7);
 
-        Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 22, 2, RandNameGen.generateName(), 5);
+        Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 22, 2
+                , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
         generateUnit(newUnit5, "unit" + 5, 6, 1);
-        Unit_Normal newUnit6 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 12, 2, RandNameGen.generateName(), 5);
+        Unit_Normal newUnit6 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 12, 2
+                , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
         generateUnit(newUnit6, "unit" + 6, 6, 3);
-        Unit_Normal newUnit7 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 7, 2, RandNameGen.generateName(), 5);
+        Unit_Normal newUnit7 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 7, 2
+                , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
         generateUnit(newUnit7, "unit" + 7, 6, 5);
-        Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 3, 2, RandNameGen.generateName(), 5);
+        Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 3, 2
+                , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
         generateUnit(newUnit8, "unit" + 8, 6, 7);
     }
 
@@ -414,108 +387,10 @@ public class BattleController implements Initializable {
         return r.nextInt((max - min) + 1) + min;
     }
 
-    private ImageView getSelectedView(Button btn) {
-        Unit_Normal unit = getUnitFromNode(btn);
-        switch (unit.get_Type()){
-            case UNIT_P:
-                if (unit.get_Actions() <= 0) {
-                        return setImageView("ExHorsePaladinOutlined.png");
-                }
-                return blueNightImageView();
-            case UNIT_E:
-                return redRockImageView();
-        }
-        return trafficConeImageView();
-    }
-
-    private ImageView getUnselectedView(Button btn) {
-        Unit_Normal unit = getUnitFromNode(btn);
-        switch (unit.get_Type()){
-            case UNIT_P:
-                return horseNightImageView();
-            case UNIT_E:
-                return rockImageView();
-        }
-        return trafficConeImageView();
-    }
-
-    private ImageView horseNightImageView(){
-
-        try {
-            Image unitOneImage = new Image(new FileInputStream("Data/HorsePaladin.png"));
-            ImageView unitImageView = new ImageView(unitOneImage);
-            System.out.println(536/9);
-            unitImageView.setFitHeight(536/6);
-            unitImageView.setPreserveRatio(true);
-            return unitImageView;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private ImageView blueNightImageView(){
-        Image blueImg = null;
-        try {
-            blueImg = new Image(new FileInputStream("Data/HLHorsePaladin.png"));
-        } catch (FileNotFoundException ef) {
-            ef.printStackTrace();
-        }
-        ImageView unitImageView = new ImageView(blueImg);
-        System.out.println(536/9);
-        unitImageView.setFitHeight(536/6);
-        unitImageView.setPreserveRatio(true);
-        return unitImageView;
-    }
-
-    private ImageView redRockImageView(){
-
-        try {
-            Image unitOneImage = new Image(new FileInputStream("Data/RedRockFarmer.png"));
-            ImageView unitImageView = new ImageView(unitOneImage);
-            System.out.println(536/9);
-            unitImageView.setFitHeight(536/6);
-            unitImageView.setPreserveRatio(true);
-            return unitImageView;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private ImageView rockImageView(){
-
-        try {
-            Image unitOneImage = new Image(new FileInputStream("Data/RockFarmer.png"));
-            ImageView unitImageView = new ImageView(unitOneImage);
-            System.out.println(536/9);
-            unitImageView.setFitHeight(536/6);
-            unitImageView.setPreserveRatio(true);
-            return unitImageView;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private ImageView trafficConeImageView(){
-        Image unitOneImage = null;
-        try {
-            unitOneImage = new Image(new FileInputStream("Data/TrafficCone.png"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        ImageView unitImageView = new ImageView(unitOneImage);
-        System.out.println(536/9);
-        unitImageView.setFitHeight(536/6);
-        unitImageView.setPreserveRatio(true);
-        return unitImageView;
-    }
-
     private ImageView setImageView(String fileName){
         Image unitOneImage = null;
         try {
-            unitOneImage = new Image(new FileInputStream("Data/" + fileName));
+            unitOneImage = new Image(new FileInputStream(fileName));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -624,13 +499,9 @@ public class BattleController implements Initializable {
         }
         battlelogbox.setVisible(true);
 
-        Button atkBtn = (Button) getNodeFromUnit(attacker); //Unit to Node (cast to button)
-        ImageView atkImgV = getUnselectedView(atkBtn); //Button to ImageView (s/o to getUnselectedView())
-        BRatkimg.setImage(atkImgV.getImage()); //Image set with ImageView.getImage()
+        BRatkimg.setImage(setImageView(attacker.getImagePath(false)).getImage()); //Image set with ImageView.getImage()
 
-        Button defBtn = (Button) getNodeFromUnit(defender); //Yeah, same here but for defence
-        ImageView defImgV = (ImageView) defBtn.getGraphic();
-        BRdefimg.setImage(defImgV.getImage());
+        BRdefimg.setImage(setImageView(defender.getImagePath(false)).getImage());
 
         BRatklbl.setText(attacker.get_Name());
         BRatkhplbl.setText(BRatkhplbl.getText() + attacker.get_HP());
