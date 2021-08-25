@@ -2,6 +2,7 @@ package com.example.steedsnsteelfx.Controllers;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -19,7 +20,9 @@ public class Start  {
     public void run(Stage newWindow) throws IOException {
         URL url = new File("src/main/resources/com/example/steedsnsteelfx/demoBattleGrid.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
-        newWindow.setScene(new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight()));
+        Scene scene = new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight());
+        scene.setCursor(new ImageCursor(Main.setImage("CursorHighlight.png")));
+        newWindow.setScene(scene);
         newWindow.setFullScreen(true);
         //newWindow.setMaximized(true);
         newWindow.show();

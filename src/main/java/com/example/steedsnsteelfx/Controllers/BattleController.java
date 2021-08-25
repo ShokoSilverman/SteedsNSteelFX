@@ -110,6 +110,7 @@ public class BattleController implements Initializable {
 //        placeEnemies();
         battleGrid.add(trafficConeImageView(), 0,0);
         battlelogbox.setVisible(false);
+        createObstacles();
     }
 
     @FXML
@@ -400,18 +401,28 @@ public class BattleController implements Initializable {
         generateUnit(newUnit4, "unit" + 4, 1, 7);
 
         Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 22, 2, RandNameGen.generateName(), 5);
-        generateUnit(newUnit5, "unit" + 5, 6, 1);
+        generateUnit(newUnit5, "unit" + 5, 7, 1);
         Unit_Normal newUnit6 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 12, 2, RandNameGen.generateName(), 5);
-        generateUnit(newUnit6, "unit" + 6, 6, 3);
+        generateUnit(newUnit6, "unit" + 6, 7, 3);
         Unit_Normal newUnit7 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 7, 2, RandNameGen.generateName(), 5);
-        generateUnit(newUnit7, "unit" + 7, 6, 5);
+        generateUnit(newUnit7, "unit" + 7, 7, 5);
         Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 3, 2, RandNameGen.generateName(), 5);
-        generateUnit(newUnit8, "unit" + 8, 6, 7);
+        generateUnit(newUnit8, "unit" + 8, 7, 7);
     }
 
     public int generateRandomIntIntRange(int min, int max) {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
+    }
+
+    public int generateRandomIntIntRangeNotInt(int min, int max, int notInt) {
+        int compareInt = generateRandomIntIntRange(min, max);
+        if(compareInt == notInt){
+            compareInt = generateRandomIntIntRangeNotInt(min, max, notInt);
+        }else{
+            return compareInt;
+        }
+        return compareInt;
     }
 
     private ImageView getSelectedView(Button btn) {
@@ -671,4 +682,19 @@ public class BattleController implements Initializable {
     /**
      * Wait() function should just set moves to 0 and hide the buttons
      */
+
+    private void createObstacles(){
+        int numObstacles = generateRandomIntIntRange(8, 22);
+        for (int i = 0; i < numObstacles; i++) {
+            int column = generateRandomIntIntRange(2,6);
+            int row = generateRandomIntIntRangeNotInt(0,8, generateRandomIntIntRange(2,7));
+            if(getNodeFromGridPane(battleGrid, column, row) == null){
+                battleGrid.add(setImageView("Rocks" + generateRandomIntIntRange(1,4) + ".png"), column , row);
+            }
+        }
+        battleGrid.add(setImageView("Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(0,2));
+        battleGrid.add(setImageView("Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(3,4));
+        battleGrid.add(setImageView("Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(5,6));
+        battleGrid.add(setImageView("Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(7,8));
+    }
 }
