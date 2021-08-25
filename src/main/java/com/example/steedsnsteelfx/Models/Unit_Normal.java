@@ -17,6 +17,7 @@ public class Unit_Normal {
     private String _Name; //Made for debug and tracking units, but we could keep it for a stretch goal.
     private int _Actions;
     private int _MaxActions;
+    private boolean _SpecialAction;
     private HashMap<Integer, eTileType> _AdjacentTiles;
     private List<String> _ImagePaths; //Path to the path file
 
@@ -154,5 +155,13 @@ public class Unit_Normal {
 
     public boolean is_Expended() {
         return (_Actions <= 0);
+    }
+
+    public boolean is_SpecialAction() {
+        return _SpecialAction;
+    }
+
+    public void set_SpecialAction(boolean _SpecialAction) {
+        this._SpecialAction = _SpecialAction;
     }
 }

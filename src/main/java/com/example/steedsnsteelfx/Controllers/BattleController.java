@@ -28,12 +28,19 @@ import java.util.ResourceBundle;
 public class BattleController implements Initializable {
 
     boolean attacking;
+    boolean playerTurn;
     public ArrayList<Button> allButtons = new ArrayList<>();
     public ArrayList<Unit_Normal> allUnits = new ArrayList<>();
     public Button[] focusedUnitBTN = new Button[1];
 //
 //    @FXML
 //    private Stage
+
+    @FXML
+    private Label unitATKlbl;
+
+    @FXML
+    private Label unitDEFlbl;
 
     @FXML
     private AnchorPane mainPane;
@@ -107,6 +114,7 @@ public class BattleController implements Initializable {
         buttonVisibility(false);
         healthVisibility(false);
         placePieces();
+        playerTurn = true;
 //        placeEnemies();
         battleGrid.add(setImageView("Data/TrafficCone.png"), 0,0);
         battlelogbox.setVisible(false);
@@ -114,132 +122,53 @@ public class BattleController implements Initializable {
 
     @FXML
     private void unitUp(ActionEvent event) {
-        try {
-            if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
-                return;
-            }
-            if (!attacking) {
-                int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-                int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-                if (row <= 0) {
-                    return;
-                }
-                if (getNodeFromGridPane(battleGrid, column, row - 1) == null) {
-                    setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
-                    battleGrid.add(focusedUnitBTN[0], column, row - 1);
-
-
-                } else {
-                }
-            } else {
-                Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 1)));
-                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
-
-            }
-        }catch(Exception e){
-            System.err.println("fUck");
-        }
-        if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
-            focusedUnitBTN[0].setGraphic(setImageView(getUnitFromNode(focusedUnitBTN[0]).getImagePath(true)));
-            buttonVisibility(false);
-        }
-        System.out.println(turnOver());
+        move(focusedUnitBTN[0], 1);
     }
 
     @FXML
     private void unitDown(ActionEvent event) {
-        try {
-            if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
-                return;
-            }
-            if (!attacking) {
-                int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-                int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-                if (row >= 8) {
-                    return;
-                }
-                if (getNodeFromGridPane(battleGrid, column, row + 1) == null) {
-                    setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
-                    battleGrid.add(focusedUnitBTN[0], column, row + 1);
-                } else {
-                }
-            } else {
-                Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 3)));
-                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
-            }
-        }catch(Exception e){
-            System.err.println("fUck");
-        }
-        if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
-            focusedUnitBTN[0].setGraphic(setImageView(getUnitFromNode(focusedUnitBTN[0]).getImagePath(true)));
-            buttonVisibility(false);
-        }
-        System.out.println(turnOver());
-
+        move(focusedUnitBTN[0], 3);
     }
 
     @FXML
     private void unitRight(ActionEvent event) {
-        try {
-            if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
-                return;
-            }
-            if (!attacking) {
-                int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-                int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-                if (column >= 8) {
-                    return;
-                }
-                if (getNodeFromGridPane(battleGrid, column + 1, row) == null) {
-                    setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
-                    battleGrid.add(focusedUnitBTN[0], column + 1, row);
-                } else {
-                }
-            } else {
-                Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 2)));
-                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
-            }
-        }catch(Exception e){
-            System.err.println("fUck");
-        }
-        if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
-            focusedUnitBTN[0].setGraphic(setImageView(getUnitFromNode(focusedUnitBTN[0]).getImagePath(true)));
-            buttonVisibility(false);
-        }
-        System.out.println(turnOver());
-
+        move(focusedUnitBTN[0], 2);
     }
 
     @FXML
     private void unitLeft(ActionEvent event) {
+        move(focusedUnitBTN[0], 4);
+    }
+
+    /**
+     * Call to move focused unit in the desired direction if available
+     * @param direction Direction to move in - 1:North 2:East 3:South 4:West
+     */
+    private void move(Button btn, int direction) {
+        Unit_Normal unit = getUnitFromNode(btn);
+
         try {
-            if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
-                return;
-            }
             if (!attacking) {
-                int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-                int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-                if (column <= 0) {
-                    return;
+                int row = battleGrid.getRowIndex(btn);
+                int column = battleGrid.getColumnIndex(btn);
+                switch (direction) {
+                    case 1: if(row <= 0){return;} else{row--;} break;
+                    case 2: if(column >= 8){return;} else{column++;} break;
+                    case 3: if(row >= 8){return;} else{row++;} break;
+                    case 4: if(column <= 0){return;} else{column--;} break;
                 }
-                if (getNodeFromGridPane(battleGrid, column - 1, row) == null) {
-                    setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
-                    battleGrid.add(focusedUnitBTN[0], column - 1, row);
-                } else {
+                if (getNodeFromGridPane(battleGrid, column, row) == null) {
+                    setMovesLeft(unit);
+                    battleGrid.add(btn, column, row);
                 }
             } else {
-                Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 4)));
-                setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
+                Battle(unit, getUnitFromNode(getAdjacent(btn, direction)));
+                setMovesLeft(unit);
             }
         }catch(Exception e){
             System.err.println("fUck");
         }
-        if (getUnitFromNode(focusedUnitBTN[0]).is_Expended()) {
-            focusedUnitBTN[0].setGraphic(setImageView(getUnitFromNode(focusedUnitBTN[0]).getImagePath(true)));
-            buttonVisibility(false);
-        }
-        System.out.println(turnOver());
-
+        turnOver(btn);
     }
 
     /**
@@ -332,6 +261,8 @@ public class BattleController implements Initializable {
             buttonVisibility(false);
             healthVisibility(true);
         }
+        unitATKlbl.setText("Atk: " + selectedUnit.get_Atk());
+        unitDEFlbl.setText("Def: " + selectedUnit.get_Def());
     }
 
     public void generateUnit(Unit_Normal unit, String ID, int spawnCol, int spawnRow){
@@ -370,16 +301,16 @@ public class BattleController implements Initializable {
 
         Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 22, 2
                 , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
-        generateUnit(newUnit5, "unit" + 5, 6, 1);
+        generateUnit(newUnit5, "unit" + 5, 7, 1);
         Unit_Normal newUnit6 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 12, 2
                 , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
-        generateUnit(newUnit6, "unit" + 6, 6, 3);
+        generateUnit(newUnit6, "unit" + 6, 7, 3);
         Unit_Normal newUnit7 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 7, 2
                 , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
-        generateUnit(newUnit7, "unit" + 7, 6, 5);
+        generateUnit(newUnit7, "unit" + 7, 7, 5);
         Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 3, 2
                 , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
-        generateUnit(newUnit8, "unit" + 8, 6, 7);
+        generateUnit(newUnit8, "unit" + 8, 7, 7);
     }
 
     public int generateRandomIntIntRange(int min, int max) {
@@ -405,6 +336,8 @@ public class BattleController implements Initializable {
         healthSlashLine.setVisible(visibility);
         horseHealthLbl.setVisible(visibility);
         maxHorseHealthLbl.setVisible(visibility);
+        unitATKlbl.setVisible(visibility);
+        unitDEFlbl.setVisible(visibility);
     }
 
     /**
@@ -446,6 +379,8 @@ public class BattleController implements Initializable {
     }
 
     public void disable(ActionEvent actionEvent) {
+        getUnitFromNode(focusedUnitBTN[0]).set_Actions(0);
+        turnOver(focusedUnitBTN[0]);
     }
 
     public void cancelAttack(){
@@ -475,9 +410,9 @@ public class BattleController implements Initializable {
 
         if (_resultHPDEF <= 0) { //Check if dead
 
-            //TODO Killing a unit
             defender.set_HP(0); //Set health to no less than 0
             System.out.println("AHHH I'm dead! _resultHP=" + _resultHPDEF + ", _damageATK=" + _damageATK); //Debug message
+            battleGrid.getChildren().remove(getNodeFromUnit(defender));
 
         } else { //Not dead! Deal damage.
 
@@ -486,9 +421,9 @@ public class BattleController implements Initializable {
 
             if (_resultHPATK <= 0) { //Check if dead
 
-                //Kill
                 attacker.set_HP(0); //Set health to no less than 0
                 System.out.println("AHHH I'm dead! _resultHP=" + _resultHPATK + ", _damageATK=" + _damageDEF); //Debug message
+                battleGrid.getChildren().remove(getNodeFromUnit(attacker));
 
             } else { //Not dead! Deal damage.
 
@@ -497,17 +432,23 @@ public class BattleController implements Initializable {
 
             }
         }
-        battlelogbox.setVisible(true);
 
-        BRatkimg.setImage(setImageView(attacker.getImagePath(false)).getImage()); //Image set with ImageView.getImage()
+        if (playerTurn) {
+            horseHealthLbl.setText(_resultHPATK + "");
+            System.out.println("we made it to atk");
 
-        BRdefimg.setImage(setImageView(defender.getImagePath(false)).getImage());
+            battlelogbox.setVisible(true);
 
-        BRatklbl.setText(attacker.get_Name());
-        BRatkhplbl.setText(BRatkhplbl.getText() + attacker.get_HP());
+            BRatkimg.setImage(setImageView(attacker.getImagePath(false)).getImage()); //Image set with ImageView.getImage()
 
-        BRdeflbl.setText(defender.get_Name());
-        BRdefhplbl.setText(BRdefhplbl.getText() + defender.get_HP());
+            BRdefimg.setImage(setImageView(defender.getImagePath(false)).getImage());
+
+            BRatklbl.setText(attacker.get_Name());
+            BRatkhplbl.setText(BRatkhplbl.getText() + attacker.get_HP());
+
+            BRdeflbl.setText(defender.get_Name());
+            BRdefhplbl.setText(BRdefhplbl.getText() + defender.get_HP());
+        }
 
         attacking = false;
         cancelAttack();
@@ -521,25 +462,46 @@ public class BattleController implements Initializable {
     public boolean isEnemy(Unit_Normal origin, Unit_Normal target){return origin.get_Type() != target.get_Type();}
 
     public void setMovesLeft(Unit_Normal unit_normal){
+        System.out.print(unit_normal.get_UnitID() + " : " + unit_normal.get_Actions() + " -> ");
         unit_normal.set_Actions(unit_normal.get_Actions()-1);
         numberOfActionsLbl.setText(unit_normal.get_Actions()+"");
+        System.out.println(unit_normal.get_Actions());
     }
 
-    public boolean turnOver(){
-        //getUnitFromNode(focusedUnitBTN[0]).get_Actions()
-        for (int i = 0; i < allButtons.size(); i++) {
-            if (getUnitFromNode(allButtons.get(i)).get_Actions() != 0){
-                return false;
+    public void turnOver(Button btn){
+        Unit_Normal unit = getUnitFromNode(btn);
+        if (unit.is_Expended()) {
+            btn.setGraphic(setImageView(unit.getImagePath(true)));
+            buttonVisibility(false);
+        }
+
+        int allUnitActions = 0;
+        for (Unit_Normal u : allUnits) {
+            if (u.get_Type() == unit.get_Type()){
+                allUnitActions += u.get_Actions();
             }
         }
-        return true;
-    }
+        System.out.println(allUnitActions);
 
-    private void setMovesToZero(){
-        numberOfActionsLbl.setText("0");
-    }
+        playerTurn = allUnitActions > 0;
+        System.out.println(playerTurn);
 
-    /**
-     * Wait() function should just set moves to 0 and hide the buttons
-     */
+        if (!playerTurn){ //TODO THIS IS DEBUG, DELETE THIS IF AND EVERYTHING IN IT LATER
+
+            for (Unit_Normal u : allUnits) {
+                if (u.get_Type() == unit.get_Type()){
+                    u.set_Actions(u.get_MaxActions());
+                }
+            }
+
+            reloadAllImageViews();
+            playerTurn = true;
+        }
+    }
+    public void reloadAllImageViews(){for(Button btn:allButtons){
+        Unit_Normal u = getUnitFromNode(btn);
+        btn.setGraphic(setImageView(u.getImagePath(false)));
+        healthVisibility(false);
+        buttonVisibility(false);
+    }}
 }
