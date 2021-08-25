@@ -16,8 +16,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Line;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -103,6 +106,11 @@ public class BattleController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        String buttonFile = "Data/MenuMusic.mp3";
+
+        Media buttonSound = new Media(new File(buttonFile).toURI().toString());
+        MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+
         System.out.println("Battle Initiated!");
         buttonVisibility(false);
         healthVisibility(false);
