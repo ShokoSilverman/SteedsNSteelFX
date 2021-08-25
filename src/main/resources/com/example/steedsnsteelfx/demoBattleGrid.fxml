@@ -63,12 +63,12 @@
          </font>
       </Label>
       <Line fx:id="healthSlashLine" endX="232.099853515625" endY="746.9000244140625" layoutX="1224.0" layoutY="-682.0" startX="166.5" startY="794.9000244140625" strokeWidth="9.0" />
-      <Label fx:id="unitATK" layoutX="979.0" layoutY="211.0" prefHeight="47.0" prefWidth="212.0" style="-fx-background-color: white; -fx-alignment: center;" text="Attack">
+      <Label fx:id="unitATKlbl" layoutX="979.0" layoutY="211.0" prefHeight="47.0" prefWidth="212.0" style="-fx-background-color: white; -fx-alignment: center;" text="Attack">
          <font>
             <Font name="OCR A Extended" size="40.0" />
          </font>
       </Label>
-      <Label fx:id="unitDEF" layoutX="1212.0" layoutY="210.0" prefHeight="47.0" prefWidth="212.0" style="-fx-background-color: white; -fx-alignment: center;" text="Defend">
+      <Label fx:id="unitDEFlbl" layoutX="1212.0" layoutY="210.0" prefHeight="47.0" prefWidth="212.0" style="-fx-background-color: white; -fx-alignment: center;" text="Defend">
          <font>
             <Font name="OCR A Extended" size="40.0" />
          </font>
@@ -93,16 +93,6 @@
             <Font name="OCR A Extended" size="25.0" />
          </font>
       </Button>
-      <Label fx:id="unitATK1" layoutX="1010.0" layoutY="265.0" prefHeight="29.0" prefWidth="155.0" style="-fx-background-color: white; -fx-alignment: center;" text="Attack">
-         <font>
-            <Font name="OCR A Extended" size="40.0" />
-         </font>
-      </Label>
-      <Label fx:id="unitDEF1" layoutX="1240.0" layoutY="268.0" prefHeight="29.0" prefWidth="155.0" style="-fx-background-color: white; -fx-alignment: center;" text="Defend">
-         <font>
-            <Font name="OCR A Extended" size="40.0" />
-         </font>
-      </Label>
       <Button fx:id="attackBtn" layoutX="1079.0" layoutY="383.0" mnemonicParsing="false" onAction="#attack" prefHeight="67.0" prefWidth="190.0" text="Attack">
          <font>
             <Font name="OCR A Extended" size="35.0" />
