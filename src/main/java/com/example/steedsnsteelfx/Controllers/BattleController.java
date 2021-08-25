@@ -118,6 +118,7 @@ public class BattleController implements Initializable {
 //        placeEnemies();
         battleGrid.add(setImageView("Data/TrafficCone.png"), 0,0);
         battlelogbox.setVisible(false);
+        createObstacles();
     }
 
     @FXML
@@ -504,4 +505,29 @@ public class BattleController implements Initializable {
         healthVisibility(false);
         buttonVisibility(false);
     }}
+
+    public int generateRandomIntIntRangeNotInt(int min, int max, int notInt) {
+        int compareInt = generateRandomIntIntRange(min, max);
+        if(compareInt == notInt){
+            compareInt = generateRandomIntIntRangeNotInt(min, max, notInt);
+        }else{
+            return compareInt;
+        }
+        return compareInt;
+    }
+
+    private void createObstacles(){
+        int numObstacles = generateRandomIntIntRange(8, 22);
+        for (int i = 0; i < numObstacles; i++) {
+            int column = generateRandomIntIntRange(2,6);
+            int row = generateRandomIntIntRangeNotInt(0,8, generateRandomIntIntRange(2,7));
+            if(getNodeFromGridPane(battleGrid, column, row) == null){
+                battleGrid.add(setImageView("Data/Rocks" + generateRandomIntIntRange(1,4) + ".png"), column , row);
+            }
+        }
+        battleGrid.add(setImageView("Data/Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(0,2));
+        battleGrid.add(setImageView("Data/Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(3,4));
+        battleGrid.add(setImageView("Data/Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(5,6));
+        battleGrid.add(setImageView("Data/Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(7,8));
+    }
 }

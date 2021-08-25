@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Main extends Application {
@@ -134,6 +135,7 @@ public class Main extends Application {
 
 
         //primaryStage.setScene(new Scene(newRoot, 300, 275));//create and set scene
+        scene.setCursor(new ImageCursor(setImage("CursorHighlight.png")));
         primaryStage.setScene(scene);//sets scene
         primaryStage.setMaximized(true);//fullscreen
 
@@ -145,6 +147,17 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+    public static Image setImage(String fileName){
+        Image unitOneImage = null;
+        try {
+            unitOneImage = new Image(new FileInputStream("Data/" + fileName));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return unitOneImage;
+    }
+
 
 
 }
