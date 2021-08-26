@@ -113,10 +113,6 @@ public class BattleController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String buttonFile = "Data/MenuMusic.mp3";
-
-        Media buttonSound = new Media(new File(buttonFile).toURI().toString());
-        MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
         System.out.println("Battle Initiated!");
         buttonVisibility(false);
         healthVisibility(false);
