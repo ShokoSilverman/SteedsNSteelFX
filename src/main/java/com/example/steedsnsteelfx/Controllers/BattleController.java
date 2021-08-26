@@ -100,6 +100,12 @@ public class BattleController implements Initializable {
     private ImageView BRdefimg;
 
     @FXML
+    private ImageView imgLoseScreen;
+
+    @FXML
+    private ImageView imgVictoryScreen;
+
+    @FXML
     private Label BRatklbl;
 
     @FXML
@@ -455,6 +461,7 @@ public class BattleController implements Initializable {
         }
 
         attacking = false;
+        winLoss();
         cancelAttack();
     }
 
@@ -532,5 +539,41 @@ public class BattleController implements Initializable {
         battleGrid.add(setImageView("Data/Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(3,4));
         battleGrid.add(setImageView("Data/Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(5,6));
         battleGrid.add(setImageView("Data/Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(7,8));
+    }
+
+    private void winLoss() {
+        ArrayList<Unit_Normal> friendlyUnitList = new ArrayList<>();
+        for (Button allButton : allButtons) {
+            if (getUnitFromNode(allButton).get_Type() == eTileType.UNIT_P) {
+                friendlyUnitList.add(getUnitFromNode(allButton));
+            }
+
+        }  //Creates array list of all player controlled units
+
+        int teamHealth = 0; //defaults to zero every check
+        for (Unit_Normal friendlyUnit: friendlyUnitList) {
+            teamHealth += friendlyUnit.get_HP(); //puts together a value for your team's total health
+        }
+        if (teamHealth <= 0) {
+            //If your team's health is 0 (everyone is dead) it throws up the loss screen
+            imgLoseScreen.setVisible(true);
+        }
+
+        ArrayList<Unit_Normal> enemyUnitList = new ArrayList<>();
+        for (Button allButton : allButtons) {
+            if (getUnitFromNode(allButton).get_Type() == eTileType.UNIT_E) {
+                friendlyUnitList.add(getUnitFromNode(allButton));
+            }
+
+        }
+
+        int enemyTeamHealth = 0; //defaults to zero every check
+        for (Unit_Normal friendlyUnit: friendlyUnitList) {
+            teamHealth += friendlyUnit.get_HP(); //puts together a value for enemy team's total health
+        }
+        if (teamHealth <= 0) {
+            //If enemy team's health is 0 (everyone is dead) it throws up the loss screen
+            imgVictoryScreen.setVisible(true);
+        }
     }
 }

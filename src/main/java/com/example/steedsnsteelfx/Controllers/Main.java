@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -68,15 +69,14 @@ public class Main extends Application {
             @Override public void handle(ActionEvent e) {
 //                Stage stage = new Stage();
                 try {
-                    String buttonFile = "Data/buttonClick.mp3";
-
-                    Media buttonSound = new Media(new File(buttonFile).toURI().toString());
-                    MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
-                    buttonPlayer.play();
-
                     Media battleSound = new Media(new File("Data/BattleMusic.mp3").toURI().toString());
                     MediaPlayer battleMusic = new MediaPlayer(battleSound);
                     battleMusic.play();
+
+                    battleMusic.setOnEndOfMedia(() -> {
+                        battleMusic.seek(Duration.ZERO);
+                        battleMusic.play();
+                    });
 
                     new Start().run(primaryStage);
                     backgroundNoise.stop();
@@ -156,6 +156,18 @@ public class Main extends Application {
 
         //primaryStage.setScene(new Scene(newRoot, 300, 275));//create and set scene
         scene.setCursor(new ImageCursor(setImage("CursorHighlight.png")));
+        scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                String buttonFile = "Data/buttonClick.mp3";
+
+                Media buttonSound = new Media(new File(buttonFile).toURI().toString());
+                MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+                buttonPlayer.play();
+
+                System.out.println("mouse click detected! "+event.getSource());
+            }
+        });
         primaryStage.setScene(scene);//sets scene
         primaryStage.setMaximized(true);//fullscreen
 
