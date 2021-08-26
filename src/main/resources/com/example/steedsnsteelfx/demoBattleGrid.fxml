@@ -169,5 +169,15 @@
          <font>
             <Font size="20.0" />
          </font></Label>
+      <ImageView fx:id="imgLoseScreen" fitHeight="897.0" fitWidth="1619.0" layoutY="1.0" opacity="0.76" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@Game%20Over.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgVictoryScreen" fitHeight="837.0" fitWidth="1619.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@VictoryScreen.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
