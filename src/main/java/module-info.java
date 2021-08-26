@@ -1,6 +1,7 @@
 module com.example.steedsnsteelfx {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
 
 
     opens com.example.steedsnsteelfx to javafx.fxml;
