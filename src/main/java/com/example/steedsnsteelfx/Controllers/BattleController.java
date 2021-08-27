@@ -195,7 +195,7 @@ public class BattleController implements Initializable {
      * @param direction Direction to look in - 1:North 2:East 3:South 4:West
      * @return Whether something is there.
      */
-    private Button getAdjacent(Node unitBTN, int direction){
+    private Node getAdjacent(Node unitBTN, int direction){
         Integer col = GridPane.getColumnIndex(unitBTN);
         Integer row = GridPane.getRowIndex(unitBTN);
         switch (direction){
@@ -213,7 +213,7 @@ public class BattleController implements Initializable {
                 break;
         }
         try {
-            return (Button)getNodeFromGridPane(battleGrid, col, row);
+            return getNodeFromGridPane(battleGrid, col, row);
         } catch (Exception e){
             System.out.println("nothing in direction=" + direction);
         }
@@ -353,7 +353,11 @@ public class BattleController implements Initializable {
         return r.nextInt((max - min) + 1) + min;
     }
 
-    public static boolean headsOrTails() {return Math.random() < 0.5;}
+    public static boolean headsOrTails() {
+        boolean b = Math.random() < 0.5;
+        System.out.println(b);
+        return b;
+    }
 
     private ImageView setImageView(String fileName){
         Image unitOneImage = null;
@@ -385,7 +389,8 @@ public class BattleController implements Initializable {
      */
     public Unit_Normal getUnitFromNode(Node node){
         for (Unit_Normal unit : allUnits) {
-            if (node.getId().equals(unit.get_UnitID())) return unit;
+            Button btn = (Button) node;
+            if (btn.getId().equals(unit.get_UnitID())) return unit;
         }
         return null;
     }
@@ -424,10 +429,10 @@ public class BattleController implements Initializable {
         } else {
             attacking = true;
             attackBtn.setText("Cancel");
-            upBtn.setDisable(!isEnemy(focusedUnitBTN[0], getAdjacent(focusedUnitBTN[0],1)));
-            downBtn.setDisable(!isEnemy(focusedUnitBTN[0], getAdjacent(focusedUnitBTN[0],3)));
-            leftBtn.setDisable(!isEnemy(focusedUnitBTN[0], getAdjacent(focusedUnitBTN[0],4)));
-            rightBtn.setDisable(!isEnemy(focusedUnitBTN[0], getAdjacent(focusedUnitBTN[0],2)));
+            upBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],1)));
+            downBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],3)));
+            leftBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],4)));
+            rightBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],2)));
         }
     }
 
@@ -578,7 +583,7 @@ public class BattleController implements Initializable {
     }
 
     private void createObstacles(){
-        int numObstacles = generateRandomIntIntRange(8, 22);
+        int numObstacles = generateRandomIntIntRange(1, 2);
         int notRow = generateRandomIntIntRange(2, 7);
         for (int i = 0; i < numObstacles; i++) {
             int column = generateRandomIntIntRange(2,6);
@@ -733,18 +738,18 @@ public class BattleController implements Initializable {
                 }
             } else {
                 if (originCol > destinCol) {
-                    orderOfMove[1] = 4;
-                    orderOfMove[3] = 2;
+                    orderOfMove[0] = 4;
+                    orderOfMove[2] = 2;
                 } else {
-                    orderOfMove[1] = 2;
-                    orderOfMove[3] = 4;
+                    orderOfMove[0] = 2;
+                    orderOfMove[2] = 4;
                 }
                 if (originRow > destinRow) {
-                    orderOfMove[0] = 1;
-                    orderOfMove[2] = 3;
+                    orderOfMove[1] = 1;
+                    orderOfMove[3] = 3;
                 } else {
-                    orderOfMove[0] = 3;
-                    orderOfMove[2] = 1;
+                    orderOfMove[1] = 3;
+                    orderOfMove[3] = 1;
                 }
             }
         }
@@ -756,13 +761,19 @@ public class BattleController implements Initializable {
         int direction = 0;
         for (boolean b : checkAvailableAdjacent(btn)) {
             if (!b) {
-                if (!getAdjacent(btn, direction + 1).getId().contains("obs")){
-                    if (getAdjacent(btn, direction + 1).getId().equals(findEnemy().getId())) {
-                        System.out.println("Attacking TARGET enemy");
-                        Battle(getUnitFromNode(btn), getUnitFromNode(findEnemy()));
-                        setMovesLeft(getUnitFromNode(btn));
+                try {
+                    Button adjBtn = (Button) getAdjacent(btn, direction + 1);
+                    if (getUnitFromNode(adjBtn).get_Type() == eTileType.UNIT_P){
+                        if (adjBtn.getId().equals(findEnemy().getId())) {
+                            System.out.println("Attacking TARGET enemy");
+                            Battle(getUnitFromNode(btn), getUnitFromNode(findEnemy()));
+                            setMovesLeft(getUnitFromNode(btn));
+                        }
                     }
+                } catch (Exception e) {
+                    System.err.println("Cant attack that");
                 }
+
             }
             direction++;
         }
@@ -770,15 +781,18 @@ public class BattleController implements Initializable {
             int directionNC = 0;
             for (boolean b : checkAvailableAdjacent(btn)) {
                 if (!b) {
-                    if (!getAdjacent(btn, directionNC).getId().contains("obs")){
-                        if (getUnitFromNode(getAdjacent(btn, directionNC)).get_Type() != getUnitFromNode(btn).get_Type()) {
+                    try {
+                        Button adjBtn = (Button) getAdjacent(btn, directionNC + 1);
+                        if (getUnitFromNode(adjBtn).get_Type() == eTileType.UNIT_P){
                             System.out.println("Attacking RANDOM enemy");
                             Battle(getUnitFromNode(btn), getUnitFromNode(getAdjacent(btn, directionNC)));
                             setMovesLeft(getUnitFromNode(btn));
                         }
+                    } catch (Exception e) {
+                        System.err.println("Cant attack that");
                     }
                 }
-                direction++;
+                directionNC++;
             }
         }
     }
