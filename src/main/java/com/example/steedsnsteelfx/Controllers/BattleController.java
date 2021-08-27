@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -32,6 +33,8 @@ public class BattleController implements Initializable {
 
     boolean attacking;
     boolean playerTurn;
+    boolean enemyTurn;
+    boolean turnCycle;
     public ArrayList<Button> allButtons = new ArrayList<>();
     public ArrayList<Unit_Normal> allUnits = new ArrayList<>();
     public Button[] focusedUnitBTN = new Button[1];
@@ -121,9 +124,11 @@ public class BattleController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Battle Initiated!");
         buttonVisibility(false);
-        healthVisibility(false);
+        statVisibility(false);
+        statVisibility(false);
         placePieces();
         playerTurn = true;
+        turnCycle = false;
 //        placeEnemies();
         battleGrid.add(setImageView("Data/TrafficCone.png"), 0,0);
         battlelogbox.setVisible(false);
@@ -133,21 +138,25 @@ public class BattleController implements Initializable {
     @FXML
     private void unitUp(ActionEvent event) {
         move(focusedUnitBTN[0], 1);
+        turnOver(focusedUnitBTN[0]);
     }
 
     @FXML
     private void unitDown(ActionEvent event) {
         move(focusedUnitBTN[0], 3);
+        turnOver(focusedUnitBTN[0]);
     }
 
     @FXML
     private void unitRight(ActionEvent event) {
         move(focusedUnitBTN[0], 2);
+        turnOver(focusedUnitBTN[0]);
     }
 
     @FXML
     private void unitLeft(ActionEvent event) {
         move(focusedUnitBTN[0], 4);
+        turnOver(focusedUnitBTN[0]);
     }
 
     /**
@@ -178,7 +187,6 @@ public class BattleController implements Initializable {
         }catch(Exception e){
             System.err.println("fUck");
         }
-        turnOver(btn);
     }
 
     /**
@@ -210,6 +218,23 @@ public class BattleController implements Initializable {
             System.out.println("nothing in direction=" + direction);
         }
         return null;
+    }
+
+    private boolean[] checkAvailableAdjacent(Node unitBTN){
+        boolean[] adj = new boolean[4];
+        for (int i = 1; i < 5; i++) {
+            try {
+                Node node = getAdjacent(unitBTN, i);
+                if (node == null) {
+                    adj[i - 1] = true;
+                } else {
+                    adj[i - 1] = false;
+                }
+            } catch (Exception e) {
+                System.err.println("ah sHit");
+            }
+        }
+        return adj;
     }
 
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
@@ -266,10 +291,10 @@ public class BattleController implements Initializable {
         }
         if (selectedUnit.get_Type() == eTileType.UNIT_P){
             buttonVisibility(true);
-            healthVisibility(true);
+            statVisibility(true);
         } else if (selectedUnit.get_Type() == eTileType.UNIT_E){
             buttonVisibility(false);
-            healthVisibility(true);
+            statVisibility(true);
         }
         unitATKlbl.setText("Atk: " + selectedUnit.get_Atk());
         unitDEFlbl.setText("Def: " + selectedUnit.get_Def());
@@ -328,6 +353,8 @@ public class BattleController implements Initializable {
         return r.nextInt((max - min) + 1) + min;
     }
 
+    public static boolean headsOrTails() {return Math.random() < 0.5;}
+
     private ImageView setImageView(String fileName){
         Image unitOneImage = null;
         try {
@@ -341,13 +368,14 @@ public class BattleController implements Initializable {
         return unitImageView;
     }
 
-    private void healthVisibility(boolean visibility){
+    private void statVisibility(boolean visibility){
         heartImgView.setVisible(visibility);
         healthSlashLine.setVisible(visibility);
         horseHealthLbl.setVisible(visibility);
         maxHorseHealthLbl.setVisible(visibility);
         unitATKlbl.setVisible(visibility);
         unitDEFlbl.setVisible(visibility);
+        turnDisplay.setVisible(visibility);
     }
 
     /**
@@ -373,6 +401,21 @@ public class BattleController implements Initializable {
             if (unit.get_UnitID().equals(node.getId())) return node;
         }
         return null;
+    }
+
+    /**
+     * Returns ArrayList of Buttons with matching type
+     * @param type eTileType - compares to
+     * @return all buttons of equal type
+     */
+    public ArrayList<Button> getAllType(eTileType type){
+        ArrayList<Button> allType = new ArrayList<>();
+        for (Button btn : allButtons) {
+            if (getUnitFromNode(btn).get_Type() == type) {
+                allType.add(btn);
+            }
+        }
+        return allType;
     }
 
     public void attack(ActionEvent actionEvent) {
@@ -422,6 +465,7 @@ public class BattleController implements Initializable {
 
             defender.set_HP(0); //Set health to no less than 0
             System.out.println("AHHH I'm dead! _resultHP=" + _resultHPDEF + ", _damageATK=" + _damageATK); //Debug message
+            defender.set_Alive(false);
             battleGrid.getChildren().remove(getNodeFromUnit(defender));
 
         } else { //Not dead! Deal damage.
@@ -433,6 +477,7 @@ public class BattleController implements Initializable {
 
                 attacker.set_HP(0); //Set health to no less than 0
                 System.out.println("AHHH I'm dead! _resultHP=" + _resultHPATK + ", _damageATK=" + _damageDEF); //Debug message
+                attacker.set_Alive(false);
                 battleGrid.getChildren().remove(getNodeFromUnit(attacker));
 
             } else { //Not dead! Deal damage.
@@ -461,6 +506,7 @@ public class BattleController implements Initializable {
         }
 
         attacking = false;
+        attacker.set_SpecialAction(false);
         winLoss();
         cancelAttack();
     }
@@ -487,32 +533,37 @@ public class BattleController implements Initializable {
         }
 
         int allUnitActions = 0;
-        for (Unit_Normal u : allUnits) {
-            if (u.get_Type() == unit.get_Type()){
-                allUnitActions += u.get_Actions();
+        for (Button team : getAllType(unit.get_Type())) {
+            if (getUnitFromNode(team).is_Alive()){
+                allUnitActions += getUnitFromNode(team).get_Actions();
             }
         }
         System.out.println(allUnitActions);
 
-        playerTurn = allUnitActions > 0;
-        System.out.println(playerTurn);
-
-        if (!playerTurn){ //TODO THIS IS DEBUG, DELETE THIS IF AND EVERYTHING IN IT LATER
-
-            for (Unit_Normal u : allUnits) {
-                if (u.get_Type() == unit.get_Type()){
-                    u.set_Actions(u.get_MaxActions());
-                }
-            }
-
+        if (unit.get_Type() == eTileType.UNIT_P) {
+            playerTurn = allUnitActions > 0;
+        } else if (unit.get_Type() == eTileType.UNIT_E) {
+            enemyTurn = allUnitActions > 0;
+        }
+        System.out.println("playerTurn:" + playerTurn + " | enemyTurn:" + enemyTurn + " | turnCycle:" + turnCycle);
+        if (!playerTurn && !enemyTurn && !turnCycle){
+            enemyTurn = true;
             reloadAllImageViews();
+            enemyRound();
+        } else if (!playerTurn && !enemyTurn && turnCycle){
+            turnCycle = false;
             playerTurn = true;
+            for (Unit_Normal figure : allUnits) {
+                figure.set_Actions(figure.get_MaxActions());
+                figure.set_SpecialAction(true);
+            }
+            reloadAllImageViews();
         }
     }
     public void reloadAllImageViews(){for(Button btn:allButtons){
         Unit_Normal u = getUnitFromNode(btn);
         btn.setGraphic(setImageView(u.getImagePath(false)));
-        healthVisibility(false);
+        statVisibility(false);
         buttonVisibility(false);
     }}
 
@@ -574,6 +625,188 @@ public class BattleController implements Initializable {
         if (teamHealth <= 0) {
             //If enemy team's health is 0 (everyone is dead) it throws up the loss screen
             imgVictoryScreen.setVisible(true);
+        }
+    }
+
+    // FUCK YOU
+
+    public void enemyRound(){
+        System.out.println("ENEMYROUND");
+        for (Button btn : getAllType(eTileType.UNIT_E)) {
+            if (getUnitFromNode(btn).is_Alive()){
+                enemyTurn(btn);
+            }
+        }
+        System.out.println("ENEMYROUND ENDED!!!!!!!!!!!!!!!!!!");
+        turnCycle = true;
+        turnOver(focusedUnitBTN[0]);
+    }
+
+    public void enemyTurn(Button btn){
+        System.out.println("ENEMY: " + btn.getId());
+        focusedUnitBTN[0] = btn;
+        while (!getUnitFromNode(btn).is_Expended()) {
+            System.out.println("Enemy while not expended.");
+            if (getUnitFromNode(btn).is_SpecialAction()) {
+                System.out.println("Enemy while has special action");
+                tryAttacking(btn);
+            }
+            if (!getUnitFromNode(btn).is_Expended()) {
+                tryMoving(btn);
+            }
+        }
+        System.out.println("Enemy:" + btn.getId() + " Turn Over");
+    }
+
+    public Button findEnemy() {
+        Button target = null;
+        int lowestHP = 999;
+        for (Button btn : getAllType(eTileType.UNIT_P)) {
+            Unit_Normal u = getUnitFromNode(btn);
+            if (u.is_Alive()) {
+                if (u.get_HP() < lowestHP) {
+                    lowestHP = u.get_HP();
+                    target = btn;
+                }
+            }
+        }
+        return target;
+    }
+
+    public int[] movePriority(Button origin, Button destination) {
+        int originRow = battleGrid.getRowIndex(origin);
+        int originCol = battleGrid.getColumnIndex(origin);
+        int destinRow = battleGrid.getRowIndex(destination);
+        int destinCol = battleGrid.getColumnIndex(destination);
+        boolean alignHorz = originRow == destinRow;
+        boolean alignVert = originCol == destinCol;
+
+        int[] orderOfMove = new int[4];
+
+        if (alignVert) {
+            if (originRow > destinRow) {
+                orderOfMove[0] = 1;
+                orderOfMove[3] = 3;
+            } else {
+                orderOfMove[0] = 3;
+                orderOfMove[3] = 1;
+            }
+            if (headsOrTails()) {
+                orderOfMove[1] = 2;
+                orderOfMove[2] = 4;
+            } else {
+                orderOfMove[1] = 4;
+                orderOfMove[2] = 2;
+            }
+        } else if (alignHorz) {
+            if (originCol > destinCol) {
+                orderOfMove[0] = 4;
+                orderOfMove[3] = 2;
+            } else {
+                orderOfMove[0] = 2;
+                orderOfMove[3] = 4;
+            }
+            if (headsOrTails()) {
+                orderOfMove[1] = 1;
+                orderOfMove[2] = 3;
+            } else {
+                orderOfMove[1] = 3;
+                orderOfMove[2] = 1;
+            }
+        } else {
+            if (headsOrTails()) {
+                if (originRow > destinRow) {
+                    orderOfMove[0] = 1;
+                    orderOfMove[2] = 3;
+                } else {
+                    orderOfMove[0] = 3;
+                    orderOfMove[2] = 1;
+                }
+                if (originCol > destinCol) {
+                    orderOfMove[1] = 4;
+                    orderOfMove[3] = 2;
+                } else {
+                    orderOfMove[1] = 2;
+                    orderOfMove[3] = 4;
+                }
+            } else {
+                if (originCol > destinCol) {
+                    orderOfMove[1] = 4;
+                    orderOfMove[3] = 2;
+                } else {
+                    orderOfMove[1] = 2;
+                    orderOfMove[3] = 4;
+                }
+                if (originRow > destinRow) {
+                    orderOfMove[0] = 1;
+                    orderOfMove[2] = 3;
+                } else {
+                    orderOfMove[0] = 3;
+                    orderOfMove[2] = 1;
+                }
+            }
+        }
+
+        return orderOfMove;
+    }
+
+    public void tryAttacking(Button btn) {
+        int direction = 0;
+        for (boolean b : checkAvailableAdjacent(btn)) {
+            if (!b) {
+                if (!getAdjacent(btn, direction + 1).getId().contains("obs")){
+                    if (getAdjacent(btn, direction + 1).getId().equals(findEnemy().getId())) {
+                        System.out.println("Attacking TARGET enemy");
+                        Battle(getUnitFromNode(btn), getUnitFromNode(findEnemy()));
+                        setMovesLeft(getUnitFromNode(btn));
+                    }
+                }
+            }
+            direction++;
+        }
+        if (getUnitFromNode(btn).is_SpecialAction()) {
+            int directionNC = 0;
+            for (boolean b : checkAvailableAdjacent(btn)) {
+                if (!b) {
+                    if (!getAdjacent(btn, directionNC).getId().contains("obs")){
+                        if (getUnitFromNode(getAdjacent(btn, directionNC)).get_Type() != getUnitFromNode(btn).get_Type()) {
+                            System.out.println("Attacking RANDOM enemy");
+                            Battle(getUnitFromNode(btn), getUnitFromNode(getAdjacent(btn, directionNC)));
+                            setMovesLeft(getUnitFromNode(btn));
+                        }
+                    }
+                }
+                direction++;
+            }
+        }
+    }
+
+    public void tryMoving(Button btn) {
+        System.out.println("Trying to move");
+        boolean[] choices = checkAvailableAdjacent(btn);
+        System.out.println(Arrays.toString(choices));
+        boolean hasChoice = false;
+        for (boolean b : choices) {
+            if (!hasChoice) {
+                hasChoice = b;
+            }
+        }
+        if (hasChoice) {
+            int[] request = movePriority(btn, findEnemy());
+            System.out.println(Arrays.toString(request));
+            boolean moved = false;
+            int i = 0;
+            while (!moved) {
+                int direction = request[i];
+                if (choices[direction - 1]) {
+                    System.out.println("Moving in " + direction);
+                    move(btn, direction);
+                    moved = true;
+                }
+                i++;
+            }
+        } else {
+            getUnitFromNode(btn).set_Actions(0);
         }
     }
 }
