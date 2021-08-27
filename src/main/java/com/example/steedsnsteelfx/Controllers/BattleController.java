@@ -579,9 +579,10 @@ public class BattleController implements Initializable {
 
     private void createObstacles(){
         int numObstacles = generateRandomIntIntRange(8, 22);
+        int notRow = generateRandomIntIntRange(2, 7);
         for (int i = 0; i < numObstacles; i++) {
             int column = generateRandomIntIntRange(2,6);
-            int row = generateRandomIntIntRangeNotInt(0,8, generateRandomIntIntRange(2,7));
+            int row = generateRandomIntIntRangeNotInt(0,8, notRow);
             if(getNodeFromGridPane(battleGrid, column, row) == null){
                 battleGrid.add(setImageView("Data/Rocks" + generateRandomIntIntRange(1,4) + ".png"), column , row);
             }
@@ -682,6 +683,7 @@ public class BattleController implements Initializable {
         boolean alignVert = originCol == destinCol;
 
         int[] orderOfMove = new int[4];
+        System.out.println("alignHorz:" + alignHorz + " | alignVert:" + alignVert);
 
         if (alignVert) {
             if (originRow > destinRow) {
