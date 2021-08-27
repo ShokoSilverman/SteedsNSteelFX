@@ -18,6 +18,7 @@ public class Unit_Normal {
     private int _Actions;
     private int _MaxActions;
     private boolean _SpecialAction;
+    private boolean _Alive;
     private HashMap<Integer, eTileType> _AdjacentTiles;
     private List<String> _ImagePaths; //Path to the path file
 
@@ -31,6 +32,8 @@ public class Unit_Normal {
         this._Name = _Name;
         this._Actions = _Actions;
         this._MaxActions = _Actions;
+        this._Alive = true;
+        this._SpecialAction = true;
 
         System.out.println(_PathsTxt);
         String txtImagePaths = new File("").getAbsolutePath() + _PathsTxt;
@@ -163,5 +166,13 @@ public class Unit_Normal {
 
     public void set_SpecialAction(boolean _SpecialAction) {
         this._SpecialAction = _SpecialAction;
+    }
+
+    public boolean is_Alive() {
+        return _Alive;
+    }
+
+    public void set_Alive(boolean _Alive) {
+        this._Alive = _Alive;
     }
 }
