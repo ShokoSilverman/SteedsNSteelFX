@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 
 public class BattleController implements Initializable {
 
-    static int MAP_SETUP=0; //0 - debug, 1 - level 1
+    static int MAP_SETUP=1; //0 - debug, 1 - level 1
     boolean attacking, playerTurn, enemyTurn, turnCycle, win, lose;
 
     public ArrayList<Button> allButtons = new ArrayList<>();
@@ -62,6 +62,9 @@ public class BattleController implements Initializable {
 
     @FXML
     private HBox battlelogbox;
+
+    @FXML
+    private Label doSomethingLbl;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -340,6 +343,7 @@ public class BattleController implements Initializable {
         unitATKlbl.setVisible(visibility);
         unitDEFlbl.setVisible(visibility);
         turnDisplay.setVisible(visibility);
+        doSomethingLbl.setVisible(!visibility);
     }
 
     /**
@@ -541,7 +545,7 @@ public class BattleController implements Initializable {
     }
 
     private void createObstacles(){
-        int numObstacles = generateRandomIntIntRange(1, 2);
+        int numObstacles = generateRandomIntIntRange(8, 22);
         int notRow = generateRandomIntIntRange(2, 7);
         for (int i = 0; i < numObstacles; i++) {
             int column = generateRandomIntIntRange(2,6);

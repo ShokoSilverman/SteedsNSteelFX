@@ -169,5 +169,10 @@
             <Image url="@VictoryScreen.png" />
          </image>
       </ImageView>
+      <Label fx:id="doSomethingLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="1003.0" layoutY="610.0" prefHeight="67.0" prefWidth="338.0" style="-fx-background-color: white;" text="Click A Unit To Begin" textAlignment="CENTER">
+         <font>
+            <Font name="OCR A Extended" size="25.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
