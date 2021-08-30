@@ -18,16 +18,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-
-
-
-
         Image image = new Image(new FileInputStream("Data/SteedsNSteelbasicmm.png"));
         //GridPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));//set root
 
@@ -58,6 +60,11 @@ public class Main extends Application {
             @Override public void handle(ActionEvent e) {
 //                Stage stage = new Stage();
                 try {
+                    String filePath = "Data/ReverbFart.mp3";
+                    Media pick = new Media(new File(filePath).toURI().toString()); //throws here
+                    MediaPlayer player = new MediaPlayer(pick);
+                    player.play();
+
                     new Start().run(primaryStage);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -79,6 +86,10 @@ public class Main extends Application {
         creditsButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/5);
         creditsButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
+                String filePath = "Data/ReverbFart.mp3";
+                Media pick = new Media(new File(filePath).toURI().toString()); //throws here
+                MediaPlayer player = new MediaPlayer(pick);
+                player.play();
                 new Credits().run(primaryStage);
                 //primaryStage.close();
             }
@@ -98,6 +109,12 @@ public class Main extends Application {
             @Override public void handle(ActionEvent e) {
                 try {
                     new Instructions().run(primaryStage);
+//                    Media pick = new Media("put.mp3"); //throws here
+//                    MediaPlayer player = new MediaPlayer(pick);
+//                    player.play();
+                    InputStream is = new FileInputStream("Data/ReverbFart.mp3");
+
+
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

@@ -90,6 +90,9 @@ public class BattleController implements Initializable {
     private ImageView BRdefimg;
 
     @FXML
+    private ImageView gridImage;
+
+    @FXML
     private Label BRatklbl;
 
     @FXML
@@ -149,10 +152,6 @@ public class BattleController implements Initializable {
             buttonVisibility(false);
         }
         System.out.println(turnOver());
-
-
-
-
     }
 
     @FXML
@@ -660,6 +659,45 @@ public class BattleController implements Initializable {
 
     private void setMovesToZero(){
         numberOfActionsLbl.setText("0");
+    }
+
+    private void finishBattle(boolean victoryRoyal){
+        Image newBattleGrid;
+        int i = 0;
+        if (victoryRoyal){
+             i++;
+        }
+        if (i == 3 || i == 4){
+            i = 1;
+        }
+        switch (i) {
+            case 1: newBattleGrid = new Image("9x9Grid.png");
+                if (victoryRoyal) {
+                    gridImage.setImage(newBattleGrid);
+                }
+                break;
+            case 2: newBattleGrid = new Image("desertGrid.png");
+                if (victoryRoyal) {
+                    gridImage.setImage(newBattleGrid);
+                }
+                break;
+//            case 3: newBattleGrid = new Image("9x9Grid.png");
+//                if (victoryRoyal) {
+//                    gridImage.setImage(newBattleGrid);
+//                }
+//                break;
+//            case 4: newBattleGrid = new Image("9x9Grid.png");
+//                if (victoryRoyal) {
+//                    gridImage.setImage(newBattleGrid);
+//                }
+//                break;
+            case 5: newBattleGrid = new Image("snowGrid.png");
+                if (victoryRoyal) {
+                    gridImage.setImage(newBattleGrid);
+                }
+                break;
+        }
+
     }
 
     /**

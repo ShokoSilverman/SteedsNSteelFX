@@ -8,10 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -66,6 +69,10 @@ public class Credits {
             @Override public void handle(ActionEvent e) {
                 //Stage primStage = new Stage();
                 try {
+                    String filePath = "Data/ByeHAGT.mp3";
+                    Media pick = new Media(new File(filePath).toURI().toString()); //throws here
+                    MediaPlayer player = new MediaPlayer(pick);
+                    player.play();
                     new Main().start(htpStage);
                 } catch (IOException ex) {
                     ex.printStackTrace();

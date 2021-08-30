@@ -14,7 +14,7 @@
             <Image url="@BackGround.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="836.0" fitWidth="836.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="gridImage" fitHeight="836.0" fitWidth="836.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@9x9Grid.png" />
          </image>

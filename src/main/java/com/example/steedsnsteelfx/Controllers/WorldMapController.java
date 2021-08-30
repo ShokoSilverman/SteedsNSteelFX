@@ -1,13 +1,18 @@
 package com.example.steedsnsteelfx.Controllers;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -28,17 +33,22 @@ public class WorldMapController {
     private Button lvlFiveBtn;
     @FXML
     private BorderPane mainPane;
-    Stage newWindow = new Stage();
+
+    private static Stage stage;
+    private static Scene scene;
+
+    public static void changeScene(Event event, String strFXMLFileName) throws IOException {
+        URL url = new File(strFXMLFileName).toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
     private void LvlOneBtnClick(ActionEvent event) throws IOException {
-        URL url = new File("src/main/resources/com/example/steedsnsteelfx/demoBattleGrid.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        newWindow.setScene(new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight()));
-        newWindow.setFullScreen(true);
-        //newWindow.setMaximized(true);
-        newWindow.show();
-
+        changeScene(event, "src/main/resources/com/example/steedsnsteelfx/demoBattleGrid.fxml");
     }
 
     @FXML
