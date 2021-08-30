@@ -279,29 +279,29 @@ public class BattleController implements Initializable {
                 generateUnit(newUnit02, "unit02", 7, 5);
                 break;
             case 1:
-                Unit_Normal newUnit11 = new Unit_Normal(eTileType.UNIT_P, 30, 3, 2
-                        , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
+                Unit_Normal newUnit11 = new Unit_Normal(eTileType.UNIT_P, 25, 5, 3
+                        , RandNameGen.generateName(), 7, "/Data/HorseImagePaths.txt");
                 generateUnit(newUnit11, "unit" + 1, 1, 1);
-                Unit_Normal newUnit12 = new Unit_Normal(eTileType.UNIT_P, 30, 7, 2
-                        , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
+                Unit_Normal newUnit12 = new Unit_Normal(eTileType.UNIT_P, 35, 15, 10
+                        , RandNameGen.generateName(), 3, "/Data/HorseImagePaths.txt");
                 generateUnit(newUnit12, "unit" + 2, 1, 3);
-                Unit_Normal newUnit13 = new Unit_Normal(eTileType.UNIT_P, 30, 12, 2
-                        , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
+                Unit_Normal newUnit13 = new Unit_Normal(eTileType.UNIT_P, 10, 20, 1
+                        , RandNameGen.generateName(), 6, "/Data/HorseImagePaths.txt");
                 generateUnit(newUnit13, "unit" + 3, 1, 5);
                 Unit_Normal newUnit14 = new Unit_Normal(eTileType.UNIT_P, 30, 22, 2
                         , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
                 generateUnit(newUnit14, "unit" + 4, 1, 7);
 
-                Unit_Normal newUnit15 = new Unit_Normal(eTileType.UNIT_E, 30, 22, 2
+                Unit_Normal newUnit15 = new Unit_Normal(eTileType.UNIT_E, 15, 10, 5
                         , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
                 generateUnit(newUnit15, "unit" + 5, 7, 1);
                 Unit_Normal newUnit16 = new Unit_Normal(eTileType.UNIT_E, 30, 12, 2
                         , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
                 generateUnit(newUnit16, "unit" + 6, 7, 3);
-                Unit_Normal newUnit17 = new Unit_Normal(eTileType.UNIT_E, 30, 7, 2
+                Unit_Normal newUnit17 = new Unit_Normal(eTileType.UNIT_E, 20, 5, 10
                         , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
                 generateUnit(newUnit17, "unit" + 7, 7, 5);
-                Unit_Normal newUnit18 = new Unit_Normal(eTileType.UNIT_E, 30, 3, 2
+                Unit_Normal newUnit18 = new Unit_Normal(eTileType.UNIT_E, 5, 20, 1
                         , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
                 generateUnit(newUnit18, "unit" + 8, 7, 7);
                 break;
