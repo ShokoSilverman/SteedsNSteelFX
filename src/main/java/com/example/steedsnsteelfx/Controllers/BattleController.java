@@ -31,10 +31,9 @@ import java.util.ResourceBundle;
 
 public class BattleController implements Initializable {
 
-    boolean attacking;
-    boolean playerTurn;
-    boolean enemyTurn;
-    boolean turnCycle;
+    static int MAP_SETUP=0; //0 - debug, 1 - level 1
+    boolean attacking, playerTurn, enemyTurn, turnCycle, win, lose;
+
     public ArrayList<Button> allButtons = new ArrayList<>();
     public ArrayList<Unit_Normal> allUnits = new ArrayList<>();
     public Button[] focusedUnitBTN = new Button[1];
@@ -43,10 +42,8 @@ public class BattleController implements Initializable {
 //    private Stage
 
     @FXML
-    private Label unitATKlbl;
-
-    @FXML
-    private Label unitDEFlbl;
+    private Label unitATKlbl, unitDEFlbl, turnDisplay, horseHealthLbl, maxHorseHealthLbl
+            , movesLbl, numberOfActionsLbl, BRatklbl, BRdeflbl, BRatkhplbl, BRdefhplbl;
 
     @FXML
     private AnchorPane mainPane;
@@ -55,70 +52,16 @@ public class BattleController implements Initializable {
     private GridPane battleGrid;
 
     @FXML
-    private Button upBtn;
+    private Button upBtn, downBtn, rightBtn, leftBtn, attackBtn, waitbutton;
 
     @FXML
-    private Button downBtn;
-
-    @FXML
-    private Button rightBtn;
-
-    @FXML
-    private Button leftBtn;
-
-    @FXML
-    private Button attackBtn;
-
-    @FXML
-    private Button waitbutton;
-
-    @FXML
-    private Label turnDisplay;
-
-    @FXML
-    private ImageView heartImgView;
+    private ImageView heartImgView, BRatkimg, BRdefimg, imgLoseScreen, imgVictoryScreen;
 
     @FXML
     private Line healthSlashLine;
 
     @FXML
-    private Label horseHealthLbl;
-
-    @FXML
-    private Label maxHorseHealthLbl;
-
-    @FXML
-    private Label movesLbl;
-
-    @FXML
-    private Label numberOfActionsLbl;
-
-    @FXML
     private HBox battlelogbox;
-
-    @FXML
-    private ImageView BRatkimg;
-
-    @FXML
-    private ImageView BRdefimg;
-
-    @FXML
-    private ImageView imgLoseScreen;
-
-    @FXML
-    private ImageView imgVictoryScreen;
-
-    @FXML
-    private Label BRatklbl;
-
-    @FXML
-    private Label BRdeflbl;
-
-    @FXML
-    private Label BRatkhplbl;
-
-    @FXML
-    private Label BRdefhplbl;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -220,15 +163,20 @@ public class BattleController implements Initializable {
         return null;
     }
 
+    /**
+     * Looks adjacent to Node in all directions, if another node is found false : otherwise true
+     * @param unitBTN Node to check from
+     * @return array of true or false in sequence of North East South West
+     */
     private boolean[] checkAvailableAdjacent(Node unitBTN){
         boolean[] adj = new boolean[4];
-        for (int i = 1; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             try {
-                Node node = getAdjacent(unitBTN, i);
+                Node node = getAdjacent(unitBTN, i + 1);
                 if (node == null) {
-                    adj[i - 1] = true;
+                    adj[i] = true;
                 } else {
-                    adj[i - 1] = false;
+                    adj[i] = false;
                 }
             } catch (Exception e) {
                 System.err.println("ah sHit");
@@ -320,32 +268,44 @@ public class BattleController implements Initializable {
     }
 
     private void placePieces(){
+        switch (MAP_SETUP) {
+            case 0:
+                Unit_Normal newUnit01 = new Unit_Normal(eTileType.UNIT_P, 10, 4, 2
+                        , RandNameGen.generateName(), 3, "/Data/HorseImagePaths.txt");
+                generateUnit(newUnit01, "unit01", 1, 3);
 
-        Unit_Normal newUnit = new Unit_Normal(eTileType.UNIT_P, 30, 30, 3, 2
-                , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
-        generateUnit(newUnit, "unit" + 1, 1, 1);
-        Unit_Normal newUnit2 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 7, 2
-                , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
-        generateUnit(newUnit2, "unit" + 2, 1, 3);
-        Unit_Normal newUnit3 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 12, 2
-                , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
-        generateUnit(newUnit3, "unit" + 3, 1, 5);
-        Unit_Normal newUnit4 = new Unit_Normal(eTileType.UNIT_P, 30, 30, 22, 2
-                , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
-        generateUnit(newUnit4, "unit" + 4, 1, 7);
+                Unit_Normal newUnit02 = new Unit_Normal(eTileType.UNIT_E, 10, 4, 2
+                        , RandNameGen.generateName(), 3, "/Data/RFarmerImagePaths.txt");
+                generateUnit(newUnit02, "unit02", 7, 5);
+                break;
+            case 1:
+                Unit_Normal newUnit11 = new Unit_Normal(eTileType.UNIT_P, 30, 3, 2
+                        , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
+                generateUnit(newUnit11, "unit" + 1, 1, 1);
+                Unit_Normal newUnit12 = new Unit_Normal(eTileType.UNIT_P, 30, 7, 2
+                        , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
+                generateUnit(newUnit12, "unit" + 2, 1, 3);
+                Unit_Normal newUnit13 = new Unit_Normal(eTileType.UNIT_P, 30, 12, 2
+                        , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
+                generateUnit(newUnit13, "unit" + 3, 1, 5);
+                Unit_Normal newUnit14 = new Unit_Normal(eTileType.UNIT_P, 30, 22, 2
+                        , RandNameGen.generateName(), 5, "/Data/HorseImagePaths.txt");
+                generateUnit(newUnit14, "unit" + 4, 1, 7);
 
-        Unit_Normal newUnit5 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 22, 2
-                , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
-        generateUnit(newUnit5, "unit" + 5, 7, 1);
-        Unit_Normal newUnit6 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 12, 2
-                , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
-        generateUnit(newUnit6, "unit" + 6, 7, 3);
-        Unit_Normal newUnit7 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 7, 2
-                , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
-        generateUnit(newUnit7, "unit" + 7, 7, 5);
-        Unit_Normal newUnit8 = new Unit_Normal(eTileType.UNIT_E, 30, 30, 3, 2
-                , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
-        generateUnit(newUnit8, "unit" + 8, 7, 7);
+                Unit_Normal newUnit15 = new Unit_Normal(eTileType.UNIT_E, 30, 22, 2
+                        , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
+                generateUnit(newUnit15, "unit" + 5, 7, 1);
+                Unit_Normal newUnit16 = new Unit_Normal(eTileType.UNIT_E, 30, 12, 2
+                        , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
+                generateUnit(newUnit16, "unit" + 6, 7, 3);
+                Unit_Normal newUnit17 = new Unit_Normal(eTileType.UNIT_E, 30, 7, 2
+                        , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
+                generateUnit(newUnit17, "unit" + 7, 7, 5);
+                Unit_Normal newUnit18 = new Unit_Normal(eTileType.UNIT_E, 30, 3, 2
+                        , RandNameGen.generateName(), 5, "/Data/RFarmerImagePaths.txt");
+                generateUnit(newUnit18, "unit" + 8, 7, 7);
+                break;
+        }
     }
 
     public int generateRandomIntIntRange(int min, int max) {
@@ -493,22 +453,20 @@ public class BattleController implements Initializable {
             }
         }
 
-        if (playerTurn) {
-            horseHealthLbl.setText(_resultHPATK + "");
-            System.out.println("we made it to atk");
+        horseHealthLbl.setText(_resultHPATK + "");
+        System.out.println("we made it to atk");
 
-            battlelogbox.setVisible(true);
+        battlelogbox.setVisible(true);
 
-            BRatkimg.setImage(setImageView(attacker.getImagePath(false)).getImage()); //Image set with ImageView.getImage()
+        BRatkimg.setImage(setImageView(attacker.getImagePath(false)).getImage()); //Image set with ImageView.getImage()
 
-            BRdefimg.setImage(setImageView(defender.getImagePath(false)).getImage());
+        BRdefimg.setImage(setImageView(defender.getImagePath(false)).getImage());
 
-            BRatklbl.setText(attacker.get_Name());
-            BRatkhplbl.setText(BRatkhplbl.getText() + attacker.get_HP());
+        BRatklbl.setText(attacker.get_Name());
+        BRatkhplbl.setText(BRatkhplbl.getText() + attacker.get_HP());
 
-            BRdeflbl.setText(defender.get_Name());
-            BRdefhplbl.setText(BRdefhplbl.getText() + defender.get_HP());
-        }
+        BRdeflbl.setText(defender.get_Name());
+        BRdefhplbl.setText(BRdefhplbl.getText() + defender.get_HP());
 
         attacking = false;
         attacker.set_SpecialAction(false);
@@ -599,39 +557,17 @@ public class BattleController implements Initializable {
     }
 
     private void winLoss() {
-        ArrayList<Unit_Normal> friendlyUnitList = new ArrayList<>();
-        for (Button allButton : allButtons) {
-            if (getUnitFromNode(allButton).get_Type() == eTileType.UNIT_P) {
-                friendlyUnitList.add(getUnitFromNode(allButton));
-            }
-
-        }  //Creates array list of all player controlled units
-
-        int teamHealth = 0; //defaults to zero every check
-        for (Unit_Normal friendlyUnit: friendlyUnitList) {
-            teamHealth += friendlyUnit.get_HP(); //puts together a value for your team's total health
+        int amountPlrAlive = 0;
+        for (Button btn : getAllType(eTileType.UNIT_P)) {
+            amountPlrAlive += (getUnitFromNode(btn).is_Alive()) ? 1 : 0;
         }
-        if (teamHealth <= 0) {
-            //If your team's health is 0 (everyone is dead) it throws up the loss screen
-            imgLoseScreen.setVisible(true);
-        }
+        imgLoseScreen.setVisible(amountPlrAlive <= 0);
 
-        ArrayList<Unit_Normal> enemyUnitList = new ArrayList<>();
-        for (Button allButton : allButtons) {
-            if (getUnitFromNode(allButton).get_Type() == eTileType.UNIT_E) {
-                friendlyUnitList.add(getUnitFromNode(allButton));
-            }
-
+        int amountNmyAlive = 0;
+        for (Button btn : getAllType(eTileType.UNIT_E)) {
+            amountNmyAlive += (getUnitFromNode(btn).is_Alive()) ? 1 : 0;
         }
-
-        int enemyTeamHealth = 0; //defaults to zero every check
-        for (Unit_Normal friendlyUnit: friendlyUnitList) {
-            teamHealth += friendlyUnit.get_HP(); //puts together a value for enemy team's total health
-        }
-        if (teamHealth <= 0) {
-            //If enemy team's health is 0 (everyone is dead) it throws up the loss screen
-            imgVictoryScreen.setVisible(true);
-        }
+        imgVictoryScreen.setVisible(amountNmyAlive <= 0);
     }
 
     // FUCK YOU
