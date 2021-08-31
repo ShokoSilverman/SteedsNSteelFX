@@ -461,7 +461,7 @@ public class BattleController implements Initializable {
         if (_resultHPDEF <= 0) { //Check if dead
 
             defender.set_HP(0); //Set health to no less than 0
-            System.out.println("AHHH I'm dead! _resultHP=" + _resultHPDEF + ", _damageATK=" + _damageATK); //Debug message
+            System.out.println("YAY They're dead! _resultHP=" + _resultHPDEF + ", _damageATK=" + _damageATK); //Debug message
             defender.set_Alive(false);
             battleGrid.getChildren().remove(getNodeFromUnit(defender));
 
@@ -790,7 +790,7 @@ public class BattleController implements Initializable {
                 hasChoice = b;
             }
         }
-        if (hasChoice) {
+        if (hasChoice && getUnitFromNode(btn).is_Alive()) {
             int[] request = movePriority(btn, findEnemy());
             System.out.println(Arrays.toString(request));
             boolean moved = false;
@@ -799,8 +799,8 @@ public class BattleController implements Initializable {
                 int direction = request[i];
                 if (choices[direction - 1]) {
                     System.out.println("Moving in " + direction);
-                    move(btn, direction);
                     moved = true;
+                    move(btn, direction);
                 }
                 i++;
             }
