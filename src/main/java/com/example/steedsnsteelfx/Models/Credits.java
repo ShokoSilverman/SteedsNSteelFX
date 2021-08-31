@@ -53,11 +53,7 @@ public class Credits {
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                String buttonFile = "Data/buttonClick.mp3";
-
-                Media buttonSound = new Media(new File(buttonFile).toURI().toString());
-                MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
-                buttonPlayer.play();
+                Main.playClick();
 
                 System.out.println("mouse click detected! "+event.getSource());
             }
@@ -83,10 +79,7 @@ public class Credits {
             @Override public void handle(ActionEvent e) {
                 //Stage primStage = new Stage();
                 try {
-                    String filePath = "Data/ByeHAGT.mp3";
-                    Media pick = new Media(new File(filePath).toURI().toString()); //throws here
-                    MediaPlayer player = new MediaPlayer(pick);
-                    player.play();
+                    Main.playClick();
                     new Main().start(htpStage);
                 } catch (IOException ex) {
                     ex.printStackTrace();

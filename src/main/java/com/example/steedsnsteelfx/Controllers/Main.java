@@ -21,19 +21,12 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-<<<<<<< HEAD
-=======
 import javafx.util.Duration;
->>>>>>> master
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
 
 public class Main extends Application {
     static Media backgroundFile = new Media(new File("Data/MenuMusic.mp3").toURI().toString());
@@ -42,6 +35,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
+
+
+
         Image image = new Image(new FileInputStream("Data/SteedsNSteelbasicmm.png"));
         //GridPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));//set root
 
@@ -72,21 +69,17 @@ public class Main extends Application {
             @Override public void handle(ActionEvent e) {
 //                Stage stage = new Stage();
                 try {
-<<<<<<< HEAD
-                    String filePath = "Data/ReverbFart.mp3";
-                    Media pick = new Media(new File(filePath).toURI().toString()); //throws here
-                    MediaPlayer player = new MediaPlayer(pick);
-                    player.play();
-=======
                     Media battleSound = new Media(new File("Data/BattleMusic.mp3").toURI().toString());
                     MediaPlayer battleMusic = new MediaPlayer(battleSound);
+                    battleMusic.setVolume(.5);
                     battleMusic.play();
 
                     battleMusic.setOnEndOfMedia(() -> {
                         battleMusic.seek(Duration.ZERO);
                         battleMusic.play();
                     });
->>>>>>> master
+
+                    playClick();
 
                     new Start().run(primaryStage);
                     backgroundNoise.stop();
@@ -110,11 +103,8 @@ public class Main extends Application {
         creditsButton.setTranslateY(Screen.getPrimary().getVisualBounds().getHeight()/5);
         creditsButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
-                String filePath = "Data/ReverbFart.mp3";
-                Media pick = new Media(new File(filePath).toURI().toString()); //throws here
-                MediaPlayer player = new MediaPlayer(pick);
-                player.play();
                 new Credits().run(primaryStage);
+                playClick();
                 //primaryStage.close();
             }
         });
@@ -133,11 +123,9 @@ public class Main extends Application {
             @Override public void handle(ActionEvent e) {
                 try {
                     new Instructions().run(primaryStage);
-//                    Media pick = new Media("put.mp3"); //throws here
-//                    MediaPlayer player = new MediaPlayer(pick);
-//                    player.play();
-                    InputStream is = new FileInputStream("Data/ReverbFart.mp3");
 
+                    backgroundNoise.stop();
+                    playClick();
 
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -179,11 +167,7 @@ public class Main extends Application {
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                String buttonFile = "Data/buttonClick.mp3";
-
-                Media buttonSound = new Media(new File(buttonFile).toURI().toString());
-                MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
-                buttonPlayer.play();
+                playClick();
 
                 System.out.println("mouse click detected! "+event.getSource());
             }
@@ -197,6 +181,12 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        runSound();
+
+        launch();
+    }
+
+    public static void runSound(){
         backgroundNoise.setVolume(.5);
         backgroundNoise.play();
 
@@ -204,8 +194,14 @@ public class Main extends Application {
             backgroundNoise.seek(Duration.ZERO);
             backgroundNoise.play();
         });
+    }
 
-        launch();
+    public static void playClick(){
+        String buttonFile = "Data/buttonClick.mp3";
+
+        Media buttonSound = new Media(new File(buttonFile).toURI().toString());
+        MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+        buttonPlayer.play();
     }
 
     public static Image setImage(String fileName){

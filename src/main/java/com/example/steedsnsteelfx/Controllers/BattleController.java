@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -124,6 +125,12 @@ public class BattleController implements Initializable {
                 }
                 if (getNodeFromGridPane(battleGrid, column, row) == null) {
                     setMovesLeft(unit);
+                    String buttonFile = "Data/slimeMove.mp3";
+
+                    Media buttonSound = new Media(new File(buttonFile).toURI().toString());
+                    MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+                    buttonPlayer.setVolume(.8);
+                    buttonPlayer.play();
                     battleGrid.add(btn, column, row);
                 }
             } else {
@@ -218,6 +225,11 @@ public class BattleController implements Initializable {
     }
 
     private void playerUnitSelect(ActionEvent e) {
+        String buttonFile = "Data/unitSelectSound.mp3";
+
+        Media buttonSound = new Media(new File(buttonFile).toURI().toString());
+        MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+        buttonPlayer.play();
         cancelAttack();
         Button selectedBtn = (Button)e.getSource();
         Unit_Normal selectedUnit = getUnitFromNode(selectedBtn);
@@ -466,6 +478,12 @@ public class BattleController implements Initializable {
                 battleGrid.getChildren().remove(getNodeFromUnit(attacker));
 
             } else { //Not dead! Deal damage.
+                String buttonFile = "Data/swordAttack.mp3";
+
+                Media buttonSound = new Media(new File(buttonFile).toURI().toString());
+                MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+                buttonPlayer.setVolume(2);
+                buttonPlayer.play();
 
                 attacker.set_HP(_resultHPATK); //Set new health
                 System.out.println("Ouch I took damage! _resultHP=" + _resultHPATK + ", _damageATK=" + _damageDEF); //Debug message
