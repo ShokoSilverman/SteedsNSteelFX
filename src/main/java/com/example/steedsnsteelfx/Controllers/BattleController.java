@@ -393,10 +393,26 @@ public class BattleController implements Initializable {
         } else {
             attacking = true;
             attackBtn.setText("Cancel");
-            upBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],1)));
-            downBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],3)));
-            leftBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],4)));
-            rightBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],2)));
+            setMovementOption(upBtn, 1);
+            setMovementOption(rightBtn, 2);
+            setMovementOption(downBtn, 3);
+            setMovementOption(leftBtn, 4);
+        }
+    }
+
+    public void setMovementOption(Button mvBtn, int direction) {
+        Node node = getAdjacent(focusedUnitBTN[0], direction);
+        System.out.println("THIS IS THE NODE IN SMO = "+node);
+        if (node != null) {
+            try {
+                Unit_Normal unit = getUnitFromNode(node);
+                boolean bool = isEnemy(getUnitFromNode(focusedUnitBTN[0]), unit);
+                mvBtn.setDisable(!bool);
+            } catch (Exception e) {
+                mvBtn.setDisable(true);
+            }
+        } else {
+            mvBtn.setDisable(true);
         }
     }
 
@@ -479,11 +495,20 @@ public class BattleController implements Initializable {
     }
 
     public boolean isEnemy(Button origin, Button target) {
-        return origin != null && target != null
-                && getUnitFromNode(origin).get_Type() != getUnitFromNode(target).get_Type();
+        boolean result = false;
+        if (getUnitFromNode(origin).get_Type() == eTileType.UNIT_P
+                && getUnitFromNode(target).get_Type() == eTileType.UNIT_E) {
+            result = true;
+        } else if (getUnitFromNode(origin).get_Type() == eTileType.UNIT_P
+                && getUnitFromNode(target).get_Type() == eTileType.UNIT_E) {
+            result = true;
+        }
+        return result;
     }
 
-    public boolean isEnemy(Unit_Normal origin, Unit_Normal target){return origin.get_Type() != target.get_Type();}
+    public boolean isEnemy(Unit_Normal origin, Unit_Normal target) {
+        return origin.get_Type() != target.get_Type();
+    }
 
     public void setMovesLeft(Unit_Normal unit_normal){
         System.out.print(unit_normal.get_UnitID() + " : " + unit_normal.get_Actions() + " -> ");
