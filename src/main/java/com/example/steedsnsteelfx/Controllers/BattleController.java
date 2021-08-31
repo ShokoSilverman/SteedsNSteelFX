@@ -129,7 +129,7 @@ public class BattleController implements Initializable {
 
                     Media buttonSound = new Media(new File(buttonFile).toURI().toString());
                     MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
-                    buttonPlayer.setVolume(.5);
+                    buttonPlayer.setVolume(.8);
                     buttonPlayer.play();
                     battleGrid.add(btn, column, row);
                 }
@@ -482,6 +482,7 @@ public class BattleController implements Initializable {
 
                 Media buttonSound = new Media(new File(buttonFile).toURI().toString());
                 MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+                buttonPlayer.setVolume(2);
                 buttonPlayer.play();
 
                 attacker.set_HP(_resultHPATK); //Set new health

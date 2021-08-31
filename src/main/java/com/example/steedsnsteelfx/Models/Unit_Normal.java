@@ -168,9 +168,7 @@ public class Unit_Normal {
         this._SpecialAction = _SpecialAction;
     }
 
-    public boolean is_Alive() {
-        return _Alive;
-    }
+    public boolean is_Alive() {return (get_HP() > 0);}
 
     public void set_Alive(boolean _Alive) {
         this._Alive = _Alive;
