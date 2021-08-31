@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 
 public class BattleController implements Initializable {
 
-    static int MAP_SETUP=0; //0 - debug, 1 - level 1
+    static int MAP_SETUP=1; //0 - debug, 1 - level 1
     boolean attacking, playerTurn, enemyTurn, turnCycle, win, lose;
 
     public ArrayList<Button> allButtons = new ArrayList<>();
@@ -63,30 +63,9 @@ public class BattleController implements Initializable {
     @FXML
     private HBox battlelogbox;
 
-<<<<<<< HEAD
     @FXML
-    private ImageView BRatkimg;
+    private Label doSomethingLbl;
 
-    @FXML
-    private ImageView BRdefimg;
-
-    @FXML
-    private ImageView gridImage;
-
-    @FXML
-    private Label BRatklbl;
-
-    @FXML
-    private Label BRdeflbl;
-
-    @FXML
-    private Label BRatkhplbl;
-
-    @FXML
-    private Label BRdefhplbl;
-
-=======
->>>>>>> master
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Battle Initiated!");
@@ -104,47 +83,8 @@ public class BattleController implements Initializable {
 
     @FXML
     private void unitUp(ActionEvent event) {
-<<<<<<< HEAD
-        try {
-            if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
-                buttonVisibility(false);
-                getUnitFromNode(focusedUnitBTN[0]).set_Actions(0);
-                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
-                return;
-            }
-            if (!attacking) {
-                int row = battleGrid.getRowIndex(focusedUnitBTN[0]);
-                int column = battleGrid.getColumnIndex(focusedUnitBTN[0]);
-                if (row <= 0) {
-                    return;
-                }
-                if (getNodeFromGridPane(battleGrid, column, row - 1) == null) {
-                    setMovesLeft(getUnitFromNode(focusedUnitBTN[0]));
-                    battleGrid.add(focusedUnitBTN[0], column, row - 1);
-
-
-                } else {
-                }
-            } else {
-                Battle(getUnitFromNode(focusedUnitBTN[0]), getUnitFromNode(getAdjacent(focusedUnitBTN[0], 1)));
-            }
-        }catch(Exception e){
-            System.err.println("fUck");
-        }
-        if (getUnitFromNode(focusedUnitBTN[0]).get_Actions() <= 0) {
-            try {
-                focusedUnitBTN[0].setGraphic(setImageView("ExHorsePaladin.png"));
-            }
-            catch(Exception ex){
-                focusedUnitBTN[0].setGraphic(trafficConeImageView());
-            }
-            buttonVisibility(false);
-        }
-        System.out.println(turnOver());
-=======
         move(focusedUnitBTN[0], 1);
         turnOver(focusedUnitBTN[0]);
->>>>>>> master
     }
 
     @FXML
@@ -403,6 +343,7 @@ public class BattleController implements Initializable {
         unitATKlbl.setVisible(visibility);
         unitDEFlbl.setVisible(visibility);
         turnDisplay.setVisible(visibility);
+        doSomethingLbl.setVisible(!visibility);
     }
 
     /**
@@ -452,10 +393,26 @@ public class BattleController implements Initializable {
         } else {
             attacking = true;
             attackBtn.setText("Cancel");
-            upBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],1)));
-            downBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],3)));
-            leftBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],4)));
-            rightBtn.setDisable(!isEnemy(focusedUnitBTN[0], (Button)getAdjacent(focusedUnitBTN[0],2)));
+            setMovementOption(upBtn, 1);
+            setMovementOption(rightBtn, 2);
+            setMovementOption(downBtn, 3);
+            setMovementOption(leftBtn, 4);
+        }
+    }
+
+    public void setMovementOption(Button mvBtn, int direction) {
+        Node node = getAdjacent(focusedUnitBTN[0], direction);
+        System.out.println("THIS IS THE NODE IN SMO = "+node);
+        if (node != null) {
+            try {
+                Unit_Normal unit = getUnitFromNode(node);
+                boolean bool = isEnemy(getUnitFromNode(focusedUnitBTN[0]), unit);
+                mvBtn.setDisable(!bool);
+            } catch (Exception e) {
+                mvBtn.setDisable(true);
+            }
+        } else {
+            mvBtn.setDisable(true);
         }
     }
 
@@ -538,11 +495,20 @@ public class BattleController implements Initializable {
     }
 
     public boolean isEnemy(Button origin, Button target) {
-        return origin != null && target != null
-                && getUnitFromNode(origin).get_Type() != getUnitFromNode(target).get_Type();
+        boolean result = false;
+        if (getUnitFromNode(origin).get_Type() == eTileType.UNIT_P
+                && getUnitFromNode(target).get_Type() == eTileType.UNIT_E) {
+            result = true;
+        } else if (getUnitFromNode(origin).get_Type() == eTileType.UNIT_P
+                && getUnitFromNode(target).get_Type() == eTileType.UNIT_E) {
+            result = true;
+        }
+        return result;
     }
 
-    public boolean isEnemy(Unit_Normal origin, Unit_Normal target){return origin.get_Type() != target.get_Type();}
+    public boolean isEnemy(Unit_Normal origin, Unit_Normal target) {
+        return origin.get_Type() != target.get_Type();
+    }
 
     public void setMovesLeft(Unit_Normal unit_normal){
         System.out.print(unit_normal.get_UnitID() + " : " + unit_normal.get_Actions() + " -> ");
@@ -604,7 +570,7 @@ public class BattleController implements Initializable {
     }
 
     private void createObstacles(){
-        int numObstacles = generateRandomIntIntRange(1, 2);
+        int numObstacles = generateRandomIntIntRange(8, 22);
         int notRow = generateRandomIntIntRange(2, 7);
         for (int i = 0; i < numObstacles; i++) {
             int column = generateRandomIntIntRange(2,6);
@@ -619,50 +585,6 @@ public class BattleController implements Initializable {
         battleGrid.add(setImageView("Data/Rocks" + generateRandomIntIntRange(1,4) + ".png"), 8 , generateRandomIntIntRange(7,8));
     }
 
-<<<<<<< HEAD
-    private void finishBattle(boolean victoryRoyal){
-        Image newBattleGrid;
-        int i = 0;
-        if (victoryRoyal){
-             i++;
-        }
-        if (i == 3 || i == 4){
-            i = 1;
-        }
-        switch (i) {
-            case 1: newBattleGrid = new Image("9x9Grid.png");
-                if (victoryRoyal) {
-                    gridImage.setImage(newBattleGrid);
-                }
-                break;
-            case 2: newBattleGrid = new Image("desertGrid.png");
-                if (victoryRoyal) {
-                    gridImage.setImage(newBattleGrid);
-                }
-                break;
-//            case 3: newBattleGrid = new Image("9x9Grid.png");
-//                if (victoryRoyal) {
-//                    gridImage.setImage(newBattleGrid);
-//                }
-//                break;
-//            case 4: newBattleGrid = new Image("9x9Grid.png");
-//                if (victoryRoyal) {
-//                    gridImage.setImage(newBattleGrid);
-//                }
-//                break;
-            case 5: newBattleGrid = new Image("snowGrid.png");
-                if (victoryRoyal) {
-                    gridImage.setImage(newBattleGrid);
-                }
-                break;
-        }
-
-    }
-
-    /**
-     * Wait() function should just set moves to 0 and hide the buttons
-     */
-=======
     private void winLoss() {
         int amountPlrAlive = 0;
         for (Button btn : getAllType(eTileType.UNIT_P)) {
@@ -868,5 +790,4 @@ public class BattleController implements Initializable {
             getUnitFromNode(btn).set_Actions(0);
         }
     }
->>>>>>> master
 }

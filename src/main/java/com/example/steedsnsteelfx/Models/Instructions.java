@@ -27,7 +27,7 @@ public class Instructions {
 
         //Stage htpStage = new Stage();
 
-        Image image = new Image(new FileInputStream("Data/Pre-HTP.png"));
+        Image image = new Image(new FileInputStream("Data/Pre_HTP.png"));
         //GridPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));//set root
 
 
