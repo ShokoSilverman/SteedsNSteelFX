@@ -14,13 +14,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+<<<<<<< HEAD
+=======
+import javafx.util.Duration;
+>>>>>>> master
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import javafx.scene.media.Media;
@@ -28,6 +36,10 @@ import javafx.scene.media.MediaPlayer;
 
 
 public class Main extends Application {
+    static Media backgroundFile = new Media(new File("Data/MenuMusic.mp3").toURI().toString());
+    static MediaPlayer backgroundNoise = new MediaPlayer(backgroundFile);
+
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         Image image = new Image(new FileInputStream("Data/SteedsNSteelbasicmm.png"));
@@ -60,12 +72,24 @@ public class Main extends Application {
             @Override public void handle(ActionEvent e) {
 //                Stage stage = new Stage();
                 try {
+<<<<<<< HEAD
                     String filePath = "Data/ReverbFart.mp3";
                     Media pick = new Media(new File(filePath).toURI().toString()); //throws here
                     MediaPlayer player = new MediaPlayer(pick);
                     player.play();
+=======
+                    Media battleSound = new Media(new File("Data/BattleMusic.mp3").toURI().toString());
+                    MediaPlayer battleMusic = new MediaPlayer(battleSound);
+                    battleMusic.play();
+
+                    battleMusic.setOnEndOfMedia(() -> {
+                        battleMusic.seek(Duration.ZERO);
+                        battleMusic.play();
+                    });
+>>>>>>> master
 
                     new Start().run(primaryStage);
+                    backgroundNoise.stop();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -151,6 +175,19 @@ public class Main extends Application {
 
 
         //primaryStage.setScene(new Scene(newRoot, 300, 275));//create and set scene
+        scene.setCursor(new ImageCursor(setImage("CursorHighlight.png")));
+        scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                String buttonFile = "Data/buttonClick.mp3";
+
+                Media buttonSound = new Media(new File(buttonFile).toURI().toString());
+                MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+                buttonPlayer.play();
+
+                System.out.println("mouse click detected! "+event.getSource());
+            }
+        });
         primaryStage.setScene(scene);//sets scene
         primaryStage.setMaximized(true);//fullscreen
 
@@ -160,8 +197,27 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        backgroundNoise.setVolume(.5);
+        backgroundNoise.play();
+
+        backgroundNoise.setOnEndOfMedia(() -> {
+            backgroundNoise.seek(Duration.ZERO);
+            backgroundNoise.play();
+        });
+
         launch();
     }
+
+    public static Image setImage(String fileName){
+        Image unitOneImage = null;
+        try {
+            unitOneImage = new Image(new FileInputStream("Data/" + fileName));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return unitOneImage;
+    }
+
 
 
 }

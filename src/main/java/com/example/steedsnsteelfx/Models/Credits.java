@@ -3,10 +3,12 @@ package com.example.steedsnsteelfx.Models;
 import com.example.steedsnsteelfx.Controllers.Main;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -47,7 +49,19 @@ public class Credits {
         newRoot.add(imageView1,0,0);//adds image to gridpane
 
         Scene scene = new Scene(newRoot,Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight(), Color.BLACK);
+        scene.setCursor(new ImageCursor(Main.setImage("CursorHighlight.png")));
+        scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                String buttonFile = "Data/buttonClick.mp3";
 
+                Media buttonSound = new Media(new File(buttonFile).toURI().toString());
+                MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+                buttonPlayer.play();
+
+                System.out.println("mouse click detected! "+event.getSource());
+            }
+        });
         htpStage.setScene(scene);//sets scene
         htpStage.setMaximized(true);//fullscreen
         htpStage.show();//make screen visible

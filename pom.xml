@@ -15,10 +15,18 @@
     </properties>
 
     <parent>
+<<<<<<< HEAD
         <groupId>org.openjfx</groupId>
         <artifactId>javafx</artifactId>
         <version>11.0.2</version>
     </parent>
+=======
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx</artifactId>
+    <version>11.0.2</version>
+    </parent>
+
+>>>>>>> master
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -45,6 +53,16 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>11.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>11.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

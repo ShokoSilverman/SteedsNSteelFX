@@ -1,11 +1,15 @@
 package com.example.steedsnsteelfx.Models;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 
 public class Unit_Normal {
     private eTileType _Type;
     private String _UnitID;
-    private int actionCount;
     private int _HP;
     private int _Atk;
     private int _Def;
@@ -13,33 +17,34 @@ public class Unit_Normal {
     private String _Name; //Made for debug and tracking units, but we could keep it for a stretch goal.
     private int _Actions;
     private int _MaxActions;
+    private boolean _SpecialAction;
+    private boolean _Alive;
     private HashMap<Integer, eTileType> _AdjacentTiles;
+    private List<String> _ImagePaths; //Path to the path file
 
-    public Unit_Normal(eTileType _Type, String _UnitID, int _HP, int _Atk, int _Def) {
+    public Unit_Normal(eTileType _Type, int _MaxHealth, int _Atk, int _Def, String _Name
+            , int _Actions, String _PathsTxt) {
         this._Type = _Type;
-        this._UnitID = _UnitID;
-        this._HP = _HP;
-        this._Atk = _Atk;
-        this._Def = _Def;
-    }
-
-    public Unit_Normal(eTileType _Type, String _UnitID, int _HP, int _Atk, int _Def, int[] _CurrentLocation){
-        this._Type = _Type;
-        this._UnitID = _UnitID;
-        this._HP = _HP;
-        this._Atk = _Atk;
-        this._Def = _Def;
-    }
-
-    public Unit_Normal(eTileType _Type, int _HP, int _MaxHealth, int _Atk, int _Def, String _Name, int _Actions) {
-        this._Type = _Type;
-        this._HP = _HP;
+        this._HP = _MaxHealth;
         this._MaxHealth = _MaxHealth;
         this._Atk = _Atk;
         this._Def = _Def;
         this._Name = _Name;
         this._Actions = _Actions;
         this._MaxActions = _Actions;
+        this._Alive = true;
+        this._SpecialAction = true;
+
+        System.out.println(_PathsTxt);
+        String txtImagePaths = new File("").getAbsolutePath() + _PathsTxt;
+        System.out.println(txtImagePaths);
+        List<String> lines = null;
+        try {
+            lines = Files.readAllLines(Paths.get(txtImagePaths));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        _ImagePaths = lines;
     }
 
     public Unit_Normal(eTileType _Type, String _UnitID, int _HP, int _MaxHealth, int _Atk, int _Def, String _Name) {
@@ -62,14 +67,6 @@ public class Unit_Normal {
 
     public void set_UnitID(String _UnitID) {
         this._UnitID = _UnitID;
-    }
-
-    public int getActionCount() {
-        return actionCount;
-    }
-
-    public void setActionCount(int actionCount) {
-        this.actionCount = Math.max(actionCount, 0);
     }
 
     public int get_HP() {
@@ -139,5 +136,43 @@ public class Unit_Normal {
 
     public void set_MaxActions(int _MaxActions) {
         this._MaxActions = _MaxActions;
+    }
+
+    public String getImagePath(boolean _Selected) {
+        String resultImage = "Data/TrafficCone.png";
+        if (_Selected) {
+            if (is_Expended()) {
+                resultImage = _ImagePaths.get(3);
+            } else {
+                resultImage = _ImagePaths.get(1);
+            }
+        } else {
+            if (is_Expended()) {
+                resultImage = _ImagePaths.get(2);
+            } else {
+                resultImage = _ImagePaths.get(0);
+            }
+        }
+        return resultImage;
+    }
+
+    public boolean is_Expended() {
+        return (_Actions <= 0);
+    }
+
+    public boolean is_SpecialAction() {
+        return _SpecialAction;
+    }
+
+    public void set_SpecialAction(boolean _SpecialAction) {
+        this._SpecialAction = _SpecialAction;
+    }
+
+    public boolean is_Alive() {
+        return _Alive;
+    }
+
+    public void set_Alive(boolean _Alive) {
+        this._Alive = _Alive;
     }
 }
