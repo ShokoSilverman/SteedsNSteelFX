@@ -71,12 +71,15 @@ public class Main extends Application {
                 try {
                     Media battleSound = new Media(new File("Data/BattleMusic.mp3").toURI().toString());
                     MediaPlayer battleMusic = new MediaPlayer(battleSound);
+                    battleMusic.setVolume(.5);
                     battleMusic.play();
 
                     battleMusic.setOnEndOfMedia(() -> {
                         battleMusic.seek(Duration.ZERO);
                         battleMusic.play();
                     });
+
+                    playClick();
 
                     new Start().run(primaryStage);
                     backgroundNoise.stop();
@@ -101,6 +104,7 @@ public class Main extends Application {
         creditsButton.setOnAction(new EventHandler<ActionEvent>() {//set what button does
             @Override public void handle(ActionEvent e) {
                 new Credits().run(primaryStage);
+                playClick();
                 //primaryStage.close();
             }
         });
@@ -119,6 +123,10 @@ public class Main extends Application {
             @Override public void handle(ActionEvent e) {
                 try {
                     new Instructions().run(primaryStage);
+
+                    backgroundNoise.stop();
+                    playClick();
+
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -159,11 +167,7 @@ public class Main extends Application {
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                String buttonFile = "Data/buttonClick.mp3";
-
-                Media buttonSound = new Media(new File(buttonFile).toURI().toString());
-                MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
-                buttonPlayer.play();
+                playClick();
 
                 System.out.println("mouse click detected! "+event.getSource());
             }
@@ -177,6 +181,12 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        runSound();
+
+        launch();
+    }
+
+    public static void runSound(){
         backgroundNoise.setVolume(.5);
         backgroundNoise.play();
 
@@ -184,8 +194,14 @@ public class Main extends Application {
             backgroundNoise.seek(Duration.ZERO);
             backgroundNoise.play();
         });
+    }
 
-        launch();
+    public static void playClick(){
+        String buttonFile = "Data/buttonClick.mp3";
+
+        Media buttonSound = new Media(new File(buttonFile).toURI().toString());
+        MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+        buttonPlayer.play();
     }
 
     public static Image setImage(String fileName){

@@ -22,9 +22,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Instructions {
+    Media InstructionsSound = new Media(new File("Data/Instructions_Final.mp3").toURI().toString());
+    MediaPlayer Instructions = new MediaPlayer(InstructionsSound);
 
     public void run(Stage htpStage) throws IOException {
 
+        Instructions.setVolume(.5);
+        Instructions.play();
         //Stage htpStage = new Stage();
 
         Image image = new Image(new FileInputStream("Data/Pre-HTP.png"));
@@ -57,7 +61,15 @@ public class Instructions {
             @Override public void handle(ActionEvent e) {
                 //Stage primStage = new Stage();
                 try {
+                    String buttonFile = "Data/buttonClick.mp3";
+
+                    Media buttonSound = new Media(new File(buttonFile).toURI().toString());
+                    MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
+                    buttonPlayer.play();
                     new Main().start(htpStage);
+
+                    Instructions.stop();
+                    Main.runSound();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -71,11 +83,7 @@ public class Instructions {
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                String buttonFile = "Data/buttonClick.mp3";
-
-                Media buttonSound = new Media(new File(buttonFile).toURI().toString());
-                MediaPlayer buttonPlayer = new MediaPlayer(buttonSound);
-                buttonPlayer.play();
+                Main.playClick();
 
                 System.out.println("mouse click detected! "+event.getSource());
             }
